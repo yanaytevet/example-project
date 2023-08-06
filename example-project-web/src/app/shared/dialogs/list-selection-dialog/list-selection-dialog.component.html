@@ -1,0 +1,18 @@
+<span class="dialog-title-container" mat-dialog-title>
+  <span class="dialog-title">{{title}}</span>
+  <mat-icon [mat-dialog-close]="undefined" class="close-icon">close</mat-icon>
+</span>
+<div mat-dialog-content>
+  {{text}}
+</div>
+<form [formGroup]="form" class="options-form">
+  <mat-checkbox *ngFor="let value of valuesList"
+                color="primary"
+                [formControlName]="value">
+    {{valueToDisplay[value]}}
+  </mat-checkbox>
+</form>
+<div mat-dialog-actions align="end">
+  <button mat-button class="close-btn" [mat-dialog-close]="undefined">{{cancelActionName}}</button>
+  <button mat-button class="gradiant-btn" color="primary" (click)="submitList()">{{confirmActionName}}</button>
+</div>

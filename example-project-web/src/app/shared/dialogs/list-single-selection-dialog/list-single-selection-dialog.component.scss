@@ -1,0 +1,13 @@
+.options-dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  .dialog-text {
+
+  }
+
+  .dialog-options-field {
+    margin-top: 8px;
+  }
+}

@@ -1,0 +1,11 @@
+<span class="dialog-title-container" mat-dialog-title>
+  <span class="dialog-title">{{title}}</span>
+  <mat-icon [mat-dialog-close]="false" class="close-icon">close</mat-icon>
+</span>
+<div mat-dialog-content>
+  {{text}}
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button class="close-btn" [mat-dialog-close]="false">{{cancelActionName}}</button>
+  <button mat-button class="gradiant-btn" [mat-dialog-close]="true">{{confirmActionName}}</button>
+</div>

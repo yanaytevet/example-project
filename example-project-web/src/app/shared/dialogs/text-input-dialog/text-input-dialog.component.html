@@ -1,0 +1,21 @@
+<span class="dialog-title-container" mat-dialog-title>
+  <span class="dialog-title">{{title}}</span>
+  <mat-icon [mat-dialog-close]="undefined" class="close-icon">close</mat-icon>
+</span>
+<div mat-dialog-content>
+  <span>{{text}}</span>
+  <form [formGroup]="inputForm" class="input-form">
+    <mat-form-field>
+      <mat-label>{{label}}</mat-label>
+      <input [type]="inputType" matInput formControlName="inputValue" *ngIf="!isTextArea" (keydown.enter)="clickedEnter()"
+             [attr.maxlength]="maxLength">
+      <textarea class="text-area" [rows]="textAreaRows" matInput formControlName="inputValue" *ngIf="isTextArea" (keydown.enter)="clickedEnter()"
+                [attr.maxlength]="maxLength"></textarea>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button class="close-btn" [mat-dialog-close]="undefined">{{cancelActionName}}</button>
+  <button mat-button class="gradiant-btn" [mat-dialog-close]="getValue()"
+          [disabled]="!allowEmpty && !inputForm.valid">{{confirmActionName}}</button>
+</div>

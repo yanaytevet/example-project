@@ -1,0 +1,10 @@
+<span class="dialog-title-container" mat-dialog-title>
+  <span class="dialog-title">{{title}}</span>
+  <mat-icon [mat-dialog-close]="undefined" class="close-icon">close</mat-icon>
+</span>
+<div mat-dialog-content>
+  <span class="text">{{text}}</span>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button class="main-btn" [mat-dialog-close]="undefined">{{confirmActionName}}</button>
+</div>
