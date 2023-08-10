@@ -53,7 +53,7 @@ class AsyncTask(Task):
 
 app.conf.beat_schedule = {
     'daily_cleaning': {
-        'task': 'users.tasks.daily_cleaning.daily_cleaning',
+        'task': 'user.tasks.daily_cleaning.daily_cleaning',
         'schedule': 60 * 60 * 24,
         'options': {'queue': X_QUEUE_NAME}
     },

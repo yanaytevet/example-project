@@ -10,5 +10,5 @@ class ObjectDoesntExistAPIException(RestAPIException):
     def __init__(self, model_class: Type[Model], object_id: int):
         self.model_class = model_class
         self.object_id = object_id
-        self.msg = f"{model_class.__name__} with id {object_id} was not found"
+        self.msg = f'{model_class.__name__} with id {object_id} was not found'
         super().__init__(StatusCode.HTTP_404_NOT_FOUND, 'object_was_not_found', self.msg)

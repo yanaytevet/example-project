@@ -5,6 +5,7 @@ from django.db import models
 
 from users.consts.bounce_status import BounceStatus
 from users.consts.email_validation_status import EmailValidationStatus
+from users.models import User
 
 
 class EmailAddress(models.Model):
@@ -20,6 +21,7 @@ class EmailAddress(models.Model):
                                                default=EmailValidationStatus.NOT_CHECKED, blank=True)
     validation_status_description = models.TextField(default=str, blank=True)
     is_primary_email = models.BooleanField(default=False, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='email_addresses', null=True)
 
     def set_is_primary_email(self, is_primary: bool):
         self.is_primary_email = is_primary

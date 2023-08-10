@@ -10,7 +10,7 @@ from common.django_utils.rest_utils import BaseAPIListView
 from common.django_utils.serializers.serializer import Serializer
 from users.managers.users_fetcher import UsersFetcher
 from users.models import User
-from users.serializers.short_user_serializer import ShortUserSerializer
+from users.serializers.user.user_serializer import ShortUserSerializer
 
 
 class AdminUsersListByAdminView(BaseAPIListView):
@@ -41,7 +41,7 @@ class AdminUsersListByAdminView(BaseAPIListView):
 
     @classmethod
     def check_permitted_post_request(cls, request: Request, user: User) -> None:
-        raise MethodNotAllowed("POST")
+        raise MethodNotAllowed('POST')
 
     @classmethod
     def modify_objects_for_request(cls, request: Request, user: User, objects: QuerySet) -> QuerySet:

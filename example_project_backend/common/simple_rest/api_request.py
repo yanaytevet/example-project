@@ -17,8 +17,11 @@ class APIRequest:
         self.init_user()
 
     def init_user(self) -> None:
-        self.user = get_user(self.original_request)
+        self.user = self.get_user()
 
     @property
     def session(self) -> SessionBase:
         return self.original_request.session
+
+    def get_user(self) -> User:
+        return get_user(self.original_request)

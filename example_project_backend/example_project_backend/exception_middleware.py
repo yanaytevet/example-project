@@ -1,9 +1,9 @@
 import traceback
 
 from django.contrib.auth import get_user
-from rest_framework.request import Request
+from django.http import HttpRequest
 
-from emails.emails_manager.admin_emails_manager import AdminEmailsManager
+from common.django_utils.django_auth import DjangoAuth
 
 
 class ExceptionMiddleware:
@@ -14,10 +14,10 @@ class ExceptionMiddleware:
         response = self.get_response(request)
         return response
 
-    def process_exception(self, request: Request, exception):
+    def process_exception(self, request: HttpRequest, exception):
         exc_tb = traceback.format_exc()
         msg = f'{request.get_full_path()}-{exception}'
         user = get_user(request)
-        full_msg = f"by {user}\n{exc_tb}"
-        AdminEmailsManager().send_error_to_rnd_admins(msg, full_msg)
+        full_msg = f'by {user}\n{exc_tb}'
+        # AdminEmailsManager().send_error_to_rnd_admins(msg, full_msg)
         return None

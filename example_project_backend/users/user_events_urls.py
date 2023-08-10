@@ -1,9 +1,7 @@
 from django.urls import path
 
-from users.views.user_events_views.user_events_list_by_admin_view import UserEventsListByAdminView
-from users.views.user_events_views.user_events_list_view import UserEventsListView
+from users.views.user_events_views.post_create_user_event_view import PostCreateUserEventView
 
 urlpatterns = [
-    path(r"", UserEventsListView.as_view()),
-    path(r"by-admin/", UserEventsListByAdminView.as_view()),
+    path(r'', PostCreateUserEventView.as_view()),
 ]

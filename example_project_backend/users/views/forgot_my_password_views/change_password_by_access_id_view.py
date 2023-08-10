@@ -1,48 +1,35 @@
-from rest_framework import status
-from rest_framework.exceptions import APIException
-from rest_framework.request import Request
-from rest_framework.response import Response
-from rest_framework.views import APIView
-
-from common.django_utils.api_checkers.request_data_fields_api_checker import RequestDataFieldsAPIChecker, \
-    RequestQueryParamsAPIChecker
+from common.simple_rest.async_api_request import AsyncAPIRequest
+from common.simple_rest.async_views.async_simple_post_api_view import AsyncSimplePostAPIView
+from common.simple_rest.constants.status_code import StatusCode
+from common.simple_rest.exceptions.rest_api_exception import RestAPIException
+from common.simple_rest.permissions_checkers.request_data_fields_checker import RequestDataFieldsAPIChecker
+from common.type_hints import JSONType
 from users.models import TemporaryAccess
-from users.serializers.user_serializer import UserSerializer
+from users.serializers.user.user_serializer import UserSerializer
 
 
-class InvalidCurrentPasswordAPIException(APIException):
-    status_code = status.HTTP_403_FORBIDDEN
-    default_detail = 'Current password is invalid.'
-    default_code = 'invalid_current_password'
+class ChangePasswordByAccessIdView(AsyncSimplePostAPIView):
+    @classmethod
+    async def check_permitted(cls, request: AsyncAPIRequest, **kwargs) -> None:
+        await RequestDataFieldsAPIChecker(['user_id', 'access_id', 'new_password']).async_raise_exception_if_not_valid(
+            request=request)
 
-
-class ChangePasswordByAccessIdView(APIView):
-    def get(self, request: Request) -> Response:
-        RequestQueryParamsAPIChecker(['user_id', 'access_id']).raise_exception_if_not_valid(request=request)
+    @classmethod
+    async def run_action(cls, request: AsyncAPIRequest, **kwargs) -> JSONType:
         try:
-            temporary_access = TemporaryAccess.objects.get(
-                user_id=request.query_params['user_id'], access_id=request.query_params['access_id'])
+            temporary_access = await TemporaryAccess.objects.filter(
+                user_id=request.query_params['user_id'], access_id=request.query_params['access_id']).afirst()
         except TemporaryAccess.DoesNotExist as e:
-            raise APIException(detail='Access id is incorrect, maybe the link is too old?',
-                               code=status.HTTP_401_UNAUTHORIZED)
-
-        data = UserSerializer().serialize(temporary_access.user)
-        return Response(data, status=status.HTTP_200_OK)
-
-    def post(self, request: Request) -> Response:
-        RequestDataFieldsAPIChecker(['user_id', 'access_id', 'new_password']).raise_exception_if_not_valid(request=request)
-        try:
-            temporary_access = TemporaryAccess.objects.get(
-                user_id=request.data['user_id'], access_id=request.data['access_id'])
-        except TemporaryAccess.DoesNotExist as e:
-            raise APIException(detail='Access id is incorrect, maybe the link is too old?',
-                               code=status.HTTP_401_UNAUTHORIZED)
+            raise RestAPIException(
+                status_code=StatusCode.HTTP_401_UNAUTHORIZED,
+                error_code='access_id_is_incorrect',
+                message='Access id is incorrect, maybe the link is too old?',
+            )
 
         user = temporary_access.user
-        new_pass = str(request.data["new_password"])
+        new_pass = str(request.data['new_password'])
         user.set_password(new_pass)
-        user.save()
-        temporary_access.delete()
+        await user.asave()
+        await temporary_access.adelete()
 
-        data = UserSerializer().serialize(temporary_access.user)
-        return Response(data, status=status.HTTP_200_OK)
+        return UserSerializer().serialize(temporary_access.user)

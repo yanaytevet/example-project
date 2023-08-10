@@ -4,7 +4,7 @@ from typing import Type, Optional, Set
 from django.db.models import Model
 from django.http import HttpRequest, JsonResponse, HttpResponse
 
-from common.model_utils import ModelUtils
+from common.django_utils.model_utils import ModelUtils
 from common.type_hints import JSONType
 from .async_api_view_component import AsyncAPIViewComponent
 from ..async_api_request import AsyncAPIRequest
@@ -41,11 +41,16 @@ class AsyncPostCreateAPIView(AsyncAPIViewComponent, ABC):
     @classmethod
     async def create_obj(cls, request: AsyncAPIRequest,  **kwargs) -> Optional[Model]:
         data = dict(request.data)
+        data = await cls.modify_creation_data(request, data)
         if data:
             model_cls = cls.get_model_cls()
             obj = await ModelUtils.async_create_from_json(model_cls, data, cls.get_allowed_creation_fields())
             return obj
         return None
+
+    @classmethod
+    async def modify_creation_data(cls, request: AsyncAPIRequest,  data: JSONType) -> JSONType:
+        return data
 
     @classmethod
     @abstractmethod

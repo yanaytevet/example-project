@@ -8,7 +8,7 @@ from common.django_utils.api_checkers.admin_api_checker import AdminAPIChecker
 from common.django_utils.rest_utils import BaseAPIItemByIdView
 from common.django_utils.serializers.serializer import Serializer
 from users.models import User
-from users.serializers.user_serializer import UserSerializer
+from users.serializers.user.user_serializer import UserSerializer
 from users.users_actions.general_users_actions import GeneralUsersActions
 from users.views.users_views.user_item_mixin import UserItemMixin
 
@@ -29,7 +29,7 @@ class UserItemByAdminView(BaseAPIItemByIdView, UserItemMixin):
 
     @classmethod
     def get_update_allowed_attributes_set(cls) -> Set[str]:
-        return {"first_name", "last_name", "teams"}
+        return {'first_name', 'last_name', 'teams'}
 
     @classmethod
     def is_allowed_put_update(cls) -> bool:
@@ -40,7 +40,7 @@ class UserItemByAdminView(BaseAPIItemByIdView, UserItemMixin):
         AdminAPIChecker().raise_exception_if_not_valid(user)
 
     def put_change_password(self, request: Request, user: User, obj: User) -> None:
-        new_password = request.data["new_password"]
+        new_password = request.data['new_password']
         GeneralUsersActions().change_password_by_admin(obj, admin=user, password=new_password)
     def put_update(self, request: Request, user: User, obj: User) -> None:
         person_info = obj.get_person_info()

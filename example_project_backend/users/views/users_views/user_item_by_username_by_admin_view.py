@@ -7,13 +7,13 @@ from rest_framework.views import APIView
 
 from common.django_utils.api_checkers.admin_api_checker import AdminAPIChecker
 from users.models import User
-from users.serializers.short_user_serializer import ShortUserSerializer
+from users.serializers.user.user_serializer import ShortUserSerializer
 
 
 class UsernameDoesntExistAPIException(APIException):
     status_code = status.HTTP_404_NOT_FOUND
-    default_detail = "Username doesnt exist"
-    default_code = "username_doesnt_exist"
+    default_detail = 'Username doesnt exist'
+    default_code = 'username_doesnt_exist'
 
 
 class UserItemByUsernameByAdminView(APIView):

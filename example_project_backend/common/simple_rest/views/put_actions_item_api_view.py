@@ -49,7 +49,7 @@ class PutActionsItemAPIView(APIViewComponent, ABC):
             raise RestAPIException(
                 status_code=StatusCode.HTTP_400_BAD_REQUEST,
                 error_code='action_field_is_missing',
-                message="'action' field is missing",
+                message=''action' field is missing',
             )
         action = request.data[self.ACTION_FIELD]
         action_func_name = f'put_{action}'
@@ -57,7 +57,7 @@ class PutActionsItemAPIView(APIViewComponent, ABC):
             raise RestAPIException(
                 status_code=StatusCode.HTTP_400_BAD_REQUEST,
                 error_code='action_function_is_not_implemented',
-                message=f"action '{action}' is not implemented",
+                message=f'action '{action}' is not implemented',
             )
         getattr(self, action_func_name)(request, obj, **kwargs)
 

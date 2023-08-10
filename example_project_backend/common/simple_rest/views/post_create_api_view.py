@@ -5,7 +5,7 @@ from django.db.models import Model
 from django.http import HttpRequest, JsonResponse
 
 from ..api_request import APIRequest
-from common.model_utils import ModelUtils
+from common.django_utils.model_utils import ModelUtils
 from common.type_hints import JSONType
 from ..constants.methods import Methods
 from ..constants.status_code import StatusCode

@@ -7,20 +7,20 @@ from django.conf import settings
 
 class Command(BaseCommand):
     help = 'Create a new app, but with more...'
-    ADMIN_FILE_CONTENT = """
+    ADMIN_FILE_CONTENT = '''
 from common.utils.admin_utils.register_models_to_admin import ModelRegisterer
 from {app_name} import models
 
 ModelRegisterer(models).register()
-    """
+    '''
 
-    URLS_FILE_CONTENT = """
+    URLS_FILE_CONTENT = '''
 from django.urls import path
 
 urlpatterns = [
 #    path(r'', SampleView.as_view(), name='sample'),
 ]
-    """
+    '''
 
     def add_arguments(self, parser: CommandParser):
         parser.add_argument('app_name', type=str)
@@ -45,7 +45,7 @@ urlpatterns = [
         project_url_path = self.get_project_url_path()
         content = self.get_file_content(project_url_path)
         app_url = app_name.replace('_', '-')
-        url_file_line = f"path(r'/api/{app_url}/', include('{app_name}.urls')),"
+        url_file_line = f'path(r'/api/{app_url}/', include('{app_name}.urls')),'
         content = content.replace(']', f'    {url_file_line}\n]')
         self.override_file_content(project_url_path, content)
 

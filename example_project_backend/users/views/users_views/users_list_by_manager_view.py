@@ -10,7 +10,7 @@ from common.django_utils.rest_utils import BaseAPIListView
 from common.django_utils.serializers.serializer import Serializer
 from common.type_hints import JSONType
 from users.models import User
-from users.serializers.short_user_serializer import ShortUserSerializer
+from users.serializers.user.user_serializer import ShortUserSerializer
 from users.users_actions.general_users_actions import GeneralUsersActions
 
 
@@ -34,7 +34,7 @@ class UsersListByManagerView(BaseAPIListView):
 
     @classmethod
     def get_create_allowed_attributes_set(cls) -> Set[str]:
-        return {"email", "first_name", "last_name", "new_password", "teams"}
+        return {'email', 'first_name', 'last_name', 'new_password', 'teams'}
 
     @classmethod
     def check_permitted_any_request(cls, request: Request, user: User) -> None:
@@ -42,7 +42,7 @@ class UsersListByManagerView(BaseAPIListView):
 
     @classmethod
     def check_permitted_post_request(cls, request: Request, user: User) -> None:
-        RequestDataFieldsAPIChecker(["email", "new_password"]).raise_exception_if_not_valid(request)
+        RequestDataFieldsAPIChecker(['email', 'new_password']).raise_exception_if_not_valid(request)
 
     @classmethod
     def modify_objects_for_request(cls, request: Request, user: User, objects: QuerySet) -> QuerySet:

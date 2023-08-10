@@ -1,11 +1,16 @@
-from django.contrib.auth import logout
-from rest_framework import status
-from rest_framework.request import Request
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from common.django_utils.django_auth import DjangoAuth
+from common.simple_rest.async_api_request import AsyncAPIRequest
+from common.simple_rest.async_views.async_simple_post_api_view import AsyncSimplePostAPIView
+from common.simple_rest.permissions_checkers.login_permission_checker import LoginPermissionChecker
+from common.type_hints import JSONType
 
 
-class LogoutView(APIView):
-    def post(self, request: Request) -> Response:
-        logout(request)
-        return Response({"is_auth": False, "msg": ""}, status=status.HTTP_200_OK)
+class LogoutView(AsyncSimplePostAPIView):
+    @classmethod
+    async def check_permitted(cls, request: AsyncAPIRequest, **kwargs) -> None:
+        await LoginPermissionChecker().async_raise_exception_if_not_valid(request)
+
+    @classmethod
+    async def run_action(cls, request: AsyncAPIRequest, **kwargs) -> JSONType:
+        await DjangoAuth.async_logout(request)
+        return {'is_auth': False, 'msg': ''}

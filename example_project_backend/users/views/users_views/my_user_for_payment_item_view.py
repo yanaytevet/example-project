@@ -56,12 +56,12 @@ class MyUserForPaymentItemView(BaseAPIItemView):
 
     @classmethod
     def check_permitted_delete_request_before_obj(cls, request: Request, user: User) -> None:
-        raise MethodNotAllowed("DELETE")
+        raise MethodNotAllowed('DELETE')
 
 
     def put_update_rate_and_donation(self, request: Request, user: User, obj: User) -> None:
-        rate_amount = request.data["rate_amount"]
-        donation_data = request.data.get("donation_data")
+        rate_amount = request.data['rate_amount']
+        donation_data = request.data.get('donation_data')
         obj.expert.rate_amount = rate_amount
         obj.expert.donation_data = donation_data
         obj.expert.save()

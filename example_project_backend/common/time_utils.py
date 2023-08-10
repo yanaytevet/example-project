@@ -12,7 +12,7 @@ TimeDeltaType = timedelta
 
 class TimeUtils:
     LOCAL_TZ = get_localzone()
-    DEFAULT_FORMAT = "%Y-%m-%dT%H:%M:%S.%f%z"
+    DEFAULT_FORMAT = '%Y-%m-%dT%H:%M:%S.%f%z'
 
     @classmethod
     def now(cls) -> TimeType:
@@ -209,7 +209,7 @@ class TimeUtils:
     @classmethod
     def get_time_zone_offset(cls, timezone_name: str) -> str:
         time_obj = cls.add_time_zone_offset(cls.now(), timezone_name)
-        return time_obj.strftime("%z")
+        return time_obj.strftime('%z')
 
     @classmethod
     def years_from_now(cls, time: datetime) -> float:

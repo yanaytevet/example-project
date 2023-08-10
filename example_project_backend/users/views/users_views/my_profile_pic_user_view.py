@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 
 from common.django_utils.api_checkers.login_api_checker import LoginAPIChecker
 from external.storage.storage_manager import StorageManager
-from users.serializers.full_user_serializer import FullUserSerializer
+from users.serializers.user.full_user_serializer import FullUserSerializer
 
 
 class MyProfilePicUserItemView(APIView):

@@ -6,13 +6,13 @@ from django.db.models import ManyToOneRel, ManyToManyField, ManyToManyRel, Model
 
 
 class ModelRegisterer:
-    """
+    '''
     models can have the following class fields:
     list_display
     list_filter
     search_fields
     raw_id_fields
-    """
+    '''
 
     def __init__(self, models, ignore_models: List[Type[Model]] = None):
         self.models = models
@@ -35,24 +35,24 @@ class ModelRegisterer:
                     if isinstance(field, ManyToManyField):
                         continue
                     list_display.append(field.name)
-            if hasattr(klass, "list_filter"):
-                list_filter = getattr(klass, "list_filter")
+            if hasattr(klass, 'list_filter'):
+                list_filter = getattr(klass, 'list_filter')
             else:
                 list_filter = list(list_display)
-                if "id" in list_filter:
-                    list_filter = [item for item in list_filter if item != "id"]
+                if 'id' in list_filter:
+                    list_filter = [item for item in list_filter if item != 'id']
 
-            if hasattr(klass, "raw_id_fields"):
-                raw_id_fields = getattr(klass, "raw_id_fields")
+            if hasattr(klass, 'raw_id_fields'):
+                raw_id_fields = getattr(klass, 'raw_id_fields')
             else:
                 raw_id_fields = []
 
-            search_fields = getattr(klass, "search_fields") if hasattr(klass, "search_fields") else []
+            search_fields = getattr(klass, 'search_fields') if hasattr(klass, 'search_fields') else []
 
-            admin_cls = type("{}_admin".format(name), (admin.ModelAdmin,), {
-                "list_display": list_display,
-                "search_fields": search_fields,
-                "list_filter": list_filter,
-                "raw_id_fields": raw_id_fields,
+            admin_cls = type('{}_admin'.format(name), (admin.ModelAdmin,), {
+                'list_display': list_display,
+                'search_fields': search_fields,
+                'list_filter': list_filter,
+                'raw_id_fields': raw_id_fields,
             })
             admin.site.register(klass, admin_cls)

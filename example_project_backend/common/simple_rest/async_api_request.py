@@ -2,7 +2,6 @@ import asyncio
 from asyncio import Future
 
 from asgiref.sync import sync_to_async
-from django.contrib.auth import get_user
 from django.contrib.auth.models import User
 from django.http import HttpRequest
 
@@ -19,6 +18,12 @@ class AsyncAPIRequest(APIRequest):
         loop.create_task(self.async_init_user())
 
     async def async_init_user(self) -> None:
-        user = await sync_to_async(get_user)(self.original_request)
+        user = await self.async_get_user()
         self.future_user.set_result(user)
         self.user = user
+
+    def set_as_other(self, is_as_other: bool) -> None:
+        self.original_request.session['as_other'] = is_as_other
+
+    async def async_get_user(self) -> User:
+        return await sync_to_async(self.get_user)()

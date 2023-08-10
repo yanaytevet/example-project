@@ -8,10 +8,9 @@ from common.django_utils.api_checkers.request_data_fields_api_checker import Req
 from common.django_utils.rest_utils import BaseAPIItemView
 from common.django_utils.serializers.serializer import Serializer
 from emails.marketing_emails.marketing_lists_updater_generator import MarketingListsUpdaterGenerator
-from experts.consts.experts_status import ExpertStatus
 from users.consts.push_notifications_status import PushNotificationsStatus
 from users.models import User
-from users.serializers.full_user_serializer import FullUserSerializer
+from users.serializers.user.full_user_serializer import FullUserSerializer
 
 
 class MyFullUserItemView(BaseAPIItemView):
@@ -41,7 +40,7 @@ class MyFullUserItemView(BaseAPIItemView):
 
     @classmethod
     def check_permitted_delete_request_before_obj(cls, request: Request, user: User) -> None:
-        raise MethodNotAllowed("DELETE")
+        raise MethodNotAllowed('DELETE')
 
     def put_change_allowed_notification(self, request: Request, user: User, obj: User) -> None:
         RequestDataFieldsAPIChecker(['notifications_type', 'is_allowed']).raise_exception_if_not_valid(request=request)

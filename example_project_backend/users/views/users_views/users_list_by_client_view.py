@@ -9,7 +9,7 @@ from common.django_utils.api_checkers.client_api_checker import ClientAPIChecker
 from common.django_utils.rest_utils import BaseAPIListView
 from common.django_utils.serializers.serializer import Serializer
 from users.models import User
-from users.serializers.short_user_serializer import ShortUserSerializer
+from users.serializers.user.user_serializer import ShortUserSerializer
 
 
 class UsersListByClientView(BaseAPIListView):

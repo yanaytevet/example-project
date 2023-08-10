@@ -8,7 +8,7 @@ from ..api_request import APIRequest
 from common.type_hints import JSONType
 from ..constants.methods import Methods
 from ..constants.status_code import StatusCode
-from common.model_utils import ModelUtils
+from common.django_utils.model_utils import ModelUtils
 from ..views.api_view_component import APIViewComponent
 
 

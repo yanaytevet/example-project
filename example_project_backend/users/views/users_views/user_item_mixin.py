@@ -13,11 +13,11 @@ class UserItemMixin:
         GeneralUsersActions().delete_user(obj)
 
     def put_add_team(self, request: Request, user: User, obj: User) -> None:
-        team_id = request.data["team_id"]
+        team_id = request.data['team_id']
         UsersTeamsActions().add_team_to_user_by_team_id(obj, team_id)
 
     def put_remove_team(self, request: Request, user: User, obj: User) -> None:
-        team_id = request.data["team_id"]
+        team_id = request.data['team_id']
         UsersTeamsActions().remove_team_from_user_by_team_id(obj, team_id)
 
     def put_make_org_manager(self, request: Request, user: User, obj: User) -> None:

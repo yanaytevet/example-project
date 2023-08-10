@@ -17,6 +17,6 @@ class MyAdminDataView(APIView):
 
         objects = OperationTask.objects
         return Response({
-            "operation_tasks_amount": OperationsTasksRetriever.get_user_open_unresolved_tasks(objects, user).count(),
+            'operation_tasks_amount': OperationsTasksRetriever.get_user_open_unresolved_tasks(objects, user).count(),
             'system_alerts': SystemStatusManager().get_alerts(),
         }, status=status.HTTP_200_OK)
