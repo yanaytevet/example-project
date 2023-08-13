@@ -1,0 +1,166 @@
+version: '3.8'
+
+services:
+  example_db:
+    restart: always
+    shm_size: 6G
+    image: postgres:14-alpine
+    volumes:
+      - db_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=db_admin
+      - POSTGRES_PASSWORD=km3C465odLfr44f
+      - POSTGRES_DB=example_db
+    expose:
+      - 5432
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '2'
+          memory: 6G
+
+  redis:
+    image: 'bitnami/redis:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    expose:
+      - 6379
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:latest
+    expose:
+      - 5672
+    restart: on-failure
+
+  example_project_backend:
+    image: example_project_backend
+    build:
+      context: ../../example_project_backend
+    volumes:
+      - logs:/var/log/example-project/
+      - ../../example_project_backend:/usr/src/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=example_project_backend.prod_settings
+    ports:
+      - 8000:8000
+    expose:
+      - 8000
+    depends_on:
+      - example_db
+      - redis
+      - rabbitmq
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+    command: sh -c "pip install -r requirements.txt &&
+      python manage.py migrate &&
+      python manage.py collectstatic  --noinput &&
+      uvicorn example_project_backend.asgi:application --host 0.0.0.0 --port 8000 --workers 4"
+
+  x_celery_worker:
+    image: example_project_backend
+    volumes:
+      - logs:/var/log/example-project/
+      - ../../example_project_backend:/usr/src/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=example_project_backend.prod_settings
+    depends_on:
+      - example_project_backend
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+    restart: always
+    command: sh -c "pip install -r requirements.txt &&
+      celery -A example_project_backend worker --concurrency=1 -Q x"
+
+  emails_celery_worker:
+    image: example_project_backend
+    volumes:
+      - logs:/var/log/example-project/
+      - ../../example_project_backend:/usr/src/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=example_project_backend.prod_settings
+    depends_on:
+      - example_project_backend
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+    restart: always
+    command: sh -c "pip install -r requirements.txt &&
+      celery -A example_project_backend worker --concurrency=1 -Q emails"
+
+  events_celery_worker:
+    image: example_project_backend
+    volumes:
+      - logs:/var/log/example-project/
+      - ../../example_project_backend:/usr/src/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=example_project_backend.prod_settings
+    depends_on:
+      - example_project_backend
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+    restart: always
+    command: sh -c "pip install -r requirements.txt &&
+      celery -A example_project_backend worker --concurrency=1 -Q events"
+
+  celery_scheduler:
+    image: example_project_backend
+    volumes:
+      - logs:/var/log/example-project/
+      - ../../example_project_backend:/usr/src/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=example_project_backend.prod_settings
+    depends_on:
+      - example_project_backend
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1'
+          memory: 500M
+    restart: always
+    command: sh -c "pip install -r requirements.txt &&
+      celery -A example_project_backend beat --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+
+  nginx_service:
+    build:
+      context: nginx
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1'
+          memory: 3G
+    volumes:
+      - ../../example-project-web/dist/example-project-web:/example-project-web
+      - ../../../nginx-conf:/etc/nginx/conf.d
+      - ../../../letsencrypt:/etc/letsencrypt
+      - ../../example_project_backend/static:/admin-static/static
+    ports:
+      - 80:80
+      - 443:443
+    expose:
+      - 80
+      - 443
+    depends_on:
+      - example_project_backend
+
+volumes:
+  db_data:
+  logs:
