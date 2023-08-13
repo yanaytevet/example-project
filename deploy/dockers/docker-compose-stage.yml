@@ -6,7 +6,7 @@ services:
     shm_size: 6G
     image: postgres:14-alpine
     volumes:
-      - db_data:/var/lib/postgresql/data/
+      - example_db_data:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=db_admin
       - POSTGRES_PASSWORD=km3C465odLfr44f
@@ -162,5 +162,5 @@ services:
       - example_project_backend
 
 volumes:
-  db_data:
+  example_db_data:
   logs:

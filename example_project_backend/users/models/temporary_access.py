@@ -8,6 +8,10 @@ from users.consts.temporary_access_types import TemporaryAccessType
 from users.models import User
 
 
+def get_random_hash() -> str:
+    return StringUtils.create_random_hash(18)
+
+
 class TemporaryAccess(models.Model):
     TTL_MINUTES = 30
 
@@ -18,7 +22,7 @@ class TemporaryAccess(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     temporary_access_type = models.CharField(max_length=30, choices=TemporaryAccessType.choices(),
                                              default=TemporaryAccessType.RESET_PASSWORD, blank=True)
-    access_id = models.CharField(max_length=18, default=StringUtils.create_random_hash_func(18), blank=True)
+    access_id = models.CharField(max_length=18, default=get_random_hash, blank=True)
     creation_time = models.DateTimeField(default=TimeUtils.now)
 
     @classmethod

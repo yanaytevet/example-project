@@ -112,8 +112,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'example_db',
-        'USER': 'xadmin',
-        'PASSWORD': '<DB_PASSWORD>',
+        'USER': 'db_admin',
+        'PASSWORD': 'km3C465odLfr44f',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -162,7 +162,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-AUTH_USER_MODEL = 'user.User'
+AUTH_USER_MODEL = 'users.User'
 
 # CACHEOPS
 CACHEOPS_REDIS = {
