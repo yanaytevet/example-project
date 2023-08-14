@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {NgxPermissionsService} from 'ngx-permissions';
-import {RoutingService} from './routing.service';
-import {distinctUntilChanged, firstValueFrom, map, ReplaySubject} from 'rxjs';
-import {AuthUser} from '../models/users/auth-user';
+import {distinctUntilChanged, map, ReplaySubject} from 'rxjs';
+import {AuthUser, ZAuthUser} from '../interfaces/users/auth-user';
+import {RoutingService} from '../services/routing.service';
+import {BaseApiService} from '../services/base-api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +11,12 @@ import {AuthUser} from '../models/users/auth-user';
 export class AuthenticationService {
   private readonly _authUserSub = new ReplaySubject<AuthUser>(1);
   readonly authUser$ = this._authUserSub.asObservable();
-  readonly fullUser$ = this.authUser$.pipe(map(authUser => authUser?.user || null));
+  readonly user$ = this.authUser$.pipe(map(authUser => authUser?.user || null));
   readonly isAuthenticated$ = this.authUser$.pipe(map(authUser => authUser?.isAuthenticated),
     distinctUntilChanged());
   public userId: number;
 
-  constructor(private http: HttpClient, private routingService: RoutingService,
+  constructor(private baseApi: BaseApiService, private routingService: RoutingService,
               private permissionsService: NgxPermissionsService) {
     this.updateIsLoggedIn();
   }
@@ -29,23 +29,23 @@ export class AuthenticationService {
   }
 
   async updateIsLoggedIn(): Promise<void> {
-    this.authUser = await firstValueFrom<AuthUser>(this.http.get<AuthUser>('/auth/', {}));
+    this.authUser = await this.baseApi.get<AuthUser>(ZAuthUser, '/auth/', {});
   }
 
   async login(username: string, password: string): Promise<AuthUser> {
-    const authUser = await firstValueFrom<AuthUser>(this.http.post<AuthUser>('/auth/login/', {username, password}));
+    const authUser: AuthUser = await this.baseApi.post<AuthUser>(ZAuthUser, '/auth/login/', {username, password});
     this.authUser = authUser;
     return authUser;
   }
 
   async logout(): Promise<AuthUser> {
-    const authUser = await firstValueFrom<AuthUser>(this.http.post<AuthUser>('/auth/logout/', {}));
+    const authUser: AuthUser = await this.baseApi.post<AuthUser>(ZAuthUser, '/auth/logout/', {});
     this.authUser = authUser;
     this.routingService.navigateToLogin();
     return authUser;
   }
 
   async changePasswords(oldPassword: string, newPassword: string): Promise<void> {
-    await firstValueFrom<AuthUser>(this.http.post<AuthUser>('/auth/change-password/', {oldPassword, newPassword}));
+    await this.baseApi.post<AuthUser>(ZAuthUser, '/auth/change-password/', {oldPassword, newPassword});
   }
 }

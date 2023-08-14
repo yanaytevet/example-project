@@ -14,11 +14,11 @@ class AuthView(AsyncSimpleGetAPIView):
     @classmethod
     async def get_data(cls, request: AsyncAPIRequest, **kwargs) -> JSONType:
         data = {
-            'is_auth': False,
+            'is_authenticated': False,
         }
         user_obj = await request.future_user
         if cls.is_active_user(user_obj):
-            data['is_auth'] = True
+            data['is_authenticated'] = True
             serializer = UserSerializer()
             data['user'] = serializer.serialize(user_obj)
         else:

@@ -13,4 +13,4 @@ class LogoutView(AsyncSimplePostAPIView):
     @classmethod
     async def run_action(cls, request: AsyncAPIRequest, **kwargs) -> JSONType:
         await DjangoAuth.async_logout(request)
-        return {'is_auth': False, 'msg': ''}
+        return {'is_auth': False, 'user': None}
