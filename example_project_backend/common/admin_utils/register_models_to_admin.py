@@ -23,6 +23,7 @@ class ModelRegisterer:
         for name, klass in inspect.getmembers(self.models, inspect.isclass):
             if klass in ignore_models_set:
                 continue
+            ignore_fields = getattr(klass, 'ignore_fields') if hasattr(klass, 'ignore_fields') else []
             if hasattr(klass, 'list_display'):
                 list_display = getattr(klass, 'list_display')
             else:
@@ -54,5 +55,6 @@ class ModelRegisterer:
                 'search_fields': search_fields,
                 'list_filter': list_filter,
                 'raw_id_fields': raw_id_fields,
+                'exclude': ignore_fields,
             })
             admin.site.register(klass, admin_cls)

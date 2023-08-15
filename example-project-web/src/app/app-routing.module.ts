@@ -1,5 +1,9 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
+import {LoggedOutGuard} from './shared/authentication/logged-out-guard.service';
+import {LoggedInGuard} from './shared/authentication/logged-in-guard.service';
+import {DashboardLayoutComponent} from './home/dashboard-layout/dashboard-layout.component';
+import {HomePageComponent} from './home/home-page/home-page.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full', data: {routeName: ''}},

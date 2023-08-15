@@ -20,7 +20,7 @@ class AuthView(AsyncSimpleGetAPIView):
         if cls.is_active_user(user_obj):
             data['is_authenticated'] = True
             serializer = UserSerializer()
-            data['user'] = serializer.serialize(user_obj)
+            data['user'] = await serializer.async_serialize(user_obj)
         else:
             data['user'] = None
         return data

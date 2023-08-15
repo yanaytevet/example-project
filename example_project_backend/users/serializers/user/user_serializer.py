@@ -15,5 +15,6 @@ class UserSerializer(Serializer[User]):
             'pic_url': obj.pic_url,
             'full_name': obj.get_full_name(),
             'is_admin': obj.is_admin(),
+            'initials': obj.get_initials(),
             'permissions': obj.permissions,
         }

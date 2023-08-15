@@ -2,8 +2,7 @@ from asgiref.sync import sync_to_async
 from django.contrib.auth import authenticate, login, logout
 
 from common.simple_rest.async_api_request import AsyncAPIRequest
-from django.contrib.auth.models import User
-
+from users.models import User
 
 # def jwt_auth(self, request: Request) -> dict:
 #     token = request.META.get('HTTP_AUTHORIZATION', ' ').split(' ')[1]

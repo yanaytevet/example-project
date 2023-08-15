@@ -1,4 +1,4 @@
-from common.django_utils.django_auth import DjangoAuth
+from users.managers.django_auth import DjangoAuth
 from common.simple_rest.async_api_request import AsyncAPIRequest
 from common.simple_rest.async_views.async_simple_post_api_view import AsyncSimplePostAPIView
 from common.simple_rest.constants.status_code import StatusCode

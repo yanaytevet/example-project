@@ -1,21 +1,20 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
 import {map, Observable} from 'rxjs';
-import {RoutingService} from '../services/routing.service';
-import {AuthenticationService} from '../services/authentication.service';
-import {NgxPermissionsService} from 'ngx-permissions';
+import {AuthenticationService} from './authentication.service';
+import {AuthUser} from '../interfaces/users/auth-user';
 
 @Injectable()
-export abstract class PermissionsGuard implements CanActivate {
+export abstract class PermissionsGuard {
 
-  protected constructor(private ngxPermissionsService: NgxPermissionsService, private authService: AuthenticationService) {
+  constructor(private authService: AuthenticationService) {
   }
 
-  abstract checkPermissions(): boolean;
+  abstract checkPermissions(authUser: AuthUser): boolean;
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.authService.isAuthenticated$.pipe(map(isAuthenticated => {
-      return isAuthenticated && this.checkPermissions();
+    return this.authService.authUser$.pipe(map(authUser => {
+      return authUser.isAuthenticated && this.checkPermissions(authUser);
     }));
   }
 }

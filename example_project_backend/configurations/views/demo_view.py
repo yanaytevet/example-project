@@ -2,7 +2,6 @@ from abc import abstractmethod
 
 from django.http import HttpResponse, HttpRequest, JsonResponse
 
-from common.django_utils.django_auth import DjangoAuth
 from common.simple_rest.async_api_request import AsyncAPIRequest
 from common.simple_rest.async_views.async_api_view_component import AsyncAPIViewComponent
 from common.simple_rest.constants.methods import Methods

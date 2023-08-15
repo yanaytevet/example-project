@@ -1,0 +1,14 @@
+<div class="login-page">
+  <form class="login-form" [formGroup]="loginForm">
+    <mat-form-field appearance="outline" class="login-input">
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="login-input">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password">
+    </mat-form-field>
+    <mat-error *ngIf="failedLogin">{{failedLoginMsg}}</mat-error>
+    <button mat-stroked-button [disabled]="!loginForm.valid" (click)="tryLogin()">Login</button>
+  </form>
+</div>

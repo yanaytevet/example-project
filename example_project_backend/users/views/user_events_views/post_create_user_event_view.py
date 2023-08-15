@@ -29,7 +29,7 @@ class PostCreateUserEventView(AsyncPostCreateAPIView):
 
     @classmethod
     async def modify_creation_data(cls, request: AsyncAPIRequest,  data: JSONType) -> JSONType:
-        if request.session.get('as_other', False):
+        if await request.async_get_as_other():
             return {}
         user = await request.future_user
         data['user_id'] = user.id if LoginPermissionChecker().is_valid(user) else None

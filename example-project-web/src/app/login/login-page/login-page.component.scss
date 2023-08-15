@@ -1,0 +1,21 @@
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  background-color: var(--components-background-color);
+  border-radius: 5px;
+  max-width: 500px;
+
+  .login-input {
+    max-width: 250px;
+  }
+}

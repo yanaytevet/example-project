@@ -8,7 +8,7 @@ class UserEmailsManager:
         self.user = user
 
     def get_primary_email(self) -> EmailAddress:
-        return self.user.email_addresses.filter(is_primary=True).first()
+        return self.user.email_addresses.filter(is_primary_email=True).first()
 
     def get_emails(self) -> QuerySet[EmailAddress]:
         return self.user.email_addresses.all()

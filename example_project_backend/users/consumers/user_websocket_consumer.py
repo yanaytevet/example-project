@@ -1,11 +1,9 @@
+import json
 from typing import Optional
 
-from asgiref.sync import async_to_sync
 from channels.generic.websocket import AsyncWebsocketConsumer
-import json
 
-from common.django_utils.api_checkers.login_api_checker import LoginAPIChecker
-from common.type_hints import JSONType
+from common.simple_rest.permissions_checkers.login_permission_checker import LoginPermissionChecker
 from users.models import User
 
 
@@ -16,11 +14,10 @@ class UserWebsocketConsumer(AsyncWebsocketConsumer):
 
     @classmethod
     def check_permitted(cls, user: User) -> None:
-        LoginAPIChecker().raise_exception_if_not_valid(user)
+        LoginPermissionChecker().raise_exception_if_not_valid(user)
 
     async def connect(self):
         user_id = self.scope['user'].id
-        print(f'User {user_id} connected to websocket')
         self.user_group_name = f'user_{user_id}'
         self.check_permitted(self.scope['user'])
         await self.channel_layer.group_add(self.user_group_name, self.channel_name)

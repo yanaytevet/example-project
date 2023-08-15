@@ -37,30 +37,4 @@ export class RoutingService {
     await this.router.navigate(['/']);
     this.forceRefresh();
   }
-
-  // Room
-
-  getRoomByPlayerUrl(roomId: number): any[] {
-    return ['/room', roomId, 'player'];
-  }
-
-  navigateToRoomByPlayer(roomId: number): void {
-    this.router.navigate(this.getRoomByPlayerUrl(roomId));
-  }
-
-  getAlternativeRoomByPlayerUrl(roomId: number): any[] {
-    return ['/room', roomId, 'alternative-player'];
-  }
-
-  navigateToAlternativeRoomByPlayer(roomId: number): void {
-    this.router.navigate(this.getAlternativeRoomByPlayerUrl(roomId));
-  }
-
-  getRoomByGameMasterUrl(roomId: number): any[] {
-    return ['/room', roomId, 'game-master'];
-  }
-
-  navigateToRoomByGameMaster(roomId: number): void {
-    this.router.navigate(this.getRoomByGameMasterUrl(roomId));
-  }
 }

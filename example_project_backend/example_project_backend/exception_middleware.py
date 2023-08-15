@@ -3,8 +3,6 @@ import traceback
 from django.contrib.auth import get_user
 from django.http import HttpRequest
 
-from common.django_utils.django_auth import DjangoAuth
-
 
 class ExceptionMiddleware:
     def __init__(self, get_response):
