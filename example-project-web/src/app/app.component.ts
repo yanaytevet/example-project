@@ -3,6 +3,7 @@ import {EventsAnalyticsService} from './shared/services/events-analytics.service
 import {SiteRefreshService} from './shared/services/site-refresh.service';
 import {RouteConfigLoadEnd, RouteConfigLoadStart, Router} from '@angular/router';
 import {ThemeModeService} from './shared/services/theme-mode.service';
+import {UserWebsocketsService} from './shared/services/user-websockets.service';
 
 @Component({
   selector: 'app-root',
@@ -15,8 +16,10 @@ export class AppComponent implements OnInit {
   constructor(private eventsAnalyticsService: EventsAnalyticsService,
               private siteRefreshService: SiteRefreshService,
               private router: Router,
-              private themeModeService: ThemeModeService
+              private themeModeService: ThemeModeService,
+              private userWebsocketsService: UserWebsocketsService,
   ) {
+    this.userWebsocketsService.connect();
     this.themeModeService.initThemeMode();
     this.eventsAnalyticsService.registerRouter();
     this.siteRefreshService.registerRouter();

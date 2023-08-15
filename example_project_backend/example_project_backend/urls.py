@@ -11,4 +11,5 @@ urlpatterns = [
     path(r'api/user-events/', include('users.user_events_urls')),
 
     path(r'api/configurations/', include('configurations.urls')),
+    path(r'api/blocks/', include('blocks.urls')),
 ]

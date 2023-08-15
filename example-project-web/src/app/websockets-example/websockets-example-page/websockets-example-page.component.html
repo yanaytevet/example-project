@@ -1,0 +1,10 @@
+<div class="page">
+  <div class="btns-container">
+    <button mat-stroked-button (click)="triggerEventA()">Trigger Event A</button>
+    <button mat-stroked-button (click)="triggerEventB()">Trigger Event B</button>
+  </div>
+
+  <div class="events-container">
+    <span class="event" *ngFor="let event of events">{{event}}</span>
+  </div>
+</div>

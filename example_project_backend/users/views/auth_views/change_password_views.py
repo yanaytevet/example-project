@@ -13,8 +13,9 @@ class ChangePasswordView(AsyncSimplePostAPIView):
     @classmethod
     async def check_permitted(cls, request: AsyncAPIRequest, **kwargs) -> None:
         user_obj = await request.future_user
-        RequestDataFieldsAPIChecker(['old_password', 'new_password']).raise_exception_if_not_valid(request=request)
-        LoginPermissionChecker().raise_exception_if_not_valid(user_obj)
+        await RequestDataFieldsAPIChecker(['old_password', 'new_password']).async_raise_exception_if_not_valid(
+            request=request)
+        await LoginPermissionChecker().async_raise_exception_if_not_valid(user_obj)
 
     @classmethod
     async def run_action(cls, request: AsyncAPIRequest, **kwargs) -> JSONType:

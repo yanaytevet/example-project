@@ -11,7 +11,7 @@ class MyUserItemView(AsyncGetItemAPIView):
     @classmethod
     async def check_permitted_before_object(cls, request: AsyncAPIRequest, **kwargs) -> None:
         user_obj = await request.future_user
-        LoginPermissionChecker().raise_exception_if_not_valid(user_obj)
+        await LoginPermissionChecker().async_raise_exception_if_not_valid(user_obj)
 
     @classmethod
     async def get_object(cls, request: AsyncAPIRequest, **kwargs) -> User:

@@ -19,8 +19,8 @@ export class RoutingService {
     return ['/login'];
   }
 
-  navigateToLogin(redirectUrl?: string): void {
-    this.router.navigate(this.getLoginUrl(), { queryParams: { redirectUrl } });
+  async navigateToLogin(redirectUrl?: string): Promise<void> {
+    await this.router.navigate(this.getLoginUrl(), { queryParams: { redirectUrl } });
   }
 
   // Home
@@ -29,12 +29,22 @@ export class RoutingService {
     return ['/'];
   }
 
-  navigateToRoot(): void {
-    this.router.navigate(['/']);
+  async navigateToRoot(): Promise<void> {
+    await this.router.navigate(['/']);
   }
 
   async navigateToRootAndRefresh(): Promise<void> {
     await this.router.navigate(['/']);
     this.forceRefresh();
+  }
+
+  // Websockets Example
+
+  getWebsocketsExamplePageUrl(): any[] {
+    return ['/websockets-example'];
+  }
+
+  async navigateToWebsocketsExamplePage(): Promise<void> {
+    await this.router.navigate(this.getWebsocketsExamplePageUrl());
   }
 }
