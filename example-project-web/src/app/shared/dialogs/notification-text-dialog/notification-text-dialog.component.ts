@@ -5,6 +5,7 @@ export interface NotificationTextDialogData {
   title: string;
   text: string;
   confirmActionName?: string;
+  showCopyButton?: boolean;
 }
 
 @Component({
@@ -16,6 +17,7 @@ export class NotificationTextDialogComponent implements OnInit {
   title = '';
   text = '';
   label = '';
+  showCopyButton = false;
   confirmActionName = 'Close';
 
   constructor(
@@ -24,6 +26,9 @@ export class NotificationTextDialogComponent implements OnInit {
   ) {
     this.title = data.title;
     this.text = data.text;
+    if (data.showCopyButton) {
+      this.showCopyButton = data.showCopyButton;
+    }
     if (this.data.confirmActionName) {
       this.confirmActionName = this.data.confirmActionName;
     }

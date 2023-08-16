@@ -1,12 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, ValidatorFn, Validators} from '@angular/forms';
 
-export interface TextInputDialogData {
+export interface NumberInputDialogData {
   title: string;
   text: string;
   label: string;
-  defaultValue?: string;
+  defaultValue?: number;
   cancelActionName?: string;
   confirmActionName?: string;
   allowEmpty?: boolean;
@@ -26,12 +26,12 @@ export class NumberInputDialogComponent implements OnInit {
   cancelActionName = 'Cancel';
   confirmActionName = 'Confirm';
   allowEmpty = false;
-  maxValue: number;
-  minValue: number;
+  maxValue: number = null;
+  minValue: number = null;
   inputForm: UntypedFormGroup;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: TextInputDialogData,
+    @Inject(MAT_DIALOG_DATA) public data: NumberInputDialogData,
     public dialogRef: MatDialogRef<NumberInputDialogComponent>,
     private _fb: UntypedFormBuilder,
   ) {
@@ -54,8 +54,19 @@ export class NumberInputDialogComponent implements OnInit {
       this.minValue = this.data.minValue;
     }
 
+    const validators: ValidatorFn[] = [];
+    if (this.maxValue !== null) {
+      validators.push(Validators.max(this.maxValue));
+    }
+    if (this.minValue !== null) {
+      validators.push(Validators.min(this.minValue));
+    }
+    if (!this.allowEmpty) {
+      validators.push(Validators.required);
+    }
+
     this.inputForm = this._fb.group({
-      inputValue: [this.data.defaultValue, Validators.required],
+      inputValue: [this.data.defaultValue, validators],
     });
   }
 

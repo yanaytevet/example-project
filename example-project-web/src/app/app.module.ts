@@ -16,6 +16,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HomeModule} from './home/home.module';
 import {NgxPermissionsModule} from 'ngx-permissions';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {SharedModule} from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -30,9 +31,10 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     HttpClientModule,
     NgxPermissionsModule.forRoot(),
     MatSnackBarModule,
+    SharedModule,
     HomeModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],  providers: [
     {
       provide: HTTP_INTERCEPTORS,

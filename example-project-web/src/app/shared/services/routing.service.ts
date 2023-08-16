@@ -47,4 +47,14 @@ export class RoutingService {
   async navigateToWebsocketsExamplePage(): Promise<void> {
     await this.router.navigate(this.getWebsocketsExamplePageUrl());
   }
+
+  // Dialog Example
+
+  getDialogsExamplePageUrl(): any[] {
+    return ['/dialogs-example'];
+  }
+
+  async navigateToDialogsExamplePage(): Promise<void> {
+    await this.router.navigate(this.getDialogsExamplePageUrl());
+  }
 }

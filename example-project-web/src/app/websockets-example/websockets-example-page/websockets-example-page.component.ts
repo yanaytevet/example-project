@@ -1,38 +1,31 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserWebsocketsService} from '../../shared/services/user-websockets.service';
-import {Subscription} from 'rxjs';
 import {WebsocketEvent} from '../../shared/interfaces/websockets/websocket-event';
 import {BlocksApiService} from '../../shared/apis/blocks-api.service';
+import {BaseComponent} from '../../shared/components/base-component';
 
 @Component({
   selector: 'app-websockets-example-page',
   templateUrl: './websockets-example-page.component.html',
   styleUrls: ['./websockets-example-page.component.scss']
 })
-export class WebsocketsExamplePageComponent implements OnInit, OnDestroy {
-  actionTypeASubscription: Subscription;
-  actionTypeBSubscription: Subscription;
-
+export class WebsocketsExamplePageComponent extends BaseComponent implements OnInit {
   events: string[] = [];
 
   constructor(private userWebsocketsService: UserWebsocketsService,
               private blocksApiService: BlocksApiService) {
+    super();
   }
 
   ngOnInit(): void {
-    this.actionTypeASubscription = this.userWebsocketsService.websocketSubscribe('actionTypeA',
+    this.subscriptions.push(this.userWebsocketsService.websocketSubscribe('actionTypeA',
       (data: WebsocketEvent) => {
         this.events.push(`event A: ${data.payload['message']}`);
-      });
-    this.actionTypeBSubscription = this.userWebsocketsService.websocketSubscribe('actionTypeB',
+      }));
+    this.subscriptions.push(this.userWebsocketsService.websocketSubscribe('actionTypeB',
       (data: WebsocketEvent) => {
         this.events.push(`event B: ${data.payload['message']}`);
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.actionTypeASubscription.unsubscribe();
-    this.actionTypeBSubscription.unsubscribe();
+      }));
   }
 
   async triggerEventA() {

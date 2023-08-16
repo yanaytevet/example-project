@@ -1,9 +1,9 @@
 
 from django.urls import path
 
-from blocks.views.post_sample_block_view import PostSampleBlockView
+from blocks.views.post_sample_websocket_view import PostSampleWebsocketView
 
 urlpatterns = [
-   path(r'', PostSampleBlockView.as_view(), name='sample'),
+   path(r'websocket-test/', PostSampleWebsocketView.as_view(), name='sample'),
 ]
     

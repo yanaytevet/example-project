@@ -9,6 +9,6 @@ export class BlocksApiService {
   }
 
   async sendBlockEvent(eventType: string): Promise<void> {
-    await this.baseApi.post<void>(null, '/api/blocks/', {eventType});
+    await this.baseApi.post<void>(null, '/api/blocks/websocket-test/', {eventType});
   }
 }

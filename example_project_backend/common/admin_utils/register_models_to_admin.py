@@ -36,12 +36,7 @@ class ModelRegisterer:
                     if isinstance(field, ManyToManyField):
                         continue
                     list_display.append(field.name)
-            if hasattr(klass, 'list_filter'):
-                list_filter = getattr(klass, 'list_filter')
-            else:
-                list_filter = list(list_display)
-                if 'id' in list_filter:
-                    list_filter = [item for item in list_filter if item != 'id']
+            list_filter = getattr(klass, 'list_filter') if hasattr(klass, 'list_filter') else []
 
             if hasattr(klass, 'raw_id_fields'):
                 raw_id_fields = getattr(klass, 'raw_id_fields')

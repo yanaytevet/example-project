@@ -8,7 +8,7 @@ from django.conf import settings
 class Command(BaseCommand):
     help = 'Create a new app, but with more...'
     ADMIN_FILE_CONTENT = '''
-from common.utils.admin_utils.register_models_to_admin import ModelRegisterer
+from common.admin_utils.register_models_to_admin import ModelRegisterer
 from {app_name} import models
 
 ModelRegisterer(models).register()

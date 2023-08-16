@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
-import {BehaviorSubject, Subscription} from "rxjs";
+import {Injectable} from '@angular/core';
+import {Subject, Subscription} from "rxjs";
 import * as humps from "humps";
 import {WebsocketEvent, ZWebsocketEvent} from '../interfaces/websockets/websocket-event';
+
 @Injectable({
   providedIn: 'root'
 })
 
 export class UserWebsocketsService {
-  private readonly _websocketListener = new BehaviorSubject<WebsocketEvent>(null);
+  private readonly _websocketListener = new Subject<WebsocketEvent>();
   readonly websocketListener$ = this._websocketListener.asObservable();
 
   constructor() {}

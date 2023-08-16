@@ -1,5 +1,6 @@
 <span class="dialog-title-container" mat-dialog-title>
   <span class="dialog-title">{{title}}</span>
+  <span class="flex-spacer"></span>
   <mat-icon [mat-dialog-close]="undefined" class="close-icon">close</mat-icon>
 </span>
 <div mat-dialog-content>
@@ -12,7 +13,8 @@
     {{valueToDisplay[value]}}
   </mat-checkbox>
 </form>
-<div mat-dialog-actions align="end">
+<div mat-dialog-actions class="dialog-actions" align="end">
   <button mat-button class="close-btn" [mat-dialog-close]="undefined">{{cancelActionName}}</button>
-  <button mat-button class="gradiant-btn" color="primary" (click)="submitList()">{{confirmActionName}}</button>
+  <button mat-button class="gradiant-btn" color="primary" (click)="submitList()"
+          [disabled]="!isValid">{{confirmActionName}}</button>
 </div>

@@ -48,7 +48,10 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "moment", "humps"
+            ]
           },
           "configurations": {
             "production": {

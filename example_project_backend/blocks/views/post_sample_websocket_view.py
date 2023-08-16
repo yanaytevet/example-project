@@ -6,7 +6,7 @@ from common.type_hints import JSONType
 from users.managers.websocket_events_manager.websocket_event_manager import WebsocketEventManager
 
 
-class PostSampleBlockView(AsyncSimplePostAPIView):
+class PostSampleWebsocketView(AsyncSimplePostAPIView):
     @classmethod
     async def check_permitted(cls, request: AsyncAPIRequest, **kwargs) -> None:
         await RequestDataFieldsAPIChecker(['event_type']).async_raise_exception_if_not_valid(request=request)
