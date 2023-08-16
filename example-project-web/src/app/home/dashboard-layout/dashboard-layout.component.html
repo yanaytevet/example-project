@@ -12,6 +12,14 @@
         <mat-icon>notifications</mat-icon>
         <span>Dialogs</span>
       </a>
+      <a mat-menu-item [routerLink]="routingService.getFormsExamplePageUrl()">
+        <mat-icon>check_box</mat-icon>
+        <span>Form</span>
+      </a>
+      <a mat-menu-item [routerLink]="routingService.getTablesExamplePageUrl()">
+        <mat-icon>table</mat-icon>
+        <span>Table</span>
+      </a>
     </mat-menu>
 
     <a class="main-logo" [routerLink]="routingService.getHomeUrl()">Example</a>

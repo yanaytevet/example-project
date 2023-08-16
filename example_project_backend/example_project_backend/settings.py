@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'common',
     'users',
     'configurations',
+    'blocks',
 ]
 
 MIDDLEWARE = [

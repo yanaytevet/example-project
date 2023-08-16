@@ -13,11 +13,16 @@ import {TextInputDialogComponent} from './dialogs/text-input-dialog/text-input-d
 import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {PaginationTableComponent} from './components/pagination-tables/pagination-table/pagination-table.component';
+import {MatTableModule} from '@angular/material/table';
+import {PaginatorComponent} from './components/pagination-tables/paginator/paginator.component';
+import {ColumnFilterComponent} from './components/pagination-tables/column-filter/column-filter.component';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 
@@ -31,6 +36,12 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     NotificationTextDialogComponent,
     NumberInputDialogComponent,
     TextInputDialogComponent,
+    PaginationTableComponent,
+    PaginatorComponent,
+    ColumnFilterComponent,
+  ],
+  exports: [
+    PaginationTableComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +52,10 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatInputModule,
     MatSelectModule,
     ClipboardModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatTableModule,
+    MatMenuModule,
+    FormsModule
   ]
 })
 export class SharedModule { }

@@ -42,12 +42,8 @@ export class BaseApiService {
     return obj;
   }
 
-  async delete<T>(schema: ZodSchema, url: string): Promise<T> {
-    const obj = await firstValueFrom<T>(this.http.delete<T>(url));
-    if (schema) {
-      schema.parse(obj);
-    }
-    return obj;
+  async delete(url: string): Promise<void> {
+    await firstValueFrom<void>(this.http.delete<void>(url));
   }
 }
 

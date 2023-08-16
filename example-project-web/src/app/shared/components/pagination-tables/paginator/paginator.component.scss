@@ -1,0 +1,27 @@
+@import "../../../../../assets/css/fonts";
+@import "../../../../../assets/css/components";
+
+.icon{
+  color: var(--primary-icon-color);
+}
+
+.paginator {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px;
+
+  .current-items {
+    @extend .bio-sans-font;
+    cursor: pointer;
+    margin: 10px;
+    color: var(--primary-text-color);
+  }
+
+  .current-page {
+    @extend .bio-sans-font;
+    cursor: pointer;
+    margin: 10px;
+    color: var(--primary-text-color);
+  }
+}

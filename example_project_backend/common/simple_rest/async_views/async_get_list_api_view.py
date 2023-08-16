@@ -62,14 +62,48 @@ class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
 
     @classmethod
     async def filter_objects_by_request(cls, request: AsyncAPIRequest, objects: QuerySet, **kwargs) -> QuerySet:
-        return objects
+        filters_dict = {}
+        allowed_filters = cls.get_allowed_filters()
+
+        for key, value in cls.get_params_from_request(request, 'filter', {}).items():
+            if key in allowed_filters:
+                filters_dict[key] = value
+        return objects.filter(**filters_dict)
+
+    @classmethod
+    @abstractmethod
+    def get_allowed_filters(cls) -> set[str]:
+        raise NotImplementedError()
 
     @classmethod
     async def order_objects_by_request(cls, request: AsyncAPIRequest, objects: QuerySet, **kwargs) -> QuerySet:
-        order_by_str = request.query_params.get('order_by')
-        if order_by_str:
-            objects = objects.order_by(order_by_str)
-        return objects
+        order_by_list = []
+        allowed_order_by = cls.get_allowed_order_by()
+
+        for value in cls.get_params_from_request(request, 'order_by', []):
+            if cls.does_key_exist_in_allowed_order_by(value, allowed_order_by):
+                order_by_list.append(value)
+        if not order_by_list:
+            order_by_list = ['id']
+        return objects.order_by(*order_by_list)
+
+    @classmethod
+    @abstractmethod
+    def get_allowed_order_by(cls) -> set[str]:
+        raise NotImplementedError()
+
+    @classmethod
+    def does_key_exist_in_allowed_order_by(cls, key: str, allowed_order_by: set[str]) -> bool:
+        if key.startswith('-'):
+            key = key[1:]
+        return key in allowed_order_by
+
+    @classmethod
+    def get_params_from_request(cls, request: APIRequest, key: str, default_value: JSONType) -> JSONType:
+        params_str = request.query_params.get(key)
+        if not params_str:
+            return default_value
+        return json.loads(params_str)
 
     @classmethod
     def get_page_size(cls, request: AsyncAPIRequest) -> int:
@@ -77,9 +111,8 @@ class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
         return min(max(cls.MIN_PAGE_SIZE, page_size), cls.MAX_PAGE_SIZE)
 
     @classmethod
-    @abstractmethod
     def should_filter_only_by_objects(cls) -> bool:
-        raise NotImplementedError()
+        return True
 
     @classmethod
     async def serialize_objects(cls, request: AsyncAPIRequest, objects: QuerySet, page: int, page_size: int,
@@ -99,10 +132,3 @@ class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
     @abstractmethod
     async def serialize_object(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> JSONType:
         raise NotImplementedError()
-
-    @classmethod
-    def get_filter_params_from_request(cls, request: APIRequest) -> JSONType:
-        filter_params_str = request.query_params.get('filter_params')
-        if not filter_params_str:
-            return {}
-        return json.loads(filter_params_str)

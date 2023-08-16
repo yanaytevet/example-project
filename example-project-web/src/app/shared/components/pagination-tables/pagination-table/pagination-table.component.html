@@ -1,0 +1,10 @@
+<div class="table-container">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 inner-table" multiTemplateDataRows>
+
+    <ng-content></ng-content>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let element; columns: displayedColumns;" [class]="rowToClassCallback ? rowToClassCallback(element) : ''"></tr>
+  </table>
+</div>
+<app-paginator [genericDataHandler]="genericDataHandler"></app-paginator>

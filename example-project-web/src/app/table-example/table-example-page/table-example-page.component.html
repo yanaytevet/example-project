@@ -1,0 +1,48 @@
+<div class="page">
+  <div class="btns-container">
+    <button mat-stroked-button (click)="createItem()">Create Block</button>
+  </div>
+  <app-pagination-table [genericDataHandler]="genericDataHandler" [displayedColumns]="displayedColumns">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> Id </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="a">
+      <th mat-header-cell *matHeaderCellDef> A </th>
+      <td mat-cell *matCellDef="let element"> {{element.a}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="b">
+      <th mat-header-cell *matHeaderCellDef> B </th>
+      <td mat-cell *matCellDef="let element"> {{element.b}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="c">
+      <th mat-header-cell *matHeaderCellDef> C </th>
+      <td mat-cell *matCellDef="let element"> {{booleanDisplay.get(element.c)}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="blockType">
+      <th mat-header-cell *matHeaderCellDef> Block Type </th>
+      <td mat-cell *matCellDef="let element"> {{element.blockType}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions" stickyEnd>
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item
+                  (click)="deleteItem(element)">Delete</button>
+          <button mat-menu-item
+                  (click)="updateItem(element)">Update</button>
+          <button mat-menu-item
+                  (click)="buildItem(element)">Build</button>
+        </mat-menu>
+      </td>
+    </ng-container>
+  </app-pagination-table>
+</div>

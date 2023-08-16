@@ -57,4 +57,24 @@ export class RoutingService {
   async navigateToDialogsExamplePage(): Promise<void> {
     await this.router.navigate(this.getDialogsExamplePageUrl());
   }
+
+  // Forms Example
+
+  getFormsExamplePageUrl(): any[] {
+    return ['/form-example'];
+  }
+
+  async navigateToFormsExamplePage(): Promise<void> {
+    await this.router.navigate(this.getFormsExamplePageUrl());
+  }
+
+  // Tables Example
+
+  getTablesExamplePageUrl(): any[] {
+    return ['/table-example'];
+  }
+
+  async navigateToTablesExamplePage(): Promise<void> {
+    await this.router.navigate(this.getTablesExamplePageUrl());
+  }
 }

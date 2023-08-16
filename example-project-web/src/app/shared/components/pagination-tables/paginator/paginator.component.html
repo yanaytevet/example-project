@@ -1,0 +1,10 @@
+<div class="paginator">
+  <span class="current-items" (click)="openSelectPageSizeDialog()">{{currentItemsText}}</span>
+  <button mat-icon-button (click)="goBackOnePage()" [disabled]="genericDataHandler?.paginationData?.page === 0">
+    <mat-icon class="icon">arrow_back_ios</mat-icon>
+  </button>
+  <span class="current-page" (click)="openSelectPageDialog()">page {{genericDataHandler?.paginationData?.page + 1}} of {{genericDataHandler?.paginationData?.pagesAmount}}</span>
+  <button mat-icon-button (click)="goForwardOnePage()"  [disabled]="genericDataHandler?.paginationData?.page === genericDataHandler?.paginationData?.pagesAmount - 1">
+    <mat-icon class="icon">arrow_forward_ios</mat-icon>
+  </button>
+</div>

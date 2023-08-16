@@ -14,6 +14,6 @@ export class DashboardLayoutComponent {
 
   async logout(): Promise<void> {
     await this.authService.logout();
-    this.routingService.navigateToLogin();
+    await this.routingService.navigateToLogin();
   }
 }
