@@ -1,3 +1,4 @@
+import {Option} from '../interfaces/util/option';
 
 export class EnumDisplay {
   data: Record<string, string> = {};
@@ -11,5 +12,11 @@ export class EnumDisplay {
 
   public getKeys(): string[] {
     return Object.keys(this.data);
+  }
+
+  public getOptions(): Option[] {
+    return this.getKeys().map(key => {
+      return {display: this.get(key), value: key};
+    });
   }
 }

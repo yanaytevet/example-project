@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {PaginationDataHandler} from "../pagination-data-handler";
+import {Option} from '../../../interfaces/util/option';
 
 @Component({
   selector: 'app-column-filter',
@@ -8,15 +9,16 @@ import {PaginationDataHandler} from "../pagination-data-handler";
 })
 
 export class ColumnFilterComponent {
-  @Input() values: string[];
-  @Input() genericDataHandler: PaginationDataHandler<any>;
+  @Input() options: Option[];
+  @Input() paginationDataHandler: PaginationDataHandler<any>;
   @Input() filterKey: string;
-  filteredValues: string[];
+  @Input() showSearch = true;
+  filteredOptions: Option[];
   filterValue: string;
   checkedValues: Map<string, boolean>;
 
   constructor() {
-    this.filteredValues = [];
+    this.filteredOptions = [];
     this.filterValue = '';
     this.checkedValues = new Map<string, boolean>();
   }
@@ -26,8 +28,8 @@ export class ColumnFilterComponent {
   }
 
   filterValues() {
-    this.filteredValues = this.values.filter(value =>
-      value.toLowerCase().startsWith(this.filterValue.toLowerCase())
+    this.filteredOptions = this.options.filter(option =>
+      option.display.toLowerCase().includes(this.filterValue.toLowerCase())
     );
   }
 
@@ -38,7 +40,12 @@ export class ColumnFilterComponent {
     else {
       this.checkedValues.set(value, true)
     }
-    this.genericDataHandler.setFilter(this.filterKey,
-      Array.from(this.checkedValues).filter(([key, value]) => value === true).map(([key, value]) => key));
+    const values = Array.from(this.checkedValues).filter(([key, value]) => value === true).map(([key, value]) => key);
+    const filter_key = `${this.filterKey}__in`
+    if (values.length > 0) {
+      this.paginationDataHandler.setFilter(filter_key, values);
+    } else {
+      this.paginationDataHandler.clearFilter(filter_key)
+    }
   }
 }

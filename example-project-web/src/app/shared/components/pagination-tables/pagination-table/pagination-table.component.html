@@ -7,4 +7,4 @@
     <tr mat-row *matRowDef="let element; columns: displayedColumns;" [class]="rowToClassCallback ? rowToClassCallback(element) : ''"></tr>
   </table>
 </div>
-<app-paginator [genericDataHandler]="genericDataHandler"></app-paginator>
+<app-paginator [genericDataHandler]="paginationDataHandler"></app-paginator>

@@ -30,5 +30,4 @@ class PutActionsBlockItemView(AsyncPutActionsItemByIdAPIView):
 
     def put_build(self, request: AsyncAPIRequest, obj: Block, **kwargs) -> None:
         obj.a += ' build'
-        print(obj.a)
         obj.save()

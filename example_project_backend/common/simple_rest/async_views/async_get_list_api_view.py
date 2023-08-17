@@ -34,13 +34,9 @@ class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
         page = int(request.query_params.get('page', 0))
         page_size = self.get_page_size(request)
 
-        if self.should_filter_only_by_objects():
-            total_amount = await objects.acount()
-            data = await self.serialize_objects(request, objects, page, page_size, **kwargs)
-        else:
-            objects_list = self.filter_and_sort_list(request, objects)
-            total_amount = len(objects_list)
-            data = await self.serialize_list(request, objects_list, page, page_size, **kwargs)
+        total_amount = await objects.acount()
+        page = self.get_correct_page(total_amount, page, page_size)
+        data = await self.serialize_objects(request, objects, page, page_size, **kwargs)
         res = {
             'total_amount': total_amount,
             'pages_amount': math.ceil(total_amount / page_size),
@@ -66,14 +62,21 @@ class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
         allowed_filters = cls.get_allowed_filters()
 
         for key, value in cls.get_params_from_request(request, 'filter', {}).items():
-            if key in allowed_filters:
+            if cls.does_key_exist_in_allowed_filters(key, allowed_filters):
                 filters_dict[key] = value
+
         return objects.filter(**filters_dict)
 
     @classmethod
     @abstractmethod
     def get_allowed_filters(cls) -> set[str]:
         raise NotImplementedError()
+
+    @classmethod
+    def does_key_exist_in_allowed_filters(cls, key: str, allowed_filters: set[str]) -> bool:
+        if key.endswith('__in'):
+            key = key[:-4]
+        return key in allowed_filters
 
     @classmethod
     async def order_objects_by_request(cls, request: AsyncAPIRequest, objects: QuerySet, **kwargs) -> QuerySet:
@@ -111,10 +114,6 @@ class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
         return min(max(cls.MIN_PAGE_SIZE, page_size), cls.MAX_PAGE_SIZE)
 
     @classmethod
-    def should_filter_only_by_objects(cls) -> bool:
-        return True
-
-    @classmethod
     async def serialize_objects(cls, request: AsyncAPIRequest, objects: QuerySet, page: int, page_size: int,
                                 **kwargs) -> list[JSONType]:
         start = page * page_size
@@ -122,13 +121,14 @@ class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
         return [await cls.serialize_object(request, obj, **kwargs) async for obj in objects[start: end]]
 
     @classmethod
-    async def serialize_list(cls, request: AsyncAPIRequest, objects_list: list[Model], page: int, page_size: int,
-                             **kwargs) -> list[JSONType]:
-        start = page * page_size
-        end = (page + 1) * page_size
-        return [await cls.serialize_object(request, obj, **kwargs) for obj in objects_list[start: end]]
-
-    @classmethod
     @abstractmethod
     async def serialize_object(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> JSONType:
         raise NotImplementedError()
+
+    @classmethod
+    def get_correct_page(cls, total_amount: int, page: int, page_size: int) -> int:
+        if page < 0:
+            return 0
+        if page * page_size > total_amount:
+            return max(0, math.ceil(total_amount / page_size) - 1)
+        return page

@@ -5,6 +5,7 @@ import {BooleanDisplay} from '../../shared/string-display/boolean-display';
 import {BlocksApiService} from '../../shared/apis/blocks-api.service';
 import {StringUtilsService} from '../../shared/services/string-utils.service';
 import {ZBlockType} from '../../shared/interfaces/blocks/blocks-type';
+import {BlockTypeDisplay} from '../../shared/string-display/block-type-display';
 
 @Component({
   selector: 'app-table-example-page',
@@ -12,20 +13,21 @@ import {ZBlockType} from '../../shared/interfaces/blocks/blocks-type';
   styleUrls: ['./table-example-page.component.scss']
 })
 export class TableExamplePageComponent implements OnInit {
-  genericDataHandler: PaginationDataHandler<Block>;
+  paginationDataHandler: PaginationDataHandler<Block>;
   booleanDisplay = new BooleanDisplay();
+  blockTypeDisplay = new BlockTypeDisplay();
 
   displayedColumns: string[] = ['id', 'blockType', 'a', 'b', 'c', 'actions'];
 
   constructor(private blocksApiService: BlocksApiService,
               private stringUtilsService: StringUtilsService) {
-    this.genericDataHandler = new PaginationDataHandler<Block>(async params => {
+    this.paginationDataHandler = new PaginationDataHandler<Block>(async params => {
       return await this.blocksApiService.getBlocksPaginationList(params);
     });
   }
 
   ngOnInit(): void {
-    this.genericDataHandler.fetch();
+    this.paginationDataHandler.fetch();
   }
 
   async createItem(): Promise<void> {
@@ -35,12 +37,12 @@ export class TableExamplePageComponent implements OnInit {
       c: Math.random() < 0.5,
       blockType: this.stringUtilsService.getRandomEnumValue(ZBlockType.enum),
     });
-    await this.genericDataHandler.fetch();
+    await this.paginationDataHandler.fetch();
   }
 
   async deleteItem(block: Block): Promise<void> {
     await this.blocksApiService.deleteBlockItemById(block.id);
-    await this.genericDataHandler.fetch();
+    await this.paginationDataHandler.fetch();
   }
 
   async updateItem(block: Block): Promise<void> {
@@ -49,11 +51,11 @@ export class TableExamplePageComponent implements OnInit {
       b: Math.floor(Math.random() * 11),
       c: Math.random() < 0.5,
     });
-    await this.genericDataHandler.fetch();
+    await this.paginationDataHandler.fetch();
   }
 
   async buildItem(block: Block): Promise<void> {
     await this.blocksApiService.putActionsBlockItemById(block.id, {action: 'build'});
-    await this.genericDataHandler.fetch();
+    await this.paginationDataHandler.fetch();
   }
 }

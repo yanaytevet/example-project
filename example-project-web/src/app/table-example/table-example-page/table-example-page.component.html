@@ -2,30 +2,35 @@
   <div class="btns-container">
     <button mat-stroked-button (click)="createItem()">Create Block</button>
   </div>
-  <app-pagination-table [genericDataHandler]="genericDataHandler" [displayedColumns]="displayedColumns">
+  <app-pagination-table matSort (matSortChange)="paginationDataHandler.sortFromTable($event)" [paginationDataHandler]="paginationDataHandler" [displayedColumns]="displayedColumns">
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef> Id </th>
       <td mat-cell *matCellDef="let element"> {{element.id}} </td>
     </ng-container>
 
     <ng-container matColumnDef="a">
-      <th mat-header-cell *matHeaderCellDef> A </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="a"> A </th>
       <td mat-cell *matCellDef="let element"> {{element.a}} </td>
     </ng-container>
 
     <ng-container matColumnDef="b">
-      <th mat-header-cell *matHeaderCellDef> B </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="b"> B </th>
       <td mat-cell *matCellDef="let element"> {{element.b}} </td>
     </ng-container>
 
     <ng-container matColumnDef="c">
-      <th mat-header-cell *matHeaderCellDef> C </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="c"> C
+        <app-column-filter [options]="booleanDisplay.getOptions()" [showSearch]="false"
+                           [paginationDataHandler]="paginationDataHandler" filterKey="c"></app-column-filter></th>
       <td mat-cell *matCellDef="let element"> {{booleanDisplay.get(element.c)}} </td>
     </ng-container>
 
     <ng-container matColumnDef="blockType">
-      <th mat-header-cell *matHeaderCellDef> Block Type </th>
-      <td mat-cell *matCellDef="let element"> {{element.blockType}} </td>
+      <th mat-header-cell *matHeaderCellDef> Block Type
+        <app-column-filter [options]="blockTypeDisplay.getOptions()"
+                           [paginationDataHandler]="paginationDataHandler" filterKey="block_type"></app-column-filter>
+      </th>
+      <td mat-cell *matCellDef="let element"> {{blockTypeDisplay.get(element.blockType)}} </td>
     </ng-container>
 
     <ng-container matColumnDef="actions" stickyEnd>

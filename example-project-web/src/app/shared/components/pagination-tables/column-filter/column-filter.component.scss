@@ -8,15 +8,6 @@ mat-checkbox {
   padding-right: 5px;
 }
 
-input {
-  margin-left: 10px;
-  margin-bottom: 8px;
-  margin-top: 5px;
-  width: 85%;
-  font-size: 16px;
-  padding: 4px 4px 4px 8px;
-}
-
 button {
   display: inline-flex;
   align-items: center;
@@ -28,11 +19,22 @@ button {
 }
 
 mat-icon {
-  font-size: 15px;
+  font-size: 20px;
 }
 
 .filter-button {
   display: inline-block;
   vertical-align: middle;
-  margin-right: 2px;
+  margin: 0 2px 0 5px;
+}
+
+.filter-menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-input {
+  margin: 10px;
+  font-size: 16px;
+  padding: 4px 4px 4px 8px;
 }

@@ -1,13 +1,16 @@
 <div class="filter-button">
-  <button mat-icon-button [matMenuTriggerFor]="filterOptionsMenu" >
+  <button mat-icon-button [matMenuTriggerFor]="filterOptionsMenu" (click)="$event.stopPropagation()">
     <mat-icon>filter_list</mat-icon>
   </button>
   <mat-menu #filterOptionsMenu="matMenu">
-    <input class="filter-input" type="text" [(ngModel)]="filterValue" (ngModelChange)="filterValues()" placeholder="Search" (click)="$event.stopPropagation()" />
-    <div class="engagement-container" *ngFor="let value of filteredValues">
-        <mat-checkbox [value]="value" (change)="onCheckboxChange(value)" [checked]="checkedValues.get(value)" (click)="$event.stopPropagation()">
-      {{ value }}
-      </mat-checkbox>
+    <div class="filter-menu">
+      <input class="filter-input" type="text" *ngIf="showSearch"
+             [(ngModel)]="filterValue" (ngModelChange)="filterValues()" placeholder="Search" (click)="$event.stopPropagation()" />
+      <div class="options-list" *ngFor="let option of filteredOptions">
+          <mat-checkbox [value]="option.value" (change)="onCheckboxChange(option.value)" [checked]="checkedValues.get(option.value)" (click)="$event.stopPropagation()">
+        {{ option.display }}
+        </mat-checkbox>
+      </div>
     </div>
   </mat-menu>
 </div>

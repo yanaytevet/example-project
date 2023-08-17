@@ -23,6 +23,7 @@ import {MatTableModule} from '@angular/material/table';
 import {PaginatorComponent} from './components/pagination-tables/paginator/paginator.component';
 import {ColumnFilterComponent} from './components/pagination-tables/column-filter/column-filter.component';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatSortModule} from '@angular/material/sort';
 
 
 
@@ -40,9 +41,10 @@ import {MatMenuModule} from '@angular/material/menu';
     PaginatorComponent,
     ColumnFilterComponent,
   ],
-  exports: [
-    PaginationTableComponent
-  ],
+    exports: [
+        PaginationTableComponent,
+        ColumnFilterComponent
+    ],
   imports: [
     CommonModule,
     MatDialogModule,
@@ -55,7 +57,8 @@ import {MatMenuModule} from '@angular/material/menu';
     MatCheckboxModule,
     MatTableModule,
     MatMenuModule,
-    FormsModule
+    FormsModule,
+    MatSortModule
   ]
 })
 export class SharedModule { }

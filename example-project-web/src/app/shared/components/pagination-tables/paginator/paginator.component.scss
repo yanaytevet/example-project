@@ -1,5 +1,3 @@
-@import "../../../../../assets/css/fonts";
-@import "../../../../../assets/css/components";
 
 .icon{
   color: var(--primary-icon-color);
@@ -12,16 +10,14 @@
   padding: 10px;
 
   .current-items {
-    @extend .bio-sans-font;
     cursor: pointer;
-    margin: 10px;
+    margin: 0 20px;
     color: var(--primary-text-color);
   }
 
   .current-page {
-    @extend .bio-sans-font;
     cursor: pointer;
-    margin: 10px;
+    margin: 0 20px;
     color: var(--primary-text-color);
   }
 }

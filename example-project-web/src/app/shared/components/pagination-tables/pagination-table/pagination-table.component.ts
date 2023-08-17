@@ -1,12 +1,13 @@
 import {
   AfterContentInit,
   Component,
-  ContentChildren, ElementRef,
+  ContentChildren,
   Input,
   OnDestroy,
   OnInit,
   QueryList,
-  ViewChild, ViewEncapsulation
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import {PaginationDataHandler} from '../pagination-data-handler';
 import {MatColumnDef, MatTable, MatTableDataSource} from '@angular/material/table';
@@ -19,7 +20,7 @@ import {Subscription} from 'rxjs';
   encapsulation: ViewEncapsulation.None,
 })
 export class PaginationTableComponent<T> implements OnInit, OnDestroy, AfterContentInit {
-  @Input() genericDataHandler: PaginationDataHandler<T>;
+  @Input() paginationDataHandler: PaginationDataHandler<T>;
   @Input() displayedColumns: string[] = [];
   @Input() rowToClassCallback: (obj: T) => string = null;
   @ViewChild(MatTable, { static: true }) table: MatTable<T>;
@@ -33,7 +34,7 @@ export class PaginationTableComponent<T> implements OnInit, OnDestroy, AfterCont
   }
 
   ngOnInit(): void {
-    this.paginationDataSub = this.genericDataHandler.paginationData$.subscribe(paginationData => {
+    this.paginationDataSub = this.paginationDataHandler.paginationData$.subscribe(paginationData => {
       if (paginationData) {
         this.dataSource.data = paginationData.data;
       }

@@ -1,12 +1,20 @@
 import {PaginationData} from './pagination-data';
 import {BehaviorSubject} from 'rxjs';
+import {Sort} from '@angular/material/sort';
+
+type SortDirection = 'asc' | 'desc';
+
+interface SortObject {
+  direction: SortDirection;
+  key: string;
+}
 
 export class PaginationDataHandler<T> {
   currentPage: number = 0;
   pageSize: number = 25;
   isEmpty: boolean = true;
   filterObject: Record<string, any> = {};
-  sortOrder: string[] = [];
+  sortObjectsArray: SortObject[] = [];
 
   private readonly _paginationDataSub = new BehaviorSubject<PaginationData<T>>(null);
   readonly paginationData$ = this._paginationDataSub.asObservable();
@@ -32,7 +40,7 @@ export class PaginationDataHandler<T> {
       page: this.currentPage,
       page_size: this.pageSize,
       order_by: this.getSortString(),
-      ...this.filterObject,
+      filter: this.getFilterString(),
     }
     this.paginationData = await this.fetchPaginationData(data);
   }
@@ -55,6 +63,13 @@ export class PaginationDataHandler<T> {
     }
   }
 
+  clearFilter(key: string, fetch: boolean = true): void {
+    delete this.filterObject[key];
+    if (fetch) {
+      this.fetch();
+    }
+  }
+
   getFilterValue(key: string): any {
     return this.filterObject[key];
   }
@@ -64,18 +79,28 @@ export class PaginationDataHandler<T> {
     this.fetch();
   }
 
-  addSort(key: string): void {
-    this.sortOrder.push(key);
+  addSort(key: string, direction: SortDirection): void {
+    const currentSort = this.sortObjectsArray.find(sort => sort.key === key);
+    if (currentSort) {
+      currentSort.direction = direction;
+    }
+    else {
+      this.sortObjectsArray.push({key, direction});
+    }
     this.fetch();
   }
 
   clearSort(key: string): void {
-    this.sortOrder = [];
+    this.sortObjectsArray= this.sortObjectsArray.filter(sort => sort.key !== key);
     this.fetch();
   }
 
   private getSortString(): string {
-    return this.sortOrder.join(',');
+    return JSON.stringify(this.sortObjectsArray.map(sort => `${sort.direction === 'asc' ? '' : '-'}${sort.key}`));
+  }
+
+  private getFilterString(): string {
+    return JSON.stringify(this.filterObject);
   }
 
   startAutoFetch(seconds: number): void {
@@ -90,5 +115,13 @@ export class PaginationDataHandler<T> {
       clearInterval(this.autoFetchInterval);
     }
     this.autoFetchInterval = null;
+  }
+
+  sortFromTable(sort: Sort): void {
+    if (sort.direction === '') {
+      this.clearSort(sort.active);
+    } else if (sort.direction === 'asc' || sort.direction === 'desc') {
+      this.addSort(sort.active, sort.direction);
+    }
   }
 }
