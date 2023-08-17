@@ -9,7 +9,7 @@ services:
       - example_db_data:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=db_admin
-      - POSTGRES_PASSWORD=km3C465odLfr44f
+      - POSTGRES_PASSWORD=<db_password>
       - POSTGRES_DB=example_db
     expose:
       - 5432
