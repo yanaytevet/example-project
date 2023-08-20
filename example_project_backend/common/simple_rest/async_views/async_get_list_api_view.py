@@ -59,6 +59,7 @@ class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
     @classmethod
     async def filter_objects_by_request(cls, request: AsyncAPIRequest, objects: QuerySet, **kwargs) -> QuerySet:
         filters_dict = {}
+        objects = await cls.custom_filter_objects_by_request(request, objects, **kwargs)
         allowed_filters = cls.get_allowed_filters()
 
         for key, value in cls.get_params_from_request(request, 'filter', {}).items():
@@ -66,6 +67,10 @@ class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
                 filters_dict[key] = value
 
         return objects.filter(**filters_dict)
+
+    @classmethod
+    async def custom_filter_objects_by_request(cls, request: AsyncAPIRequest, objects: QuerySet, **kwargs) -> QuerySet:
+        return objects
 
     @classmethod
     @abstractmethod
