@@ -1,9 +1,9 @@
 {
-  "project_path": "~/dev/athen",
-  "project_backend_name": "athen_backend",
-  "project_frontend_name": "athen-web",
-  "db_name": "athen_db",
-  "db_username": "athen_db_admin",
-  "db_password": "Nm3F465ocLfrDPVf",
-  "title": "Athen"
+  "project_path": "~/dev/vox2",
+  "project_backend_name": "vox_backend",
+  "project_frontend_name": "vox-web",
+  "db_name": "vox_db",
+  "db_username": "vox_db_admin",
+  "db_password": "lGfjoie4D98D11e2w",
+  "title": "Vox"
 }

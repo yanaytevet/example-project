@@ -1,6 +1,5 @@
-import os
 import json
-import re
+import os
 import shutil
 
 project_params = {}
@@ -61,9 +60,8 @@ def change_backend_name_in_files():
     new_project_backend_name = project_params['project_backend_name']
 
     project_path = get_new_project_path()
-    new_project_backend_path = os.path.join(project_path, new_project_backend_name)
 
-    replace_string_in_directory(new_project_backend_path, project_backend_name, new_project_backend_name)
+    replace_string_in_directory(project_path, project_backend_name, new_project_backend_name)
 
 
 def change_frontend_name():
@@ -83,9 +81,8 @@ def change_frontend_name_in_files():
     new_project_frontend_name = project_params['project_frontend_name']
 
     project_path = get_new_project_path()
-    new_project_backend_path = os.path.join(project_path, new_project_frontend_name)
 
-    replace_string_in_directory(new_project_backend_path, project_frontend_name, new_project_frontend_name)
+    replace_string_in_directory(project_path, project_frontend_name, new_project_frontend_name)
 
 
 def change_database():
