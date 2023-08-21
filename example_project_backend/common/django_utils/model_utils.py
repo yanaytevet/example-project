@@ -40,7 +40,7 @@ class ModelUtils:
         for key, value in json_data.items():
             if allowed_attributes_set is not None and key in allowed_attributes_set:
                 setattr(obj, key, value)
-        await sync_to_async(obj.save)()
+        await obj.asave()
 
     @classmethod
     def to_json(cls, obj: models.Model) -> JSONType:
