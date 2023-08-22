@@ -13,6 +13,6 @@ must_be_logged_in_api_exception = RestAPIException(
 
 
 class LoginPermissionChecker(PermissionsChecker):
-    def raise_exception_if_not_valid(self, user: User) -> None:
+    async def async_raise_exception_if_not_valid(self, user: User) -> None:
         if not user or user.is_anonymous:
             raise must_be_logged_in_api_exception

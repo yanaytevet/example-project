@@ -13,13 +13,13 @@ class UserWebsocketConsumer(AsyncWebsocketConsumer):
         self.user_group_name: Optional[str] = None
 
     @classmethod
-    def check_permitted(cls, user: User) -> None:
-        LoginPermissionChecker().raise_exception_if_not_valid(user)
+    async def check_permitted(cls, user: User) -> None:
+        await LoginPermissionChecker().async_raise_exception_if_not_valid(user)
 
     async def connect(self):
         user_id = self.scope['user'].id
         self.user_group_name = f'user_{user_id}'
-        self.check_permitted(self.scope['user'])
+        await self.check_permitted(self.scope['user'])
         await self.channel_layer.group_add(self.user_group_name, self.channel_name)
         await self.accept()
 

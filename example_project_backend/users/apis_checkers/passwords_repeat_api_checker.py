@@ -4,7 +4,7 @@ from common.simple_rest.permissions_checkers.permissions_checker import Permissi
 
 
 class PasswordRepeatAPIChecker(PermissionsChecker):
-    def raise_exception_if_not_valid(self, password: str, password_repeat: str) -> None:
+    async def async_raise_exception_if_not_valid(self, password: str, password_repeat: str) -> None:
         if password != password_repeat:
             raise RestAPIException(
                 status_code=StatusCode.HTTP_400_BAD_REQUEST,

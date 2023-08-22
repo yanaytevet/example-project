@@ -2,6 +2,11 @@ import {Option} from '../interfaces/util/option';
 
 export class EnumDisplay {
   data: Record<string, string> = {};
+  options: Option[] = [];
+
+  constructor() {
+    this.options = this.getOptions();
+  }
 
   public get(key: any): string {
     if (key in this.data) {

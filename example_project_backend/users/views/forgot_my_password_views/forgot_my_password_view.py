@@ -10,7 +10,7 @@ from users.models import User, TemporaryAccess
 class ForgotMyPasswordView(AsyncSimplePostAPIView):
     @classmethod
     async def check_permitted(cls, request: AsyncAPIRequest, **kwargs) -> None:
-        RequestDataFieldsAPIChecker(['email']).raise_exception_if_not_valid(request=request)
+        await RequestDataFieldsAPIChecker(['email']).async_raise_exception_if_not_valid(request=request)
 
     @classmethod
     async def run_action(cls, request: AsyncAPIRequest, **kwargs) -> JSONType:

@@ -21,8 +21,9 @@ class ChangePasswordView(AsyncSimplePostAPIView):
     async def run_action(cls, request: AsyncAPIRequest, **kwargs) -> JSONType:
         user_obj = await request.future_user
 
-        RequestDataFieldsAPIChecker(['old_password', 'new_password']).raise_exception_if_not_valid(request=request)
-        LoginPermissionChecker().raise_exception_if_not_valid(user_obj)
+        await RequestDataFieldsAPIChecker(['old_password', 'new_password']).async_raise_exception_if_not_valid(
+            request=request)
+        await LoginPermissionChecker().async_raise_exception_if_not_valid(user_obj)
 
         old_pass = str(request.data['old_password'])
         user = await DjangoAuth.async_authenticate(request, username=user_obj.username, password=old_pass)

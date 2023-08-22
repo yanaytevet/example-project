@@ -32,7 +32,7 @@ class PostCreateUserEventView(AsyncPostCreateAPIView):
         if await request.async_get_as_other():
             return {}
         user = await request.future_user
-        data['user_id'] = user.id if LoginPermissionChecker().is_valid(user) else None
+        data['user_id'] = user.id if LoginPermissionChecker().async_is_valid(user) else None
         return data
 
     @classmethod
