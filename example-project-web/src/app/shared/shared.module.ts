@@ -24,6 +24,7 @@ import {PaginatorComponent} from './components/pagination-tables/paginator/pagin
 import {ColumnFilterComponent} from './components/pagination-tables/column-filter/column-filter.component';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSortModule} from '@angular/material/sort';
+import {KeyValueDialogComponent} from './dialogs/key-value-dialog/key-value-dialog.component';
 
 
 
@@ -37,6 +38,7 @@ import {MatSortModule} from '@angular/material/sort';
     NotificationTextDialogComponent,
     NumberInputDialogComponent,
     TextInputDialogComponent,
+    KeyValueDialogComponent,
     PaginationTableComponent,
     PaginatorComponent,
     ColumnFilterComponent,

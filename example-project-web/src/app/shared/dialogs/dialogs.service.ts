@@ -15,6 +15,7 @@ import {
   ListSelectionDialogComponent,
   ListSelectionDialogData
 } from './list-selection-dialog/list-selection-dialog.component';
+import {KeyValueDialogComponent} from './key-value-dialog/key-value-dialog.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -69,5 +70,13 @@ export class DialogsService {
       data
     });
     return await firstValueFrom<T[]>(dialogRef.afterClosed());
+  }
+
+  async getKeyValueFromDialog(data: any, width?: string): Promise<Record<string, string>> {
+    const dialogRef = this.matDialog.open(KeyValueDialogComponent, {
+      width: width || '400px',
+      data
+    });
+    return await firstValueFrom<Record<string, string>>(dialogRef.afterClosed());
   }
 }

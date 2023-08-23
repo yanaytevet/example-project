@@ -1,0 +1,26 @@
+<span class="dialog-title-container" mat-dialog-title>
+  <span class="dialog-title">{{title}}</span>
+  <span class="flex-spacer"></span>
+  <mat-icon [mat-dialog-close]="undefined" class="close-icon">close</mat-icon>
+</span>
+<div mat-dialog-content>
+  {{text}}
+</div>
+<div class="options-form">
+  <div class="key-value-container" *ngFor="let keyValue of keyValues">
+    <mat-form-field class="input">
+      <mat-label>Key</mat-label>
+      <input matInput [(ngModel)]="keyValue.key" (ngModelChange)="calcIsValid()">
+    </mat-form-field>
+    <mat-form-field class="input">
+      <mat-label>Value</mat-label>
+      <input matInput [(ngModel)]="keyValue.value" (ngModelChange)="calcIsValid()">
+    </mat-form-field>
+  </div>
+  <button mat-button class="add-btn" (click)="addKeyValue()">Add Option</button>
+</div>
+<div mat-dialog-actions class="dialog-actions" align="end">
+  <button mat-button class="close-btn" [mat-dialog-close]="undefined">{{cancelActionName}}</button>
+  <button mat-button class="gradiant-btn" color="primary" (click)="submit()"
+          [disabled]="!isValid">{{confirmActionName}}</button>
+</div>
