@@ -41,7 +41,7 @@ class AsyncPostCreateAPIView(AsyncAPIViewComponent, ABC):
     @classmethod
     async def create_obj(cls, request: AsyncAPIRequest,  **kwargs) -> Optional[Model]:
         data = dict(request.data)
-        data = await cls.modify_creation_data(request, data)
+        data = await cls.modify_creation_data(request, data,  **kwargs)
         if data:
             model_cls = cls.get_model_cls()
             obj = await ModelUtils.async_create_from_json(model_cls, data, cls.get_allowed_creation_fields())
@@ -49,7 +49,7 @@ class AsyncPostCreateAPIView(AsyncAPIViewComponent, ABC):
         return None
 
     @classmethod
-    async def modify_creation_data(cls, request: AsyncAPIRequest,  data: JSONType) -> JSONType:
+    async def modify_creation_data(cls, request: AsyncAPIRequest,  data: JSONType,  **kwargs) -> JSONType:
         return data
 
     @classmethod
