@@ -1,9 +1,8 @@
 import os
 import shutil
 
-from django.core.management import call_command
-from django.core.management.base import BaseCommand, CommandParser
 from django.conf import settings
+from django.core.management.base import BaseCommand, CommandParser
 
 
 class Command(BaseCommand):
@@ -19,13 +18,17 @@ class Command(BaseCommand):
         parser.add_argument('app_name', type=str)
         parser.add_argument('model_name_lower', type=str)
         parser.add_argument('model_name_camel', type=str)
+        parser.add_argument('skip_views', type=bool, default=False)
 
     def handle(self, *args, **options) -> None:
         self.app_name = options['app_name']
         self.model_name_lower = options['model_name_lower']
         self.model_name_camel = options['model_name_camel']
         self.create_serializers_package()
-        self.create_views_package()
+        if options['skip_views']:
+            print('Skipping views creation...')
+        else:
+            self.create_views_package()
 
     def create_serializers_package(self) -> None:
         serializers_dir_name = f'{self.model_name_lower}s_serializers'
