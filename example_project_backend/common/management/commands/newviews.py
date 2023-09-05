@@ -18,7 +18,7 @@ class Command(BaseCommand):
         parser.add_argument('app_name', type=str)
         parser.add_argument('model_name_lower', type=str)
         parser.add_argument('model_name_camel', type=str)
-        parser.add_argument('skip_views', type=bool, default=False)
+        parser.add_argument('--skip-views', action='store_true')
 
     def handle(self, *args, **options) -> None:
         self.app_name = options['app_name']
