@@ -48,7 +48,7 @@ class AsyncGetFilterListAPIView(AsyncAPIViewComponent, ABC):
         for field in cls.get_fields_to_filter_by():
             filters_query = filters_query | Q(**{f'{field}__icontains': filter_value})
 
-        objects = objects.filter(filters_query)
+        objects = objects.filter(filters_query).distinct()
         return objects.order_by(*cls.get_order_by_fields())
 
     @classmethod
