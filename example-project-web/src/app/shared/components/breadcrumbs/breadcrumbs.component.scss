@@ -1,0 +1,34 @@
+@import "../../../../assets/styles/texts";
+
+.breadcrumbs-container {
+  display: flex;
+  align-items: center;
+}
+
+.first-breadcrumbs-link {
+  font-weight: 600;
+}
+
+.breadcrumbs-link {
+  font-size: 15px;
+  line-height: 18px;
+  text-decoration: none;
+  transition: 0.3s text-decoration;
+}
+
+.breadcrumbs-link:hover {
+  text-decoration: underline;
+}
+
+
+.white {
+  color: var(--primary-text-color);
+}
+
+.black {
+  color: var(--primary-text-color);
+}
+
+.breadcrumbs-separator {
+  margin: 0 10px;
+}

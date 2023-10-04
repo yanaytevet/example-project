@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {VarDirective} from './directives/ng-var.directive';
 import {BaseComponent} from './components/base-component';
 import {ConfirmationDialogComponent} from './dialogs/confirmation-dialog/confirmation-dialog.component';
@@ -25,7 +25,7 @@ import {ColumnFilterComponent} from './components/pagination-tables/column-filte
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSortModule} from '@angular/material/sort';
 import {KeyValueDialogComponent} from './dialogs/key-value-dialog/key-value-dialog.component';
-
+import {BreadcrumbsComponent} from './components/breadcrumbs/breadcrumbs.component';
 
 
 @NgModule({
@@ -42,11 +42,13 @@ import {KeyValueDialogComponent} from './dialogs/key-value-dialog/key-value-dial
     PaginationTableComponent,
     PaginatorComponent,
     ColumnFilterComponent,
+    BreadcrumbsComponent
   ],
-    exports: [
-        PaginationTableComponent,
-        ColumnFilterComponent
-    ],
+  exports: [
+    PaginationTableComponent,
+    ColumnFilterComponent,
+    BreadcrumbsComponent
+  ],
   imports: [
     CommonModule,
     MatDialogModule,
@@ -63,4 +65,5 @@ import {KeyValueDialogComponent} from './dialogs/key-value-dialog/key-value-dial
     MatSortModule
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+}
