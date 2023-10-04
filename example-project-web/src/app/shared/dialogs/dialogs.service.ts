@@ -40,9 +40,9 @@ export class DialogsService {
     return await firstValueFrom<boolean>(dialogRef.afterClosed());
   }
 
-  public async getStringFromInputDialog(data: TextInputDialogData): Promise<string> {
+  public async getStringFromInputDialog(data: TextInputDialogData, width?: string): Promise<string> {
     const dialogRef = this.matDialog.open(TextInputDialogComponent, {
-      width: '400px',
+      width: width || '400px',
       data,
     });
     return await firstValueFrom<string>(dialogRef.afterClosed());
