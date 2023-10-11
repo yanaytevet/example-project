@@ -1,9 +1,9 @@
 {
-  "project_path": "~/dev/vox2",
-  "project_backend_name": "vox_backend",
-  "project_frontend_name": "vox-web",
-  "db_name": "vox_db",
-  "db_username": "vox_db_admin",
-  "db_password": "lGfjoie4D98D11e2w",
-  "title": "Vox"
+  "project_path": "~/dev/equipment",
+  "project_backend_name": "equipment_backend",
+  "project_frontend_name": "equipment-web",
+  "db_name": "equipment",
+  "db_username": "equipment_admin",
+  "db_password": "fdj3GKkd3SfFRSw",
+  "title": "Equipment"
 }

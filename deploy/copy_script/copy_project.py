@@ -15,7 +15,15 @@ def copy_entire_project():
     project_path = get_new_project_path()
     example_project_relative_path = '../..'
     example_project_path = os.path.abspath(example_project_relative_path)
-    shutil.copytree(example_project_path, project_path)
+    if not os.path.exists(project_path):
+        os.mkdir(project_path)
+    for directory_name in ['deploy', 'example-project-web', 'example_project_backend']:
+        sub_project_path = os.path.join(project_path, directory_name)
+        sub_example_project_path = os.path.join(example_project_path, directory_name)
+        shutil.copytree(sub_example_project_path, sub_project_path)
+    gitignore_project_path = os.path.join(project_path, '.gitignore')
+    gitignore_example_project_path = os.path.join(example_project_path, '.gitignore')
+    shutil.copy(gitignore_example_project_path, gitignore_project_path)
 
 
 def change_backend_directories():

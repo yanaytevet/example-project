@@ -16,6 +16,8 @@ import {
   ListSelectionDialogData
 } from './list-selection-dialog/list-selection-dialog.component';
 import {KeyValueDialogComponent} from './key-value-dialog/key-value-dialog.component';
+import {ComponentType} from '@angular/cdk/overlay';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -78,5 +80,13 @@ export class DialogsService {
       data
     });
     return await firstValueFrom<Record<string, string>>(dialogRef.afterClosed());
+  }
+
+  async openCustomDialog<T>(dialogCls: ComponentType<any>, data: any, width?: string): Promise<T> {
+    const dialogRef = this.matDialog.open(dialogCls, {
+      width: width || '400px',
+      data
+    });
+    return await firstValueFrom<T>(dialogRef.afterClosed());
   }
 }
