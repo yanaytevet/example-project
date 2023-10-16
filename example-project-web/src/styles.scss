@@ -41,16 +41,22 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 :root {
   --primary-background-color: rgba(57, 67, 78, 0.04);
+  --warning-background-color: rgb(255, 203, 203);
   --components-background-color: rgb(211, 211, 211);
   --primary-text-color: rgb(57, 67, 78);
+  --secondary-text-color: rgb(76, 87, 100);
+  --warning-text-color: rgb(145, 73, 73);
   --primary-icon-color: rgb(57, 67, 78);
 }
 
 
 :root.DARK {
   --primary-background-color: rgba(34, 34, 34, 1);
+  --warning-background-color: rgb(47, 0, 0);
   --components-background-color: rgb(187, 187, 187);
   --primary-text-color: rgb(225, 225, 225);
+  --secondary-text-color: rgb(204, 204, 204);
+  --warning-text-color: rgb(255, 58, 58);
   --primary-icon-color: rgb(225, 225, 225);
 }
 

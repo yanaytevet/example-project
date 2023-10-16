@@ -1,8 +1,11 @@
 import {z} from "zod"
 
 export const ZWebsocketEvent = z.object({
-  eventType: z.string(),
-  payload: z.any(),
+  isConnectionEvent: z.boolean().optional(),
+  actionHash: z.string().optional(),
+  groupName: z.string(),
+  eventType: z.string().optional(),
+  payload: z.any().optional(),
 });
 
 export type WebsocketEvent = z.infer<typeof ZWebsocketEvent>;

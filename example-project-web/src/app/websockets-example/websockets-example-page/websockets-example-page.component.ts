@@ -21,21 +21,26 @@ export class WebsocketsExamplePageComponent extends BaseComponent implements OnI
   }
 
   ngOnInit(): void {
-    this.subscriptions.push(this.userWebsocketsService.websocketSubscribe('actionTypeA',
+    this.addWsSubscriptions();
+  }
+
+  async addWsSubscriptions() {
+    await this.userWebsocketsService.finishedConnecting();
+    this.subscriptions.push(await this.userWebsocketsService.websocketGroupSubscribe('room', {'room_id': 1},
       (data: WebsocketEvent) => {
-        this.events.push(`event A: ${data.payload['message']}`);
+        this.events.push(`Room 1: ${data.payload['message']}`);
       }));
-    this.subscriptions.push(this.userWebsocketsService.websocketSubscribe('actionTypeB',
+    this.subscriptions.push(await this.userWebsocketsService.websocketGroupSubscribe('room', {'room_id': 2},
       (data: WebsocketEvent) => {
-        this.events.push(`event B: ${data.payload['message']}`);
+        this.events.push(`Room 2: ${data.payload['message']}`);
       }));
   }
 
   async triggerEventA() {
-    await this.blocksApiService.sendBlockEvent('actionTypeA');
+    await this.blocksApiService.sendBlockEvent(1);
   }
 
   async triggerEventB() {
-    await this.blocksApiService.sendBlockEvent('actionTypeB');
+    await this.blocksApiService.sendBlockEvent(2);
   }
 }

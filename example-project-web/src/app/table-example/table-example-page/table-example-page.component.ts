@@ -63,4 +63,11 @@ export class TableExamplePageComponent extends BaseComponent implements OnInit {
     await this.blocksApiService.putActionsBlockItemById(block.id, {action: 'build'});
     await this.paginationDataHandler.fetch();
   }
+
+  rowToClassCallback = (block: Block) => {
+    if (block.blockType === ZBlockType.enum.triangle) {
+      return 'warning-row';
+    }
+    return '';
+  }
 }

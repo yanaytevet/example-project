@@ -1,6 +1,4 @@
 import {Injectable} from '@angular/core';
-import * as moment from 'moment';
-import {Moment} from 'moment';
 
 @Injectable({
   providedIn: 'root'

@@ -6,12 +6,12 @@
 
 .inner-table {
   min-width: 100%;
-  background-color: var(--list-item-background-color) !important;
+  background-color: var(--list-item-background-color);
 }
 
 .inner-table>thead>tr>th{
-  background-color: var(--secondary-background-color) !important;
-  color: var(--primary-text-color) !important;
+  background-color: var(--secondary-background-color);
+  color: var(--primary-text-color);
 }
 
 .element-row td {

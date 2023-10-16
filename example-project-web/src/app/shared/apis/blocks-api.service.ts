@@ -10,8 +10,8 @@ export class BlocksApiService {
   constructor(private baseApi: BaseApiService) {
   }
 
-  async sendBlockEvent(eventType: string): Promise<void> {
-    await this.baseApi.post<void>(null, '/api/blocks/websocket-test/', {eventType});
+  async sendBlockEvent(roomId: number): Promise<void> {
+    await this.baseApi.post<void>(null, '/api/blocks/websocket-test/', {roomId});
   }
 
   async getBlockItemById(id: number): Promise<Block> {

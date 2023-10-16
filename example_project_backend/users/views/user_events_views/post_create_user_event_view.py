@@ -7,7 +7,6 @@ from common.simple_rest.async_views.async_post_create_api_view import AsyncPostC
 from common.simple_rest.permissions_checkers.login_permission_checker import LoginPermissionChecker
 from common.type_hints import JSONType
 from users.models import UserEvent
-from users.tasks.run_events_analysis import run_events_analysis
 
 
 class PostCreateUserEventView(AsyncPostCreateAPIView):
@@ -28,14 +27,10 @@ class PostCreateUserEventView(AsyncPostCreateAPIView):
         return UserEvent
 
     @classmethod
-    async def modify_creation_data(cls, request: AsyncAPIRequest,  data: JSONType) -> JSONType:
+    async def modify_creation_data(cls, request: AsyncAPIRequest,  data: JSONType, **kwargs) -> JSONType:
         if await request.async_get_as_other():
             return {}
         user = await request.future_user
         data['user_id'] = user.id if LoginPermissionChecker().async_is_valid(user) else None
         return data
 
-    @classmethod
-    async def run_after_post(cls, request: AsyncAPIRequest,  obj: Model, **kwargs) -> None:
-        if obj and obj.id:
-            run_events_analysis.delay(obj.id)

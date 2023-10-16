@@ -15,18 +15,19 @@ app = Celery('example_project_backend')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
 
-X_QUEUE_NAME = 'x'
+MAIN_QUEUE_NAME = 'main'
 EMAILS_QUEUE_NAME = 'emails'
-EVENTS_QUEUE_NAME = 'events'
 
-app.conf.task_default_queue = X_QUEUE_NAME
+app.conf.task_default_queue = MAIN_QUEUE_NAME
 app.conf.task_queues = (
-    Queue(X_QUEUE_NAME, routing_key=X_QUEUE_NAME),
+    Queue(MAIN_QUEUE_NAME, routing_key=MAIN_QUEUE_NAME),
     Queue(EMAILS_QUEUE_NAME, routing_key=EMAILS_QUEUE_NAME),
-    Queue(EVENTS_QUEUE_NAME, routing_key=EVENTS_QUEUE_NAME),
 )
 
-app.autodiscover_tasks()
+
+app.autodiscover_tasks([
+    'user.tasks.daily_cleaning.daily_cleaning',
+])
 
 
 class AsyncTask(Task):
@@ -55,7 +56,7 @@ app.conf.beat_schedule = {
     'daily_cleaning': {
         'task': 'user.tasks.daily_cleaning.daily_cleaning',
         'schedule': 60 * 60 * 24,
-        'options': {'queue': X_QUEUE_NAME}
+        'options': {'queue': MAIN_QUEUE_NAME}
     },
 }
 app.conf.timezone = 'UTC'
