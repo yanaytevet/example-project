@@ -13,6 +13,7 @@ import {Option} from '../../shared/interfaces/util/option';
 export class FormExamplePageComponent extends BaseComponent {
   canEdit = true;
   inputDebounce = new InputDebounce<string>();
+  textAreaDebounce = new InputDebounce<string>();
   values: string[] = [];
   options: Option[] = [
     {value: 'test1', display: 'Test 1'},
@@ -25,6 +26,9 @@ export class FormExamplePageComponent extends BaseComponent {
     this.breadcrumbs = this.breadcrumbsService.getSimpleBreadcrumbs('Forms Example');
     this.inputDebounce.setValueWithoutTrigger('test');
     this.inputDebounce.valueChangedFinished$.subscribe(value => {
+      this.values.push(value);
+    });
+    this.textAreaDebounce.valueChangedFinished$.subscribe(value => {
       this.values.push(value);
     });
   }
@@ -40,8 +44,10 @@ export class FormExamplePageComponent extends BaseComponent {
   updateDisabled() {
     if (this.canEdit) {
       this.inputDebounce.ctrl.enable({emitEvent: false});
+      this.textAreaDebounce.ctrl.enable({emitEvent: false});
     } else {
       this.inputDebounce.ctrl.disable({emitEvent: false});
+      this.textAreaDebounce.ctrl.disable({emitEvent: false});
     }
   }
 }

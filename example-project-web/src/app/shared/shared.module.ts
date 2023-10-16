@@ -37,6 +37,7 @@ import {ChipsListInputComponent} from './components/chips/chips-list-input/chips
 import {MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
+import {DisplayTextComponent} from './components/texts/display-text/display-text.component';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import {CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
     ColumnTextFilterComponent,
     BreadcrumbsComponent,
     ChipsAutocompleteDragComponent,
-    ChipsListInputComponent
+    ChipsListInputComponent,
+    DisplayTextComponent
   ],
   exports: [
     PaginationTableComponent,
@@ -64,7 +66,8 @@ import {CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
     ColumnTextFilterComponent,
     BreadcrumbsComponent,
     ChipsAutocompleteDragComponent,
-    ChipsListInputComponent
+    ChipsListInputComponent,
+    DisplayTextComponent
   ],
   imports: [
     CommonModule,
