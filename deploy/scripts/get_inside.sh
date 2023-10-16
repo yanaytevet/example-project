@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-docker exec -it dockers-$1-1 sh
+docker exec -it example_project_docker_group-$1-1 sh

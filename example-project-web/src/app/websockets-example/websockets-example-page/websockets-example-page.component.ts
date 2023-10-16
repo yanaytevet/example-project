@@ -3,6 +3,7 @@ import {UserWebsocketsService} from '../../shared/services/user-websockets.servi
 import {WebsocketEvent} from '../../shared/interfaces/websockets/websocket-event';
 import {BlocksApiService} from '../../shared/apis/blocks-api.service';
 import {BaseComponent} from '../../shared/components/base-component';
+import {BreadcrumbsService} from '../../shared/components/breadcrumbs/breadcrumbs.service';
 
 @Component({
   selector: 'app-websockets-example-page',
@@ -13,8 +14,10 @@ export class WebsocketsExamplePageComponent extends BaseComponent implements OnI
   events: string[] = [];
 
   constructor(private userWebsocketsService: UserWebsocketsService,
-              private blocksApiService: BlocksApiService) {
+              private blocksApiService: BlocksApiService,
+              private breadcrumbsService: BreadcrumbsService) {
     super();
+    this.breadcrumbs = this.breadcrumbsService.getSimpleBreadcrumbs('Websockets Example');
   }
 
   ngOnInit(): void {

@@ -15,6 +15,7 @@ export class AuthenticationService {
   readonly isAuthenticated$ = this.authUser$.pipe(map(authUser => authUser?.isAuthenticated),
     distinctUntilChanged());
   public userId: number;
+  private _authUser: AuthUser;
 
   constructor(private baseApi: BaseApiService, private routingService: RoutingService,
               private permissionsService: NgxPermissionsService) {
@@ -26,6 +27,11 @@ export class AuthenticationService {
     this.permissionsService.flushPermissions();
     this.permissionsService.loadPermissions(val?.user?.permissions || []);
     this.userId = val?.user?.id;
+    this._authUser = val;
+  }
+
+  get authUser(): AuthUser {
+    return this._authUser;
   }
 
   async updateIsLoggedIn(): Promise<void> {

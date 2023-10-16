@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { WebsocketsExamplePageComponent } from './websockets-example-page/websockets-example-page.component';
 import {RouterModule, Routes} from '@angular/router';
 import {MatButtonModule} from '@angular/material/button';
+import {SharedModule} from '../shared/shared.module';
 
 const routes: Routes = [
   {path: '', component: WebsocketsExamplePageComponent, data: {routeName: 'websockets'}},
@@ -12,10 +13,11 @@ const routes: Routes = [
   declarations: [
     WebsocketsExamplePageComponent
   ],
-  imports: [
-    RouterModule.forChild(routes),
-    CommonModule,
-    MatButtonModule
-  ]
+    imports: [
+        RouterModule.forChild(routes),
+        CommonModule,
+        MatButtonModule,
+        SharedModule
+    ]
 })
 export class WebsocketsExampleModule { }

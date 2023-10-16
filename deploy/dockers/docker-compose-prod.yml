@@ -1,16 +1,2 @@
 version: '3.8'
 
-services:
-  example_project_backend:
-    deploy:
-      resources:
-        limits:
-          cpus: '1'
-          memory: 1G
-
-  nginx_service:
-    deploy:
-      resources:
-        limits:
-          cpus: '1'
-          memory: 1G

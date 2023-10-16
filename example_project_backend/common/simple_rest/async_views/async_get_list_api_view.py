@@ -1,15 +1,15 @@
 import json
-import math
 from abc import ABC, abstractmethod
 from typing import Type
 
-from django.db.models import Model, QuerySet
+import math
+from django.db.models import Model, QuerySet, Q
 from django.http import HttpRequest, JsonResponse, HttpResponse
 
+from common.type_hints import JSONType
 from .async_api_view_component import AsyncAPIViewComponent
 from ..api_request import APIRequest
 from ..async_api_request import AsyncAPIRequest
-from common.type_hints import JSONType
 from ..constants.methods import Methods
 from ..constants.status_code import StatusCode
 
@@ -59,14 +59,18 @@ class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
     @classmethod
     async def filter_objects_by_request(cls, request: AsyncAPIRequest, objects: QuerySet, **kwargs) -> QuerySet:
         filters_dict = {}
+        special_filters = []
         objects = await cls.custom_filter_objects_by_request(request, objects, **kwargs)
         allowed_filters = cls.get_allowed_filters()
 
         for key, value in cls.get_params_from_request(request, 'filter', {}).items():
             if cls.does_key_exist_in_allowed_filters(key, allowed_filters):
-                filters_dict[key] = value
+                if cls.has_none_values_in(key, value):
+                    special_filters.append(Q(**{f'{key[:-4]}__isnull': True}) | Q(**{key: value}))
+                else:
+                    filters_dict[key] = value
 
-        return objects.filter(**filters_dict)
+        return objects.filter(**filters_dict).filter(*special_filters)
 
     @classmethod
     async def custom_filter_objects_by_request(cls, request: AsyncAPIRequest, objects: QuerySet, **kwargs) -> QuerySet:
@@ -81,7 +85,13 @@ class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
     def does_key_exist_in_allowed_filters(cls, key: str, allowed_filters: set[str]) -> bool:
         if key.endswith('__in'):
             key = key[:-4]
+        if key.endswith('__contains'):
+            key = key[:-10]
         return key in allowed_filters
+
+    @classmethod
+    def has_none_values_in(cls, key: str, value: list[str]) -> bool:
+        return key.endswith('__in') and None in value
 
     @classmethod
     async def order_objects_by_request(cls, request: AsyncAPIRequest, objects: QuerySet, **kwargs) -> QuerySet:

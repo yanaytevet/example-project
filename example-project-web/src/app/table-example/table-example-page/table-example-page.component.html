@@ -1,4 +1,5 @@
 <div class="page">
+  <app-breadcrumbs [linkItems]="breadcrumbs"></app-breadcrumbs>
   <div class="btns-container">
     <button mat-stroked-button (click)="createItem()">Create Block</button>
   </div>
@@ -9,8 +10,10 @@
     </ng-container>
 
     <ng-container matColumnDef="a">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header="a"> A </th>
-      <td mat-cell *matCellDef="let element"> {{element.a}} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="a"> A
+        <app-column-text-filter [paginationDataHandler]="paginationDataHandler" filterKey="a"></app-column-text-filter>
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.a}}</td>
     </ng-container>
 
     <ng-container matColumnDef="b">
@@ -20,15 +23,15 @@
 
     <ng-container matColumnDef="c">
       <th mat-header-cell *matHeaderCellDef mat-sort-header="c"> C
-        <app-column-filter [options]="booleanDisplay.getOptions()" [showSearch]="false"
-                           [paginationDataHandler]="paginationDataHandler" filterKey="c"></app-column-filter></th>
+        <app-column-options-filter [options]="booleanDisplay.getOptions()" [showSearch]="false"
+                           [paginationDataHandler]="paginationDataHandler" filterKey="c"></app-column-options-filter></th>
       <td mat-cell *matCellDef="let element"> {{booleanDisplay.get(element.c)}} </td>
     </ng-container>
 
     <ng-container matColumnDef="blockType">
       <th mat-header-cell *matHeaderCellDef> Block Type
-        <app-column-filter [options]="blockTypeDisplay.getOptions()"
-                           [paginationDataHandler]="paginationDataHandler" filterKey="block_type"></app-column-filter>
+        <app-column-options-filter [options]="blockTypeDisplay.getOptions()"
+                           [paginationDataHandler]="paginationDataHandler" filterKey="block_type"></app-column-options-filter>
       </th>
       <td mat-cell *matCellDef="let element"> {{blockTypeDisplay.get(element.blockType)}} </td>
     </ng-container>

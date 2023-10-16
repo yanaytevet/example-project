@@ -1,12 +1,17 @@
 <div class="page">
+  <app-breadcrumbs [linkItems]="breadcrumbs"></app-breadcrumbs>
+  <mat-checkbox [(ngModel)]="canEdit" (ngModelChange)="updateDisabled()">Can Edit</mat-checkbox>
   <mat-form-field class="example-form-field">
     <mat-label>Clearable input</mat-label>
     <input matInput type="text" [formControl]="inputDebounce.ctrl">
-    <button *ngIf="inputDebounce.ctrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="inputDebounce.setValue('')">
+    <button *ngIf="inputDebounce.ctrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="inputDebounce.setValue('')"
+      [disabled]="!canEdit">
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>
-
+  <app-chips-list-input [canEdit]="canEdit" (valueChange)="chipsValuesChanged($event)"></app-chips-list-input>
+  <app-chips-autocomplete-drag (valuesChange)="chipsAutocompleteValuesChanged($event)" [options]="options"
+    [canEdit]="canEdit"></app-chips-autocomplete-drag>
   <div class="values-container">
     <span class="value" *ngFor="let value of values">{{value}}</span>
   </div>

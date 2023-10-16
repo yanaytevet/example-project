@@ -10,10 +10,16 @@ export class BreadcrumbsService {
   constructor(private routingService: RoutingService) {
   }
 
-  public getQuestionsBreadcrumbs(): LinkItem[] {
+  public getHomeBreadcrumbs(): LinkItem[] {
     return [
       {text: 'Home', linkArr: this.routingService.getHomeUrl(), active: true},
-      {text: 'Questions', linkArr: this.routingService.getQuestionsTablePageUrl(), active: true},
+    ];
+  }
+
+  public getSimpleBreadcrumbs(text: string): LinkItem[] {
+    return [
+      {text: 'Home', linkArr: this.routingService.getHomeUrl(), active: true},
+      {text, linkArr: [], active: false},
     ];
   }
 }

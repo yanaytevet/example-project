@@ -21,11 +21,22 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {PaginationTableComponent} from './components/pagination-tables/pagination-table/pagination-table.component';
 import {MatTableModule} from '@angular/material/table';
 import {PaginatorComponent} from './components/pagination-tables/paginator/paginator.component';
-import {ColumnFilterComponent} from './components/pagination-tables/column-filter/column-filter.component';
+import {ColumnOptionsFilterComponent} from './components/pagination-tables/column-filter/column-options-filter.component';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSortModule} from '@angular/material/sort';
 import {KeyValueDialogComponent} from './dialogs/key-value-dialog/key-value-dialog.component';
 import {BreadcrumbsComponent} from './components/breadcrumbs/breadcrumbs.component';
+import {RouterLink} from '@angular/router';
+import {
+  ColumnTextFilterComponent
+} from './components/pagination-tables/column-text-filter/column-text-filter.component';
+import {
+  ChipsAutocompleteDragComponent
+} from './components/chips/chips-autocomplete-drag/chips-autocomplete-drag.component';
+import {ChipsListInputComponent} from './components/chips/chips-list-input/chips-list-input.component';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
 
 
 @NgModule({
@@ -41,13 +52,19 @@ import {BreadcrumbsComponent} from './components/breadcrumbs/breadcrumbs.compone
     KeyValueDialogComponent,
     PaginationTableComponent,
     PaginatorComponent,
-    ColumnFilterComponent,
-    BreadcrumbsComponent
+    ColumnOptionsFilterComponent,
+    ColumnTextFilterComponent,
+    BreadcrumbsComponent,
+    ChipsAutocompleteDragComponent,
+    ChipsListInputComponent
   ],
   exports: [
     PaginationTableComponent,
-    ColumnFilterComponent,
-    BreadcrumbsComponent
+    ColumnOptionsFilterComponent,
+    ColumnTextFilterComponent,
+    BreadcrumbsComponent,
+    ChipsAutocompleteDragComponent,
+    ChipsListInputComponent
   ],
   imports: [
     CommonModule,
@@ -62,7 +79,12 @@ import {BreadcrumbsComponent} from './components/breadcrumbs/breadcrumbs.compone
     MatTableModule,
     MatMenuModule,
     FormsModule,
-    MatSortModule
+    MatSortModule,
+    RouterLink,
+    MatChipsModule,
+    MatAutocompleteModule,
+    CdkDropList,
+    CdkDrag
   ]
 })
 export class SharedModule {

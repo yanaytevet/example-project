@@ -1,17 +1,20 @@
 import {Component} from '@angular/core';
 import {BaseComponent} from '../../shared/components/base-component';
 import {DialogsService} from '../../shared/dialogs/dialogs.service';
+import {BreadcrumbsService} from '../../shared/components/breadcrumbs/breadcrumbs.service';
 
 @Component({
   selector: 'app-dialogs-example-page',
   templateUrl: './dialogs-example-page.component.html',
   styleUrls: ['./dialogs-example-page.component.scss']
 })
-export class DialogsExamplePageComponent extends BaseComponent{
+export class DialogsExamplePageComponent extends BaseComponent {
   results: any;
 
-  constructor(private dialogsService: DialogsService) {
+  constructor(private dialogsService: DialogsService,
+              private breadcrumbsService: BreadcrumbsService) {
     super();
+    this.breadcrumbs = this.breadcrumbsService.getSimpleBreadcrumbs('Dialogs Example');
   }
 
   async showNotificationDialog(): Promise<void> {

@@ -4,6 +4,7 @@ import {DialogsExamplePageComponent} from './dialogs-example-page/dialogs-exampl
 import {MatButtonModule} from '@angular/material/button';
 import {RouterModule, Routes} from '@angular/router';
 import {MatDialogModule} from '@angular/material/dialog';
+import {SharedModule} from '../shared/shared.module';
 
 
 const routes: Routes = [
@@ -14,11 +15,12 @@ const routes: Routes = [
   declarations: [
     DialogsExamplePageComponent
   ],
-  imports: [
-      RouterModule.forChild(routes),
-      MatDialogModule,
-      CommonModule,
-      MatButtonModule
-  ]
+    imports: [
+        RouterModule.forChild(routes),
+        MatDialogModule,
+        CommonModule,
+        MatButtonModule,
+        SharedModule
+    ]
 })
 export class DialogsExampleModule { }

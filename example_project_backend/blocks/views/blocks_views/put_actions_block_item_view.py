@@ -1,11 +1,10 @@
-from typing import Type, Set
+from typing import Type
 
 from django.db.models import Model
 
 from blocks.models import Block
 from blocks.serializers.block_serializer import BlockSerializer
 from common.simple_rest.async_api_request import AsyncAPIRequest
-from common.simple_rest.async_views.async_patch_item_by_id_api_view import AsyncPatchItemByIdAPIView
 from common.simple_rest.async_views.async_put_actions_item_by_id_api_view import AsyncPutActionsItemByIdAPIView
 from common.simple_rest.permissions_checkers.login_permission_checker import LoginPermissionChecker
 from common.type_hints import JSONType

@@ -3,12 +3,12 @@ import {PaginationDataHandler} from "../pagination-data-handler";
 import {Option} from '../../../interfaces/util/option';
 
 @Component({
-  selector: 'app-column-filter',
-  templateUrl: './column-filter.component.html',
-  styleUrls: ['./column-filter.component.scss']
+  selector: 'app-column-options-filter',
+  templateUrl: './column-options-filter.component.html',
+  styleUrls: ['./column-options-filter.component.scss']
 })
 
-export class ColumnFilterComponent {
+export class ColumnOptionsFilterComponent {
   @Input() options: Option[];
   @Input() paginationDataHandler: PaginationDataHandler<any>;
   @Input() filterKey: string;

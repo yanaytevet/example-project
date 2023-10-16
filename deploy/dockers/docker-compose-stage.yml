@@ -1,24 +1,19 @@
 version: '3.8'
 
+name: example_project_docker_group
 services:
   example_db:
     restart: always
     shm_size: 6G
     image: postgres:14-alpine
     volumes:
-      - example_db_data:/var/lib/postgresql/data/
+      - db_data:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=db_admin
       - POSTGRES_PASSWORD=<db_password>
       - POSTGRES_DB=example_db
     expose:
       - 5432
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: '2'
-          memory: 6G
 
   redis:
     image: 'bitnami/redis:latest'
@@ -33,6 +28,8 @@ services:
     expose:
       - 5672
     restart: on-failure
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
 
   example_project_backend:
     image: example_project_backend
@@ -51,18 +48,12 @@ services:
       - example_db
       - redis
       - rabbitmq
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: '1'
-          memory: 1G
     command: sh -c "pip install -r requirements.txt &&
       python manage.py migrate &&
       python manage.py collectstatic  --noinput &&
       uvicorn example_project_backend.asgi:application --host 0.0.0.0 --port 8000 --workers 4"
 
-  x_celery_worker:
+  main_celery_worker:
     image: example_project_backend
     volumes:
       - logs:/var/log/example-project/
@@ -71,15 +62,9 @@ services:
       - DJANGO_SETTINGS_MODULE=example_project_backend.prod_settings
     depends_on:
       - example_project_backend
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: '1'
-          memory: 1G
     restart: always
     command: sh -c "pip install -r requirements.txt &&
-      celery -A example_project_backend worker --concurrency=1 -Q x"
+      celery -A example_project_backend worker --concurrency=1 -Q main"
 
   emails_celery_worker:
     image: example_project_backend
@@ -90,34 +75,9 @@ services:
       - DJANGO_SETTINGS_MODULE=example_project_backend.prod_settings
     depends_on:
       - example_project_backend
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: '1'
-          memory: 1G
     restart: always
     command: sh -c "pip install -r requirements.txt &&
       celery -A example_project_backend worker --concurrency=1 -Q emails"
-
-  events_celery_worker:
-    image: example_project_backend
-    volumes:
-      - logs:/var/log/example-project/
-      - ../../example_project_backend:/usr/src/app
-    environment:
-      - DJANGO_SETTINGS_MODULE=example_project_backend.prod_settings
-    depends_on:
-      - example_project_backend
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: '1'
-          memory: 1G
-    restart: always
-    command: sh -c "pip install -r requirements.txt &&
-      celery -A example_project_backend worker --concurrency=1 -Q events"
 
   celery_scheduler:
     image: example_project_backend
@@ -128,12 +88,6 @@ services:
       - DJANGO_SETTINGS_MODULE=example_project_backend.prod_settings
     depends_on:
       - example_project_backend
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: '1'
-          memory: 500M
     restart: always
     command: sh -c "pip install -r requirements.txt &&
       celery -A example_project_backend beat --scheduler django_celery_beat.schedulers:DatabaseScheduler"
@@ -141,12 +95,6 @@ services:
   nginx_service:
     build:
       context: nginx
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: '1'
-          memory: 3G
     volumes:
       - ../../example-project-web/dist/example-project-web:/example-project-web
       - ../../../nginx-conf:/etc/nginx/conf.d
@@ -162,5 +110,6 @@ services:
       - example_project_backend
 
 volumes:
-  example_db_data:
+  db_data:
   logs:
+  rabbitmq_data:

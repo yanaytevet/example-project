@@ -13,7 +13,7 @@ from common.type_hints import JSONType
 class GetPaginationBlockListView(AsyncGetListAPIView):
     @classmethod
     def get_allowed_filters(cls) -> set[str]:
-        return {'c', 'block_type'}
+        return {'a', 'c', 'block_type'}
 
     @classmethod
     def get_allowed_order_by(cls) -> set[str]:

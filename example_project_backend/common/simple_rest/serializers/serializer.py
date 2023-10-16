@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import TypeVar, Generic, Optional, Any, Dict
+from typing import TypeVar, Generic, Any, Dict
 
 from asgiref.sync import sync_to_async
 from django.db.models import QuerySet
@@ -30,3 +30,6 @@ class Serializer(ABC, Generic[T]):
         res = [self.serialize(obj) for obj in query]
         res = [obj for obj in res if obj]
         return res
+
+    async def async_serialize_query(self, query: QuerySet) -> OptionalJSONType:
+        return await sync_to_async(self.serialize_query)(query)

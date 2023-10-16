@@ -1,9 +1,11 @@
 {
-  "project_path": "~/dev/equipment",
-  "project_backend_name": "equipment_backend",
-  "project_frontend_name": "equipment-web",
-  "db_name": "equipment",
-  "db_username": "equipment_admin",
-  "db_password": "fdj3GKkd3SfFRSw",
-  "title": "Equipment"
+  "project_path": "~/dev/my-project",
+  "project_backend_name": "my_project_backend",
+  "project_frontend_name": "my-project-web",
+  "db_name": "my_project_db",
+  "db_username": "my_project_admin",
+  "db_password": "FSDdG5t45tegdg4",
+  "dockers_group_name": "my_project",
+  "domain": "my-project.com",
+  "title": "My Project"
 }

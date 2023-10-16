@@ -1,0 +1,11 @@
+<div class="filter-button">
+  <button mat-icon-button [matMenuTriggerFor]="filterOptionsMenu" (click)="$event.stopPropagation()">
+    <mat-icon>filter_list</mat-icon>
+  </button>
+  <mat-menu #filterOptionsMenu="matMenu">
+    <div class="filter-menu">
+      <input class="filter-input" type="text"
+             [formControl]="filterDebounce.ctrl" placeholder="Filter" (click)="$event.stopPropagation()" />
+    </div>
+  </mat-menu>
+</div>

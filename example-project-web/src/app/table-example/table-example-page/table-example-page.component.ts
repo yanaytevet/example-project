@@ -6,13 +6,15 @@ import {BlocksApiService} from '../../shared/apis/blocks-api.service';
 import {StringUtilsService} from '../../shared/services/string-utils.service';
 import {ZBlockType} from '../../shared/interfaces/blocks/blocks-type';
 import {BlockTypeDisplay} from '../../shared/string-display/block-type-display';
+import {BaseComponent} from '../../shared/components/base-component';
+import {BreadcrumbsService} from '../../shared/components/breadcrumbs/breadcrumbs.service';
 
 @Component({
   selector: 'app-table-example-page',
   templateUrl: './table-example-page.component.html',
   styleUrls: ['./table-example-page.component.scss']
 })
-export class TableExamplePageComponent implements OnInit {
+export class TableExamplePageComponent extends BaseComponent implements OnInit {
   paginationDataHandler: PaginationDataHandler<Block>;
   booleanDisplay = new BooleanDisplay();
   blockTypeDisplay = new BlockTypeDisplay();
@@ -20,10 +22,13 @@ export class TableExamplePageComponent implements OnInit {
   displayedColumns: string[] = ['id', 'blockType', 'a', 'b', 'c', 'actions'];
 
   constructor(private blocksApiService: BlocksApiService,
-              private stringUtilsService: StringUtilsService) {
+              private stringUtilsService: StringUtilsService,
+              private breadcrumbsService: BreadcrumbsService) {
+    super();
     this.paginationDataHandler = new PaginationDataHandler<Block>(async params => {
       return await this.blocksApiService.getBlocksPaginationList(params);
     });
+    this.breadcrumbs = this.breadcrumbsService.getSimpleBreadcrumbs('Table Example');
   }
 
   ngOnInit(): void {
