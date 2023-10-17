@@ -44,7 +44,7 @@ def change_backend_directories():
 
 
 UNWANTED_FILE_EXT = ['pyc', 'ico', 'DS_Store', 'gif']
-UNWANTED_DIRS = ['.git']
+UNWANTED_DIRS = ['.git', '.angular', 'node_modules']
 
 
 files_cache = {}
@@ -64,6 +64,7 @@ def replace_string_in_directory(directory_path, old_string, new_string):
             filepath = os.path.join(path, filename)
             if any([filepath.endswith(ext) for ext in UNWANTED_FILE_EXT]):
                 continue
+            print(filepath)
             if filepath not in files_cache:
                 with open(filepath) as f:
                     s = f.read()

@@ -1,11 +1,11 @@
 {
-  "project_path": "~/dev/my-project",
-  "project_backend_name": "my_project_backend",
-  "project_frontend_name": "my-project-web",
-  "db_name": "my_project_db",
-  "db_username": "my_project_admin",
-  "db_password": "FSDdG5t45tegdg4",
-  "dockers_group_name": "my_project",
-  "domain": "my-project.com",
-  "title": "My Project"
+  "project_path": "~/dev/orra",
+  "project_backend_name": "orra_backend",
+  "project_frontend_name": "orra-web",
+  "db_name": "orra_db",
+  "db_username": "orra_admin",
+  "db_password": "GDFGhfjk453f4trff",
+  "dockers_group_name": "orra",
+  "domain": "orra.xperiti.com",
+  "title": "Orra"
 }
