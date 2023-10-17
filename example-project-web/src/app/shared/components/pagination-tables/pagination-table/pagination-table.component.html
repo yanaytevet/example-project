@@ -1,10 +1,12 @@
-<div class="table-container">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 inner-table" multiTemplateDataRows>
+<div class="table-page-flow">
+  <div class="table-container">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 inner-table" multiTemplateDataRows>
 
-    <ng-content></ng-content>
+      <ng-content></ng-content>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let element; columns: displayedColumns;" [class]="rowToClassCallback ? rowToClassCallback(element) : ''"></tr>
-  </table>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns;" [class]="getClass(element)"></tr>
+    </table>
+  </div>
+  <app-paginator [genericDataHandler]="paginationDataHandler"></app-paginator>
 </div>
-<app-paginator [genericDataHandler]="paginationDataHandler"></app-paginator>

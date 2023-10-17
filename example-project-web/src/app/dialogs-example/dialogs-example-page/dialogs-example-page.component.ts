@@ -1,14 +1,14 @@
 import {Component} from '@angular/core';
-import {BaseComponent} from '../../shared/components/base-component';
 import {DialogsService} from '../../shared/dialogs/dialogs.service';
 import {BreadcrumbsService} from '../../shared/components/breadcrumbs/breadcrumbs.service';
+import {BasePageComponent} from '../../shared/components/base-page-component';
 
 @Component({
   selector: 'app-dialogs-example-page',
   templateUrl: './dialogs-example-page.component.html',
   styleUrls: ['./dialogs-example-page.component.scss']
 })
-export class DialogsExamplePageComponent extends BaseComponent {
+export class DialogsExamplePageComponent extends BasePageComponent {
   results: any;
 
   constructor(private dialogsService: DialogsService,

@@ -1,16 +1,15 @@
 import {Component} from '@angular/core';
 import {InputDebounce} from '../../shared/inputs/input-debounce';
-import {debounce} from 'rxjs';
-import {BaseComponent} from '../../shared/components/base-component';
 import {BreadcrumbsService} from '../../shared/components/breadcrumbs/breadcrumbs.service';
 import {Option} from '../../shared/interfaces/util/option';
+import {BasePageComponent} from '../../shared/components/base-page-component';
 
 @Component({
   selector: 'app-form-example-page',
   templateUrl: './form-example-page.component.html',
   styleUrls: ['./form-example-page.component.scss']
 })
-export class FormExamplePageComponent extends BaseComponent {
+export class FormExamplePageComponent extends BasePageComponent {
   canEdit = true;
   inputDebounce = new InputDebounce<string>();
   textAreaDebounce = new InputDebounce<string>();

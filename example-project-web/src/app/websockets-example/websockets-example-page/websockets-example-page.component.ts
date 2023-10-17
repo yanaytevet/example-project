@@ -2,15 +2,15 @@ import {Component, OnInit} from '@angular/core';
 import {UserWebsocketsService} from '../../shared/services/user-websockets.service';
 import {WebsocketEvent} from '../../shared/interfaces/websockets/websocket-event';
 import {BlocksApiService} from '../../shared/apis/blocks-api.service';
-import {BaseComponent} from '../../shared/components/base-component';
 import {BreadcrumbsService} from '../../shared/components/breadcrumbs/breadcrumbs.service';
+import {BasePageComponent} from '../../shared/components/base-page-component';
 
 @Component({
   selector: 'app-websockets-example-page',
   templateUrl: './websockets-example-page.component.html',
   styleUrls: ['./websockets-example-page.component.scss']
 })
-export class WebsocketsExamplePageComponent extends BaseComponent implements OnInit {
+export class WebsocketsExamplePageComponent extends BasePageComponent implements OnInit {
   events: string[] = [];
 
   constructor(private userWebsocketsService: UserWebsocketsService,

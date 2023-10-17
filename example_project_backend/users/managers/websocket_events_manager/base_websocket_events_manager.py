@@ -28,8 +28,9 @@ class BaseWebsocketEventsManager(ABC):
     def get_group_name(self) -> str:
         raise NotImplementedError()
 
+    @classmethod
     @abstractmethod
-    def get_event_type(self) -> str:
+    def get_event_type(cls) -> str:
         raise NotImplementedError()
 
     async def subscribe(self, channel_name: str, user: User) -> bool:

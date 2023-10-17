@@ -6,15 +6,15 @@ import {BlocksApiService} from '../../shared/apis/blocks-api.service';
 import {StringUtilsService} from '../../shared/services/string-utils.service';
 import {ZBlockType} from '../../shared/interfaces/blocks/blocks-type';
 import {BlockTypeDisplay} from '../../shared/string-display/block-type-display';
-import {BaseComponent} from '../../shared/components/base-component';
 import {BreadcrumbsService} from '../../shared/components/breadcrumbs/breadcrumbs.service';
+import {BasePageComponent} from '../../shared/components/base-page-component';
 
 @Component({
   selector: 'app-table-example-page',
   templateUrl: './table-example-page.component.html',
   styleUrls: ['./table-example-page.component.scss']
 })
-export class TableExamplePageComponent extends BaseComponent implements OnInit {
+export class TableExamplePageComponent extends BasePageComponent implements OnInit {
   paginationDataHandler: PaginationDataHandler<Block>;
   booleanDisplay = new BooleanDisplay();
   blockTypeDisplay = new BlockTypeDisplay();

@@ -75,7 +75,6 @@ export class UserWebsocketsService {
         });
         return this.websocketListener$.subscribe((data: WebsocketEvent) => {
             if (data && data.groupName === groupInfo.groupName) {
-                console.log(data);
                 callback(data);
             }
         });

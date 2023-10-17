@@ -16,9 +16,19 @@ export class PaginationDataHandler<T> {
   filterObject: Record<string, any> = {};
   sortObjectsArray: SortObject[] = [];
 
+  private readonly _isLoadingSub = new BehaviorSubject<boolean>(true);
+  readonly isLoading$ = this._isLoadingSub.asObservable();
+
   private readonly _paginationDataSub = new BehaviorSubject<PaginationData<T>>(null);
   readonly paginationData$ = this._paginationDataSub.asObservable();
   private autoFetchInterval: number;
+
+  public get isLoading(): boolean {
+    return this._isLoadingSub.getValue();
+  }
+  public set isLoading(val: boolean) {
+    this._isLoadingSub.next(val);
+  }
 
   public get paginationData(): PaginationData<T> {
     return this._paginationDataSub.getValue();
@@ -34,6 +44,7 @@ export class PaginationDataHandler<T> {
   }
 
   public async fetch(): Promise<void> {
+    this.isLoading = true;
     this.currentPage = Math.min(this.currentPage, this.paginationData?.pagesAmount - 1 || 0);
     this.currentPage = Math.max(this.currentPage, 0);
     const data = {
@@ -43,6 +54,7 @@ export class PaginationDataHandler<T> {
       filter: this.getFilterString(),
     }
     this.paginationData = await this.fetchPaginationData(data);
+    this.isLoading = false;
   }
 
   public fetchPage(page: number, pageSize: number): void {

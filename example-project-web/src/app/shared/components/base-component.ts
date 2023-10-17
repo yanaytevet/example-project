@@ -6,7 +6,6 @@ import {LinkItem} from './breadcrumbs/link-item';
 })
 export class BaseComponent implements OnDestroy {
   protected subscriptions: Subscription[] = [];
-  protected breadcrumbs: LinkItem[] = [];
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());

@@ -38,12 +38,15 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
 import {DisplayTextComponent} from './components/texts/display-text/display-text.component';
+import {BasePageComponent} from './components/base-page-component';
+import { RepeatPipe } from './pipes/repeat.pipe';
 
 
 @NgModule({
   declarations: [
     VarDirective,
     BaseComponent,
+    BasePageComponent,
     ConfirmationDialogComponent,
     ListSelectionDialogComponent,
     ListSingleSelectionDialogComponent,
@@ -58,7 +61,8 @@ import {DisplayTextComponent} from './components/texts/display-text/display-text
     BreadcrumbsComponent,
     ChipsAutocompleteDragComponent,
     ChipsListInputComponent,
-    DisplayTextComponent
+    DisplayTextComponent,
+    RepeatPipe
   ],
   exports: [
     PaginationTableComponent,
