@@ -26,7 +26,7 @@ app.conf.task_queues = (
 
 
 app.autodiscover_tasks([
-    'user.tasks.daily_cleaning.daily_cleaning',
+    'users.tasks.daily_cleaning.daily_cleaning',
 ])
 
 
@@ -54,7 +54,7 @@ class AsyncTask(Task):
 
 app.conf.beat_schedule = {
     'daily_cleaning': {
-        'task': 'user.tasks.daily_cleaning.daily_cleaning',
+        'task': 'users.tasks.daily_cleaning.daily_cleaning',
         'schedule': 60 * 60 * 24,
         'options': {'queue': MAIN_QUEUE_NAME}
     },

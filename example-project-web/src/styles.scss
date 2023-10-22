@@ -39,7 +39,7 @@ $example-project-web-dark-theme: mat.define-dark-theme((
 // that you are using.
 @include mat.all-component-themes($example-project-web-dark-theme);
 @media (prefers-color-scheme: light) {
-  @include mat.all-component-themes($example-project-web-light-theme);
+  @include mat.all-component-colors($example-project-web-light-theme);
 }
 
 /* You can add global styles to this file, and also import other style files */
