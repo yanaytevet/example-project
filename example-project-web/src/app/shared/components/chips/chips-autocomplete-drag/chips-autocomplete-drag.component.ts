@@ -20,13 +20,21 @@ export class ChipsAutocompleteDragComponent extends BaseComponent implements OnI
     val.forEach((option) => {
       this.valueToOption[option.value] = option;
     });
+    this.updateFilteredOptions();
   }
 
   get options(): Option[] {
     return this._options;
   }
 
-  @Input() values: Option[] = [];
+  _values: any[] = [];
+  @Input() set values(val: any[]) {
+    this._values = val;
+  }
+  get values(): any[] {
+    return this._values;
+  }
+
   @Input() label: string = '';
 
   _canEdit: boolean = false;
@@ -46,7 +54,7 @@ export class ChipsAutocompleteDragComponent extends BaseComponent implements OnI
 
   @ViewChild('filterInput') fruitInput: ElementRef<HTMLInputElement>;
 
-  @Output() valuesChange = new EventEmitter<Option[]>();
+  @Output() valuesChange = new EventEmitter<any[]>();
 
   constructor() {
     super();
@@ -65,24 +73,24 @@ export class ChipsAutocompleteDragComponent extends BaseComponent implements OnI
       return
     }
     const filterValueLower = filterValue ? filterValue.toLowerCase() : '';
-    this.filteredOptions = this.options.filter(fruit => {
+    this.filteredOptions = this.options.filter(option => {
       if (filterValueLower.length) {
-        if (!fruit.display.toLowerCase().includes(filterValueLower)) {
+        if (!option.display.toLowerCase().includes(filterValueLower)) {
           return false;
         }
       }
-      if (this.values.find((val) => val.value === fruit.value)) {
+      if (this.values.find((val) => val === option.value)) {
         return false;
       }
       return true;
     });
   }
 
-  remove(fruit: Option): void {
+  remove(valueToRemove: any): void {
     if (!this.canEdit) {
       return;
     }
-    const index = this.values.indexOf(fruit);
+    const index = this.values.indexOf(valueToRemove);
 
     if (index >= 0) {
       this.values.splice(index, 1);
@@ -96,7 +104,7 @@ export class ChipsAutocompleteDragComponent extends BaseComponent implements OnI
     if (!this.canEdit) {
       return;
     }
-    this.values.push(event.option.value);
+    this.values.push(event.option.value.value);
     this.valuesChange.emit(this.values);
     this.fruitInput.nativeElement.value = '';
     this.filterCtrl.setValue('');

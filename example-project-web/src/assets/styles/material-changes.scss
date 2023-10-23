@@ -11,3 +11,7 @@ a.mat-mdc-raised-button {
 .mat-mdc-menu-content > mat-divider {
   margin: 0 5px;
 }
+
+.mat-mdc-icon-button {
+  color: var(--primary-text-color) !important;
+}

@@ -35,6 +35,12 @@ export class InputDebounce<T> {
     this.ctrl.setValue(newValue);
   }
 
+  setValueImmediately(newValue: T): void {
+    this.ctrl.setValue(newValue, {emitEvent: false});
+    this.value = newValue;
+    this.valueChangedFinishedSub.next(newValue);
+  }
+
   setValueWithoutTrigger(newValue: T): void {
     this.ctrl.setValue(newValue, {emitEvent: false});
     this.value = newValue;

@@ -1,23 +1,23 @@
 <mat-form-field class="chip-list">
-    <mat-label>{{label}}</mat-label>
-    <mat-chip-grid #chipGrid
-                   class="chip-grid"
-                   cdkDropList
-                   [disabled]="!canEdit"
-                   cdkDropListOrientation="horizontal"
-                   (cdkDropListDropped)="drop($event)">
-        <mat-chip-row *ngFor="let fruit of values" (removed)="remove(fruit)" cdkDrag [editable]="canEdit">
-            {{fruit.display}}
-            <button matChipRemove [attr.aria-label]="'remove ' + fruit" *ngIf="canEdit">
-                <mat-icon>cancel</mat-icon>
-            </button>
-        </mat-chip-row>
-        <input #filterInput [formControl]="filterCtrl"
-               [matChipInputFor]="chipGrid" [matAutocomplete]="auto"/>
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            <mat-option *ngFor="let fruit of filteredOptions" [value]="fruit">
-                {{fruit.display}}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-chip-grid>
+  <mat-label>{{label}}</mat-label>
+  <mat-chip-grid #chipGrid
+                 class="chip-grid"
+                 cdkDropList
+                 [disabled]="!canEdit"
+                 cdkDropListOrientation="horizontal"
+                 (cdkDropListDropped)="drop($event)">
+    <mat-chip-row *ngFor="let value of values" (removed)="remove(value)" cdkDrag [editable]="canEdit">
+      {{this.valueToOption[value]?.display}}
+      <button matChipRemove [attr.aria-label]="'remove ' + value" *ngIf="canEdit">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip-row>
+    <input #filterInput [formControl]="filterCtrl"
+           [matChipInputFor]="chipGrid" [matAutocomplete]="auto"/>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-option *ngFor="let filteredOption of filteredOptions" [value]="filteredOption">
+        {{filteredOption.display}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-chip-grid>
 </mat-form-field>

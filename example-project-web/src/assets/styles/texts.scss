@@ -1,7 +1,7 @@
 .header {
   font-weight: 500;
-  font-size: 20px;
-  color: var(--primary-text-color);
+  font-size: 24px;
+  color: var(--secondary-text-color);
 }
 
 .action-text {
@@ -15,4 +15,14 @@ a, a:visited, a:hover, a:active {
 
 .clickable {
   cursor: pointer;
+}
+
+.underlined {
+  text-decoration: underline;
+}
+
+.truncated {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
