@@ -8,7 +8,7 @@ CSRF_COOKIE_HTTPONLY = True
 SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['http://example-project.com', 'https://example-project.com', 'https://*.example-project.com']
+CSRF_TRUSTED_ORIGINS = ['http://my-example-project.com', 'https://my-example-project.com', 'https://*.my-example-project.com']
 
 DATABASES['default']['HOST'] = 'example_db'
 CACHEOPS_REDIS['host'] = 'redis'

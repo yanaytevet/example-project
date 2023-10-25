@@ -96,6 +96,9 @@ def change_backend_name_in_files():
 
 def change_project_name_in_files():
     change_string_in_directory_by_param('example-project', 'project_path',
+                                        project_params['project_frontend_name'],
+                                        mod_param_func=lambda x: os.path.split(x)[-1])
+    change_string_in_directory_by_param('example-project', 'project_path', 'deploy',
                                         mod_param_func=lambda x: os.path.split(x)[-1])
 
 
@@ -131,7 +134,7 @@ def change_docker_group_name():
 
 
 def change_domain():
-    change_string_in_directory_by_param('example-project.com', 'domain')
+    change_string_in_directory_by_param('my-example-project.com', 'domain')
 
 
 def change_logs_dir():
@@ -150,7 +153,7 @@ if __name__ == '__main__':
     change_project_name_in_files()
     change_database()
     change_title()
-    change_docker_group_name()
     change_domain()
     change_logs_dir()
+    change_docker_group_name()
     apply_changes()

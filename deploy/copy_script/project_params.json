@@ -1,11 +1,11 @@
 {
-  "project_path": "~/dev/orra",
-  "project_backend_name": "orra_backend",
-  "project_frontend_name": "orra-web",
-  "db_name": "orra_db",
-  "db_username": "orra_admin",
-  "db_password": "GDFGhfjk453f4trff",
-  "dockers_group_name": "orra",
-  "domain": "orra.xperiti.com",
-  "title": "Orra"
+  "project_path": "~/dev/quix",
+  "project_backend_name": "quix_backend",
+  "project_frontend_name": "quix-web",
+  "db_name": "quix_db",
+  "db_username": "quix_admin",
+  "db_password": "GDFGdfghfjjDjI6k453",
+  "dockers_group_name": "quix",
+  "domain": "quix.xperiti.com",
+  "title": "Quix"
 }
