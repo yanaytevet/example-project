@@ -134,7 +134,7 @@ def change_docker_group_name():
 
 
 def change_domain():
-    change_string_in_directory_by_param('my-example-project.com', 'domain')
+    change_string_in_directory_by_param('example-domain.com', 'domain')
 
 
 def change_logs_dir():

@@ -14,4 +14,4 @@ while getopts 'sra' flag; do
   esac
 done
 
-./upload-base.sh platform@stage.my-example-project.com $build_ui stage
+./upload-base.sh platform@stage.example-domain.com $build_ui stage
