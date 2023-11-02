@@ -14,7 +14,7 @@ DATABASES['default']['HOST'] = 'example_db'
 CACHEOPS_REDIS['host'] = 'redis'
 CELERY_BROKER_URL = 'amqp://rabbitmq'
 
-MIDDLEWARE.append('example_project_backend.exception_middleware.ExceptionMiddleware')
+# MIDDLEWARE.append('example_project_backend.exception_middleware.ExceptionMiddleware')
 
 # LOGGER
 LOGS_LOCATION = '/var/log/example-project/'

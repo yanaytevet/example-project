@@ -3,6 +3,7 @@ import os
 import shutil
 
 project_params = {}
+MAIN_DIRECTORIES = ['deploy', 'example-project-web', 'example_project_backend']
 
 
 def get_new_project_path():
@@ -17,13 +18,22 @@ def copy_entire_project():
     example_project_path = os.path.abspath(example_project_relative_path)
     if not os.path.exists(project_path):
         os.mkdir(project_path)
-    for directory_name in ['deploy', 'example-project-web', 'example_project_backend']:
+    for directory_name in MAIN_DIRECTORIES:
         sub_project_path = os.path.join(project_path, directory_name)
         sub_example_project_path = os.path.join(example_project_path, directory_name)
         shutil.copytree(sub_example_project_path, sub_project_path)
     gitignore_project_path = os.path.join(project_path, '.gitignore')
     gitignore_example_project_path = os.path.join(example_project_path, '.gitignore')
     shutil.copy(gitignore_example_project_path, gitignore_project_path)
+
+
+def remove_unwanted_directories():
+    project_path = get_new_project_path()
+    for directory_name in MAIN_DIRECTORIES:
+        sub_project_path = os.path.join(project_path, directory_name)
+        idea_directory = os.path.join(sub_project_path, '.idea')
+        if os.path.exists(idea_directory):
+            shutil.rmtree(idea_directory)
 
 
 def change_backend_directories():
@@ -146,6 +156,7 @@ if __name__ == '__main__':
     project_params = json.load(open('project_params.json', 'r'))
 
     copy_entire_project()
+    remove_unwanted_directories()
     change_backend_directories()
     change_frontend_name()
     change_backend_name_in_files()

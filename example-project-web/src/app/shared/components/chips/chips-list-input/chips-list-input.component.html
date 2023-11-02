@@ -1,4 +1,4 @@
-<mat-form-field class="chips-list">
+<mat-form-field class="chips-list" *ngIf="canEdit">
   <mat-label>{{label}}</mat-label>
   <mat-chip-grid #chipGrid aria-label="Enter Tags"
                  cdkDropList
@@ -6,19 +6,23 @@
                  (cdkDropListDropped)="drop($event)">
     <mat-chip-row *ngFor="let tag of currentChips"
                   (removed)="removeChip(tag)"
-                  [editable]="canEdit"
-                  [cdkDragDisabled]="!canEdit"
+                  [editable]="true"
                   cdkDrag
                   (edited)="editChip(tag, $event)"
                   [aria-description]="'press enter to edit ' + tag">
       {{tag}}
-      <button matChipRemove [attr.aria-label]="'remove ' + tag" *ngIf="canEdit">
+      <button matChipRemove [attr.aria-label]="'remove ' + tag">
         <mat-icon>cancel</mat-icon>
       </button>
     </mat-chip-row>
-    <input placeholder="New tag..."  *ngIf="canEdit"
+    <input placeholder="New tag..." *ngIf="canEdit"
            [matChipInputFor]="chipGrid"
            [matChipInputAddOnBlur]="true"
            (matChipInputTokenEnd)="addChip($event)"/>
   </mat-chip-grid>
 </mat-form-field>
+<mat-chip-set #chipGrid aria-label="Enter Tags" *ngIf="!canEdit">
+  <mat-chip *ngFor="let tag of currentChips">
+    {{tag}}
+  </mat-chip>
+</mat-chip-set>

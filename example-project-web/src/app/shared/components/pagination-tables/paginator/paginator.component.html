@@ -4,7 +4,7 @@
     <mat-icon class="icon">chevron_left</mat-icon>
   </button>
   <span class="current-page" (click)="openSelectPageDialog()">page {{genericDataHandler?.paginationData?.page + 1}} of {{genericDataHandler?.paginationData?.pagesAmount}}</span>
-  <button mat-mini-fab color="primary" (click)="goForwardOnePage()"  [disabled]="genericDataHandler?.paginationData?.page === genericDataHandler?.paginationData?.pagesAmount - 1">
+  <button mat-mini-fab color="primary" (click)="goForwardOnePage()"  [disabled]="genericDataHandler?.paginationData?.page >= genericDataHandler?.paginationData?.pagesAmount - 1">
     <mat-icon class="icon">chevron_right</mat-icon>
   </button>
 </div>

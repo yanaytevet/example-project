@@ -12,6 +12,11 @@
   align-items: center;
 
   .main-logo {
+    color: var(--primary-text-color);
+    font-family: var(--logo-text-font-family);
+    text-decoration: none;
+    font-size: 32px;
+    margin-left: 20px;
   }
 }
 

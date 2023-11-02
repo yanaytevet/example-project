@@ -1,9 +1,8 @@
 import json
+import math
 from abc import ABC, abstractmethod
-from asyncio import sleep
 from typing import Type
 
-import math
 from django.db.models import Model, QuerySet, Q
 from django.http import HttpRequest, JsonResponse, HttpResponse
 
@@ -15,10 +14,31 @@ from ..constants.methods import Methods
 from ..constants.status_code import StatusCode
 
 
+def create_has_one_of_filter(real_key: str, values: list[str]):
+    q_objects = [Q(**{f'{real_key}__contains': value}) for value in values]
+    final_q_object = q_objects[0]
+    for q_object in q_objects[1:]:
+        final_q_object |= q_object
+    return final_q_object
+
+
+def create_ihas_one_of_filter(real_key: str, values: list[str]):
+    q_objects = [Q(**{f'{real_key}__icontains': f'"{value}"'}) for value in values]
+    final_q_object = q_objects[0]
+    for q_object in q_objects[1:]:
+        final_q_object |= q_object
+    return final_q_object
+
+
 class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
     DEFAULT_PAGE_SIZE = 25
     MIN_PAGE_SIZE = 10
     MAX_PAGE_SIZE = 100
+
+    QUERY_STR_TO_FUNC = {
+        'has_one_of': create_has_one_of_filter,
+        'ihas_one_of': create_ihas_one_of_filter,
+    }
 
     @classmethod
     def get_method(cls) -> Methods:
@@ -68,6 +88,10 @@ class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
             if cls.does_key_exist_in_allowed_filters(key, allowed_filters):
                 if cls.has_none_values_in(key, value):
                     special_filters.append(Q(**{f'{key[:-4]}__isnull': True}) | Q(**{key: value}))
+                key_split_arr = key.split('__')
+                if key_split_arr[-1] in cls.QUERY_STR_TO_FUNC:
+                    real_key = '__'.join(key_split_arr[:-1])
+                    special_filters.append(cls.QUERY_STR_TO_FUNC[key_split_arr[-1]](real_key, value))
                 else:
                     filters_dict[key] = value
 
@@ -84,10 +108,8 @@ class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
 
     @classmethod
     def does_key_exist_in_allowed_filters(cls, key: str, allowed_filters: set[str]) -> bool:
-        if key.endswith('__in'):
-            key = key[:-4]
-        if key.endswith('__contains'):
-            key = key[:-10]
+        if '__' in key:
+            key = '__'.join(key.split('__')[:-1])
         return key in allowed_filters
 
     @classmethod

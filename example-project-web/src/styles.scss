@@ -1,48 +1,71 @@
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
-// Plus imports for other components in your app.
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
 @include mat.core();
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$example-project-web-primary: mat.define-palette(mat.$light-blue-palette);
-$example-project-web-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$main-typography: mat.define-typography-config(
+  //$font-family: 'Open Sans',
+);
 
-// The warn palette is optional (defaults to red).
-$example-project-web-warn: mat.define-palette(mat.$red-palette);
-
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
-$example-project-web-light-theme: mat.define-light-theme((
-        color: (
-                primary: $example-project-web-primary,
-                accent: $example-project-web-accent,
-                warn: $example-project-web-warn,
-        )
+$orra-web-light-theme: mat.define-light-theme((
+  color: (
+    primary: mat.define-palette(mat.$deep-orange-palette),
+    accent: mat.define-palette(mat.$brown-palette, A200, A100, A400),
+    warn: mat.define-palette(mat.$red-palette),
+  ),
+  typography: $main-typography,
 ));
-$example-project-web-dark-theme: mat.define-dark-theme((
-        color: (
-                primary: $example-project-web-primary,
-                accent: $example-project-web-accent,
-                warn: $example-project-web-warn,
-        )
+$orra-web-dark-theme: mat.define-dark-theme((
+  color: (
+    primary: mat.define-palette(mat.$light-blue-palette),
+    accent: mat.define-palette(mat.$purple-palette, A200, A100, A400),
+    warn: mat.define-palette(mat.$red-palette),
+  ),
+  typography: $main-typography,
 ));
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include mat.all-component-themes($example-project-web-dark-theme);
+@include mat.all-component-themes($orra-web-dark-theme);
 @media (prefers-color-scheme: light) {
-  @include mat.all-component-colors($example-project-web-light-theme);
+  @include mat.all-component-colors($orra-web-light-theme);
 }
 
-/* You can add global styles to this file, and also import other style files */
+
+:root {
+  --main-menu-background: linear-gradient(180deg, rgba(221, 85, 45, 0.3) 2%, rgba(225, 197, 161, 0.5) 100%);
+  --primary-background-color: linear-gradient(176deg, rgba(254, 253, 230, 0.5) 2%, rgba(246, 231, 186, 0.5) 100%);
+  --warning-background-color: rgb(255, 203, 203);
+  --components-background-color: rgb(232, 232, 232);
+  --primary-text-color: rgb(57, 67, 78);
+  --logo-text-font-family: Open Sans, serif;
+  --secondary-text-color: rgb(76, 87, 100);
+  --warning-text-color: rgb(145, 73, 73);
+  --primary-icon-color: rgb(57, 67, 78);
+  --primary-shadow-color: rgba(163, 191, 199, 1);
+  --secondary-shadow-color: rgba(235, 223, 183, 1);
+  --card-color: rgba(244, 210, 153, 0.3);
+  --scroll-track-color: rgba(246, 208, 143, 0.2);
+  --scroll-thumb-color: rgba(246, 208, 143, 0.4);
+  --chips-color: rgba(221, 85, 45, 0.3);
+  --inputs-color: rgba(246, 208, 143, 0.2);
+}
+
+
+:root.DARK {
+  --main-menu-background: rgba(0, 0, 0, 0);
+  --primary-background-color: linear-gradient(165deg, rgba(19, 21, 40, 1) 2%, rgba(43, 72, 117, 1) 85%, rgba(43, 72, 117, 0.86) 100%);
+  --warning-background-color: rgb(47, 0, 0);
+  --components-background-color: rgba(54, 54, 54, 1);
+  --primary-text-color: rgba(241, 248, 247, 0.75);
+  --secondary-text-color: rgb(204, 204, 204);
+  --warning-text-color: rgb(255, 58, 58);
+  --primary-icon-color: rgb(225, 225, 225);
+  --primary-shadow-color: rgba(246, 247, 246, 1);
+  --secondary-shadow-color: rgba(232, 196, 172, 1);
+  --card-color: rgba(75, 131, 184, 0.2);
+  --scroll-track-color: rgba(75, 134, 234, 0.25);
+  --scroll-thumb-color: rgba(75, 134, 234, 0.5);
+  --chips-color: rgba(75, 131, 184, 0.4);
+  --inputs-color: rgba(75, 131, 184, 0.3);
+}
 
 html, body {
   height: 100%;
@@ -50,37 +73,12 @@ html, body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Open Sans, serif;
+  background: var(--primary-background-color);
 }
-
-
-:root {
-  --primary-background-color: rgba(57, 67, 78, 0.04);
-  --warning-background-color: rgb(255, 203, 203);
-  --components-background-color: rgb(211, 211, 211);
-  --primary-text-color: rgb(57, 67, 78);
-  --secondary-text-color: rgb(76, 87, 100);
-  --warning-text-color: rgb(145, 73, 73);
-  --primary-icon-color: rgb(57, 67, 78);
-}
-
-
-:root.DARK {
-  --primary-background-color: rgba(34, 34, 34, 1);
-  --warning-background-color: rgb(47, 0, 0);
-  --components-background-color: rgba(54, 54, 54, 1);
-  --primary-text-color: rgb(225, 225, 225);
-  --secondary-text-color: rgb(204, 204, 204);
-  --warning-text-color: rgb(255, 58, 58);
-  --primary-icon-color: rgb(225, 225, 225);
-}
-
-body {
-  background-color: var(--primary-background-color);
-}
-
 
 @import 'assets/styles/material-changes.scss';
 @import 'assets/styles/dialogs.scss';
 @import 'assets/styles/structure-components.scss';
 @import 'assets/styles/texts.scss';
+@import 'assets/styles/scrollbar.scss';
