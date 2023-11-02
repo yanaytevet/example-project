@@ -10,4 +10,11 @@
   .dialog-options-field {
     margin-top: 8px;
   }
+
+  .dialog-options-container {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
 }

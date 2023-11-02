@@ -14,6 +14,7 @@ export interface ListSingleSelectionDialogData {
   confirmActionName?: string;
   allowEmpty?: boolean;
   label?: string;
+  multiButtons?: boolean;
 }
 
 @Component({
@@ -29,6 +30,7 @@ export class ListSingleSelectionDialogComponent implements OnInit {
   label = 'Select an option';
   selectedValue: any = null;
   allowEmpty = false
+  multiButtons = false
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ListSingleSelectionDialogData,
@@ -44,6 +46,9 @@ export class ListSingleSelectionDialogComponent implements OnInit {
     }
     if (this.data.label) {
       this.label = this.data.label;
+    }
+    if (this.data.multiButtons) {
+      this.multiButtons = this.data.multiButtons;
     }
     this.selectedValue = this.data.defaultValue ? this.data.defaultValue : null;
     this.allowEmpty = !!this.data.allowEmpty;
@@ -61,5 +66,10 @@ export class ListSingleSelectionDialogComponent implements OnInit {
       return true;
     }
     return !!this.selectedValue;
+  }
+
+  submitValue(value: string) {
+    this.selectedValue = value;
+    this.submit();
   }
 }

@@ -5,15 +5,17 @@
 </span>
 <div mat-dialog-content class="options-dialog-content">
   <span class="dialog-text">{{text}}</span>
-  <mat-form-field class="dialog-options-field" appearance="fill">
+  <mat-form-field class="dialog-options-field" appearance="fill" *ngIf="!multiButtons">
     <mat-label>Select an option</mat-label>
     <mat-select [(value)]="selectedValue">
       <mat-option *ngIf="allowEmpty"></mat-option>
       <mat-option [value]="option.value" *ngFor="let option of data.options">{{option.display}}</mat-option>
     </mat-select>
   </mat-form-field>
+    <div class="dialog-options-container" *ngIf="multiButtons">
+        <button mat-raised-button *ngFor="let option of data.options" (click)="submitValue(option.value)">{{option.display}}</button>
 </div>
-<div mat-dialog-actions class="dialog-actions" align="end">
+<div mat-dialog-actions class="dialog-actions" align="end" *ngIf="!multiButtons">
   <button mat-button class="close-btn" [mat-dialog-close]="undefined">{{cancelActionName}}</button>
   <button mat-button class="gradiant-btn" color="primary" (click)="submit()" [disabled]="!isValid">{{confirmActionName}}</button>
 </div>
