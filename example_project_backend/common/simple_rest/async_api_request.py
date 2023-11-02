@@ -2,10 +2,10 @@ import asyncio
 from asyncio import Future
 
 from asgiref.sync import sync_to_async
-from django.contrib.auth.models import User
 from django.http import HttpRequest
 
 from common.simple_rest.api_request import APIRequest
+from users.models import User
 
 
 class AsyncAPIRequest(APIRequest):

@@ -1,6 +1,5 @@
 import random
 import string
-from typing import Callable
 
 
 class StringUtils:

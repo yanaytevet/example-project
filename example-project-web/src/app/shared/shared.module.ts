@@ -21,7 +21,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {PaginationTableComponent} from './components/pagination-tables/pagination-table/pagination-table.component';
 import {MatTableModule} from '@angular/material/table';
 import {PaginatorComponent} from './components/pagination-tables/paginator/paginator.component';
-import {ColumnOptionsFilterComponent} from './components/pagination-tables/column-filter/column-options-filter.component';
+import {ColumnOptionsFilterComponent} from './components/pagination-tables/column-options-filter/column-options-filter.component';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSortModule} from '@angular/material/sort';
 import {KeyValueDialogComponent} from './dialogs/key-value-dialog/key-value-dialog.component';

@@ -1,6 +1,6 @@
 import {Subscription} from 'rxjs';
 import {Component, OnDestroy} from '@angular/core';
-import {LinkItem} from './breadcrumbs/link-item';
+
 @Component({
   template: ''
 })
