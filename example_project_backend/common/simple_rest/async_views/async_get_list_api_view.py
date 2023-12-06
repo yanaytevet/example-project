@@ -125,8 +125,12 @@ class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
             if cls.does_key_exist_in_allowed_order_by(value, allowed_order_by):
                 order_by_list.append(value)
         if not order_by_list:
-            order_by_list = ['id']
+            order_by_list = cls.get_order_by_default_list()
         return objects.order_by(*order_by_list)
+
+    @classmethod
+    def get_order_by_default_list(cls) -> list[str]:
+        return ['id']
 
     @classmethod
     @abstractmethod
