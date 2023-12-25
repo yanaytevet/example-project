@@ -28,7 +28,6 @@ class CustomUserAdmin(UserAdmin):
             {
                 'fields': (
                     'permissions',
-                    'organization',
                 ),
             },
         ),
