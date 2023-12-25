@@ -1,11 +1,11 @@
 {
-  "project_path": "~/dev/quix",
-  "project_backend_name": "quix_backend",
-  "project_frontend_name": "quix-web",
-  "db_name": "quix_db",
-  "db_username": "quix_admin",
-  "db_password": "GDFGdfghfjjDjI6k453",
-  "dockers_group_name": "quix",
-  "domain": "quix.xperiti.com",
-  "title": "Quix"
+  "project_path": "~/dev/rpg_utils/nep",
+  "project_backend_name": "nep_backend",
+  "project_frontend_name": "nep-web",
+  "db_name": "nep_db",
+  "db_username": "nep_admin",
+  "db_password": "GB8Gd3gffjLDjhD453",
+  "dockers_group_name": "nep",
+  "domain": "never-ending-path.yanaytevet.com",
+  "title": "Never-ending Path"
 }
