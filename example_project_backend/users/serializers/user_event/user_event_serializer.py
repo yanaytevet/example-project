@@ -1,8 +1,6 @@
-from typing import Optional
-
 from common.simple_rest.serializers.serializer import Serializer
 from common.time_utils import TimeUtils
-from common.type_hints import JSONType
+from common.type_hints import OptionalJSONType
 from users.models import UserEvent
 from users.serializers.user.short_user_serializer import ShortUserSerializer
 

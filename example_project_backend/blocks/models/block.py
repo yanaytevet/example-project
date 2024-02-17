@@ -9,4 +9,5 @@ class Block(models.Model):
     a = models.TextField(default='', blank=True)
     b = models.IntegerField(default=0, blank=True)
     c = models.BooleanField(default=False, blank=True)
-    block_type = models.CharField(max_length=255, choices=BlockTypes.choices(), blank=True, default=BlockTypes.ROUND)
+    block_type: BlockTypes = models.CharField(max_length=255, choices=BlockTypes.choices(), blank=True,
+                                              default=BlockTypes.ROUND)

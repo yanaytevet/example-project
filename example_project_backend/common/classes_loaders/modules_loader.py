@@ -2,8 +2,7 @@ import importlib.util
 import inspect
 import os
 from types import ModuleType
-from typing import Type, Iterable
-
+from typing import Iterable
 
 
 class ModulesLoader:
@@ -23,18 +22,19 @@ class ModulesLoader:
                 yield spec, module
 
     @classmethod
-    def load_classes_from_directory(cls, directory_path: str) -> None:
-        for spec, module in cls.get_specs_and_modules(directory_path):
-            pass
-
-    @classmethod
-    def get_classes_from_module(cls, module: ModuleType) -> Iterable[Type]:
+    def get_classes_from_module(cls, module: ModuleType) -> Iterable[type]:
         for name, obj in inspect.getmembers(module):
             if inspect.isclass(obj) and obj.__module__ == module.__name__:
                 yield obj
 
     @classmethod
-    def get_all_classes_from_directory(cls, directory_path: str) -> Iterable[Type]:
+    def get_all_classes_from_directory(cls, directory_path: str) -> Iterable[type]:
         for _, module in cls.get_specs_and_modules(directory_path):
             for klass in cls.get_classes_from_module(module):
                 yield klass
+
+    @classmethod
+    def get_all_classes_and_path_from_directory(cls, directory_path: str) -> Iterable[tuple[type, str]]:
+        for _, module in cls.get_specs_and_modules(directory_path):
+            for klass in cls.get_classes_from_module(module):
+                yield klass, inspect.getfile(module)

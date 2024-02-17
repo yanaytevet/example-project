@@ -1,8 +1,6 @@
-from typing import Optional
-
 from common.simple_rest.serializers.serializer import Serializer
+from common.type_hints import OptionalJSONType
 from configurations.models.demo import Demo
-from common.type_hints import JSONType
 
 
 class DemoSerializer(Serializer[Demo]):

@@ -3,7 +3,7 @@ from typing import Type
 from django.db.models import Model
 
 from blocks.models import Block
-from blocks.serializers.block_serializer import BlockSerializer
+from blocks.serializers.blocks_serializers.block_serializer import BlockSerializer
 from common.simple_rest.async_api_request import AsyncAPIRequest
 from common.simple_rest.async_views.async_get_list_api_view import AsyncGetListAPIView
 from common.simple_rest.permissions_checkers.login_permission_checker import LoginPermissionChecker

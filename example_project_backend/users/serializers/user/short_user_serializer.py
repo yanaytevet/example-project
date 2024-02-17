@@ -1,10 +1,18 @@
+from typing import TypedDict
+
 from common.simple_rest.serializers.serializer import Serializer
-from common.type_hints import OptionalJSONType
 from users.models import User
 
 
+class ShortUserSerializerOutput(TypedDict):
+    id: int
+    username: str
+    full_name: str
+    is_admin: bool
+
+
 class ShortUserSerializer(Serializer[User]):
-    def inner_serialize(self, obj: User) -> OptionalJSONType:
+    def inner_serialize(self, obj: User) -> ShortUserSerializerOutput:
         return {
             'id': obj.id,
             'username': obj.username,
