@@ -3,17 +3,26 @@ from typing import Type
 from django.db.models import Model
 from example_app.models import ExampleModel
 from example_app.serializers.example_models_serializers.full_example_model_serializer import FullExampleModelSerializer
+from example_app.item_actions.example_models_action_items.do_stuff_example_model_item_action import DoStuffExampleModelItemAction
 
 from common.simple_rest.async_api_request import AsyncAPIRequest
 from common.simple_rest.async_views.async_put_actions_item_by_id_api_view import AsyncPutActionsItemByIdAPIView
 from common.simple_rest.permissions_checkers.login_permission_checker import LoginPermissionChecker
-from common.type_hints import JSONType
+from common.simple_rest.item_actions.base_put_action import BaseItemAction
+from common.simple_rest.serializers.serializer import Serializer
 
 
 class PutActionsExampleModelItemView(AsyncPutActionsItemByIdAPIView):
     @classmethod
-    async def serialize_object(cls, request: AsyncAPIRequest, obj: ExampleModel, **kwargs) -> JSONType:
-        return await FullExampleModelSerializer().async_serialize(obj)
+    async def get_put_action_classes_by_name(cls, request: AsyncAPIRequest, obj: Model, **kwargs) \
+            -> dict[str, type[BaseItemAction]]:
+        return {
+            'do_stuff': DoStuffExampleModelItemAction,
+        }
+
+    @classmethod
+    async def get_default_serializer(cls, request: AsyncAPIRequest, obj: ExampleModel, **kwargs) -> Serializer:
+        return FullExampleModelSerializer()
 
     @classmethod
     def get_model_cls(cls) -> Type[Model]:
@@ -25,7 +34,4 @@ class PutActionsExampleModelItemView(AsyncPutActionsItemByIdAPIView):
 
     @classmethod
     async def check_permitted_after_object(cls, request: AsyncAPIRequest, obj: ExampleModel, **kwargs) -> None:
-        pass
-
-    async def put_do_stuff(self, request: AsyncAPIRequest, obj: ExampleModel, **kwargs) -> None:
         pass

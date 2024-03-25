@@ -1,5 +1,5 @@
 from .rest_api_exception import RestAPIException
-from ..constants.status_code import StatusCode
+from ..enums.status_code import StatusCode
 
 
 class NoneObjectDoesntExistAPIException(RestAPIException):

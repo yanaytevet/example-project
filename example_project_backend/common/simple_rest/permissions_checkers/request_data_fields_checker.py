@@ -3,7 +3,7 @@ from typing import Union
 from .permissions_checker import PermissionsChecker
 from ..api_request import APIRequest
 from ..async_api_request import AsyncAPIRequest
-from ..constants.status_code import StatusCode
+from ..enums.status_code import StatusCode
 from ..exceptions.rest_api_exception import RestAPIException
 
 

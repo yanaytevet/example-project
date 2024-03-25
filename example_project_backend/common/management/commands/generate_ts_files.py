@@ -7,7 +7,7 @@ from typing import Iterable, get_type_hints, TypedDict
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from common.base_choices import BaseChoices
+from common.base_enum import BaseEnum
 from common.classes_loaders.modules_loader import ModulesLoader
 from common.simple_rest.serializers.serializer import Serializer
 from common.string_utils import StringUtils
@@ -17,7 +17,7 @@ from common.type_utils import TypeUtils
 class Command(BaseCommand):
     help = 'Generates ts files for the api'
 
-    CONSTS = 'consts'
+    CONSTS = 'enums'
     ENUMS = 'enums'
     ENUM_TEMPLATE = """
 import {{ z }} from "zod"
@@ -67,8 +67,8 @@ export type {name} = z.infer<typeof Z{name}>;
 
     def create_enums_in_app_as_ts_files(self, app_name: str) -> None:
         consts_path = os.path.join(settings.BASE_DIR, app_name, self.CONSTS)
-        for klass, partial_path in self.get_all_classes_in_app(consts_path, BaseChoices):
-            klass: type[BaseChoices]
+        for klass, partial_path in self.get_all_classes_in_app(consts_path, BaseEnum):
+            klass: type[BaseEnum]
             ts_partial_path = self.get_ts_path(partial_path)
             ts_import_path = os.path.join(self.ENUMS, app_name, ts_partial_path)[:-3]
             ts_full_path = os.path.join(self.new_generated_files, self.ENUMS, app_name, ts_partial_path)
@@ -84,7 +84,7 @@ export type {name} = z.infer<typeof Z{name}>;
     def get_ts_path(self, partial_path: str) -> str:
         return partial_path.replace('_', '-').replace('.py', '.ts')
 
-    def create_ts_file_for_enum(self, klass: type[BaseChoices], ts_full_path: str) -> None:
+    def create_ts_file_for_enum(self, klass: type[BaseEnum], ts_full_path: str) -> None:
         values = klass.get_list()
         values_str = json.dumps(values)
         ts_content = self.ENUM_TEMPLATE.format(name=klass.__name__, values=values_str)
@@ -153,7 +153,7 @@ export type {name} = z.infer<typeof Z{name}>;
             return 'z.number()'
         if field_type == bool:
             return 'z.boolean()'
-        if issubclass(field_type, BaseChoices):
+        if issubclass(field_type, BaseEnum):
             return 'Z' + field_type.__name__
         if typing.get_origin(field_type) == list:
             type_a = self.get_field_zod_type(typing.get_args(field_type)[0])
@@ -171,7 +171,7 @@ export type {name} = z.infer<typeof Z{name}>;
         return ''
 
     def get_field_ts_type_import(self, ts_field_type_str: str, field_type: type, depth: int) -> str | None:
-        if issubclass(field_type, BaseChoices):
+        if issubclass(field_type, BaseEnum):
             dots = '../' * depth
             if dots == '':
                 dots = './'

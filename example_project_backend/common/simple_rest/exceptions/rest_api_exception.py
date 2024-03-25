@@ -1,4 +1,4 @@
-from common.simple_rest.constants.status_code import StatusCode
+from common.simple_rest.enums.status_code import StatusCode
 
 
 class RestAPIException(Exception):

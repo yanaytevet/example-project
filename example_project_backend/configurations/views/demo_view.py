@@ -4,8 +4,8 @@ from django.http import HttpResponse, HttpRequest, JsonResponse
 
 from common.simple_rest.async_api_request import AsyncAPIRequest
 from common.simple_rest.async_views.async_api_view_component import AsyncAPIViewComponent
-from common.simple_rest.constants.methods import Methods
-from common.simple_rest.constants.status_code import StatusCode
+from common.simple_rest.enums.methods import Methods
+from common.simple_rest.enums.status_code import StatusCode
 from configurations.models.demo import Demo
 
 

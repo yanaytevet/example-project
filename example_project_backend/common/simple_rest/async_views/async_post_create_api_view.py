@@ -7,12 +7,13 @@ from django.http import HttpRequest, JsonResponse, HttpResponse
 from common.django_utils.model_utils import ModelUtils
 from common.type_hints import JSONType
 from .async_api_view_component import AsyncAPIViewComponent
+from .serialize_item_mixin import SerializeItemMixin
 from ..async_api_request import AsyncAPIRequest
-from ..constants.methods import Methods
-from ..constants.status_code import StatusCode
+from ..enums.methods import Methods
+from ..enums.status_code import StatusCode
 
 
-class AsyncPostCreateAPIView(AsyncAPIViewComponent, ABC):
+class AsyncPostCreateAPIView(SerializeItemMixin, AsyncAPIViewComponent, ABC):
 
     @classmethod
     def get_method(cls) -> Methods:
@@ -65,8 +66,3 @@ class AsyncPostCreateAPIView(AsyncAPIViewComponent, ABC):
     @classmethod
     async def run_after_post(cls, request: AsyncAPIRequest,  obj: Model, **kwargs) -> None:
         pass
-
-    @classmethod
-    @abstractmethod
-    async def serialize_object(cls, request: AsyncAPIRequest,  obj: Model, **kwargs) -> JSONType:
-        raise NotImplementedError()

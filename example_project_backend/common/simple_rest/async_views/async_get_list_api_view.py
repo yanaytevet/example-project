@@ -1,17 +1,20 @@
 import json
 import math
 from abc import ABC, abstractmethod
-from typing import Type
+from typing import Type, Iterable
 
 from django.db.models import Model, QuerySet, Q
 from django.http import HttpRequest, JsonResponse, HttpResponse
 
 from common.type_hints import JSONType
 from .async_api_view_component import AsyncAPIViewComponent
+from .serialize_item_mixin import SerializeItemMixin
 from ..api_request import APIRequest
 from ..async_api_request import AsyncAPIRequest
-from ..constants.methods import Methods
-from ..constants.status_code import StatusCode
+from ..enums.methods import Methods
+from ..enums.queries_logic_operators import QueriesLogicOperators
+from ..enums.status_code import StatusCode
+from ..query_filters.base_query_filter import BaseQueryFilter
 
 
 def create_has_one_of_filter(real_key: str, values: list[str]):
@@ -30,7 +33,7 @@ def create_ihas_one_of_filter(real_key: str, values: list[str]):
     return final_q_object
 
 
-class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
+class AsyncGetListAPIView(SerializeItemMixin, AsyncAPIViewComponent, ABC):
     DEFAULT_PAGE_SIZE = 25
     MIN_PAGE_SIZE = 10
     MAX_PAGE_SIZE = 100
@@ -49,7 +52,7 @@ class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
 
     async def run(self, request: AsyncAPIRequest, **kwargs) -> JsonResponse:
         await self.check_permitted(request, **kwargs)
-        objects = self.get_model_cls().objects
+        objects = await self.get_query_set(request, **kwargs)
         objects = await self.filter_objects_by_request(request, objects, **kwargs)
         objects = await self.order_objects_by_request(request, objects, **kwargs)
         page = int(request.query_params.get('page', 0))
@@ -73,15 +76,41 @@ class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
         raise NotImplementedError()
 
     @classmethod
+    async def get_query_set(cls, request: AsyncAPIRequest, **kwargs) -> QuerySet:
+        """
+        use case: if you want to annotate the query set with some data, override this method
+        """
+        return cls.get_model_cls().objects
+
+    @classmethod
     @abstractmethod
     def get_model_cls(cls) -> Type[Model]:
         raise NotImplementedError()
 
     @classmethod
     async def filter_objects_by_request(cls, request: AsyncAPIRequest, objects: QuerySet, **kwargs) -> QuerySet:
+        objects = await cls.filter_objects_by_mandatory_filters(request, objects, **kwargs)
+        objects = await cls.filter_objects_by_queries_params(request, objects, **kwargs)
+        objects = await cls.filter_objects_by_optional_filters(request, objects, **kwargs)
+        return objects
+
+    @classmethod
+    async def filter_objects_by_mandatory_filters(cls, request: AsyncAPIRequest, objects: QuerySet, **kwargs) \
+            -> QuerySet:
+        for query_filter in await cls.get_mandatory_query_filters(request, objects, **kwargs):
+            objects = await query_filter.run(objects)
+        return objects
+
+    @classmethod
+    @abstractmethod
+    async def get_mandatory_query_filters(cls, request: AsyncAPIRequest, objects: QuerySet, **kwargs) \
+            -> list[BaseQueryFilter]:
+        raise NotImplementedError()
+
+    @classmethod
+    async def filter_objects_by_queries_params(cls, request: AsyncAPIRequest, objects: QuerySet, **kwargs) -> QuerySet:
         filters_dict = {}
         special_filters = []
-        objects = await cls.custom_filter_objects_by_request(request, objects, **kwargs)
         allowed_filters = cls.get_allowed_filters()
 
         for key, value in cls.get_params_from_request(request, 'filter', {}).items():
@@ -98,10 +127,6 @@ class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
         return objects.filter(**filters_dict).filter(*special_filters)
 
     @classmethod
-    async def custom_filter_objects_by_request(cls, request: AsyncAPIRequest, objects: QuerySet, **kwargs) -> QuerySet:
-        return objects
-
-    @classmethod
     @abstractmethod
     def get_allowed_filters(cls) -> set[str]:
         raise NotImplementedError()
@@ -115,6 +140,43 @@ class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
     @classmethod
     def has_none_values_in(cls, key: str, value: list[str]) -> bool:
         return key.endswith('__in') and None in value
+
+    @classmethod
+    async def filter_objects_by_optional_filters(cls, request: AsyncAPIRequest, objects: QuerySet, **kwargs) -> QuerySet:
+        optional_filters_operator = await cls.get_optional_queries_operator(request, **kwargs)
+        res = None
+        if optional_filters_operator == QueriesLogicOperators.AND:
+            res = objects
+        async for query_filter in cls.get_optional_query_filters(request, objects, **kwargs):
+            if optional_filters_operator == QueriesLogicOperators.OR:
+                if res is None:
+                    res = await query_filter.run(objects)
+                else:
+                    res = res.union(await query_filter.run(objects))
+            elif optional_filters_operator == QueriesLogicOperators.AND:
+                res = await query_filter.run(res)
+        if res is None:
+            res = objects
+        return res
+
+    @classmethod
+    async def get_optional_queries_operator(cls, request: AsyncAPIRequest, **kwargs) -> QueriesLogicOperators:
+        return cls.get_params_from_request(request, 'optional_queries_operator', 'and')
+
+    @classmethod
+    async def get_optional_query_filters(cls, request: AsyncAPIRequest, objects: QuerySet, **kwargs) \
+            -> Iterable[BaseQueryFilter]:
+        optional_filters_and_data = cls.get_params_from_request(request, 'optional_filters', [])
+        optional_query_filter_classes_by_name = await cls.get_optional_query_filter_classes_by_name(request, **kwargs)
+        for filter_name, data in optional_filters_and_data:
+            query_filter_cls = optional_query_filter_classes_by_name[filter_name]
+            yield query_filter_cls.create_from_request_and_data(request, data, **kwargs)
+
+    @classmethod
+    @abstractmethod
+    async def get_optional_query_filter_classes_by_name(cls, request: AsyncAPIRequest, **kwargs) \
+            -> dict[str, BaseQueryFilter]:
+        raise NotImplementedError()
 
     @classmethod
     async def order_objects_by_request(cls, request: AsyncAPIRequest, objects: QuerySet, **kwargs) -> QuerySet:
@@ -161,11 +223,6 @@ class AsyncGetListAPIView(AsyncAPIViewComponent, ABC):
         start = page * page_size
         end = (page + 1) * page_size
         return [await cls.serialize_object(request, obj, **kwargs) async for obj in objects[start: end]]
-
-    @classmethod
-    @abstractmethod
-    async def serialize_object(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> JSONType:
-        raise NotImplementedError()
 
     @classmethod
     def get_correct_page(cls, total_amount: int, page: int, page_size: int) -> int:

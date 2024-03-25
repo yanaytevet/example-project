@@ -7,6 +7,7 @@ from blocks.serializers.blocks_serializers.block_serializer import BlockSerializ
 from common.simple_rest.async_api_request import AsyncAPIRequest
 from common.simple_rest.async_views.async_post_create_api_view import AsyncPostCreateAPIView
 from common.simple_rest.permissions_checkers.login_permission_checker import LoginPermissionChecker
+from common.simple_rest.serializers.serializer import Serializer
 from common.type_hints import JSONType
 
 
@@ -20,9 +21,9 @@ class PostCreateBlockItemView(AsyncPostCreateAPIView):
         return {'a', 'b', 'c', 'block_type'}
 
     @classmethod
-    async def serialize_object(cls, request: AsyncAPIRequest, obj: Block, **kwargs) -> JSONType:
-        return await BlockSerializer().async_serialize(obj)
-
-    @classmethod
     def get_model_cls(cls) -> Type[Model]:
         return Block
+
+    @classmethod
+    async def get_default_serializer(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> Serializer:
+        return BlockSerializer()

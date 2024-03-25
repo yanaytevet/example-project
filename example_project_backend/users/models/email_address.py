@@ -3,8 +3,8 @@ from typing import List, Optional
 
 from django.db import models
 
-from users.consts.bounce_status import BounceStatus
-from users.consts.email_validation_status import EmailValidationStatus
+from users.enums.bounce_status import BounceStatus
+from users.enums.email_validation_status import EmailValidationStatus
 from users.models import User
 
 

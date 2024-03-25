@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from common.db_fields.list_field_with_choices import ListFieldWithChoices
-from users.consts.permissions import Permissions
+from users.enums.permissions import Permissions
 
 
 class User(AbstractUser):

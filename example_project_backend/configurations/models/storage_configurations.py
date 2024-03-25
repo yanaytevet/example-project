@@ -1,6 +1,6 @@
 from django.db import models
 
-from configurations.consts.storages_types import StoragesTypes
+from configurations.enums.storages_types import StoragesTypes
 from configurations.models.configurations import Configurations
 
 

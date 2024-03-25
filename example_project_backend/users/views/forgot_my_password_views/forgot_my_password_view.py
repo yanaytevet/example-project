@@ -1,6 +1,6 @@
 from common.simple_rest.async_api_request import AsyncAPIRequest
 from common.simple_rest.async_views.async_simple_post_api_view import AsyncSimplePostAPIView
-from common.simple_rest.constants.status_code import StatusCode
+from common.simple_rest.enums.status_code import StatusCode
 from common.simple_rest.exceptions.rest_api_exception import RestAPIException
 from common.simple_rest.permissions_checkers.request_data_fields_checker import RequestDataFieldsAPIChecker
 from common.type_hints import JSONType

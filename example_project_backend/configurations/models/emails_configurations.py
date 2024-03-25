@@ -1,8 +1,8 @@
 from django.db import models
 
-from configurations.consts.emails_senders_types import EmailsSendersTypes
-from configurations.consts.emails_validations_types import EmailsValidationsTypes
-from configurations.consts.marketing_platforms_type import MarketingPlatformsTypes
+from configurations.enums.emails_senders_types import EmailsSendersTypes
+from configurations.enums.emails_validations_types import EmailsValidationsTypes
+from configurations.enums.marketing_platforms_type import MarketingPlatformsTypes
 from configurations.models.configurations import Configurations
 
 

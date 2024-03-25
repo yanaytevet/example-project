@@ -1,7 +1,7 @@
-from common.base_choices import BaseChoices
+from common.base_enum import BaseEnum
 
 
-class EmailValidationStatus(BaseChoices):
+class EmailValidationStatus(BaseEnum):
     NOT_CHECKED = 'not_checked'
     VALID = 'valid'
     INVALID = 'invalid'

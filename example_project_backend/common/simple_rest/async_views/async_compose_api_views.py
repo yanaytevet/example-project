@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .async_api_view_component import AsyncAPIViewComponent
 from ..async_api_request import AsyncAPIRequest
-from ..constants.methods import Methods
+from ..enums.methods import Methods
 from ..exceptions.api_view_components_conflict_exception import APIViewComponentsConflictException
 
 

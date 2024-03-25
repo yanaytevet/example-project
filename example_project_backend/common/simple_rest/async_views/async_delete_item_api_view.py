@@ -6,8 +6,8 @@ from django.http import JsonResponse, HttpRequest, HttpResponse
 
 from .async_api_view_component import AsyncAPIViewComponent
 from ..async_api_request import AsyncAPIRequest
-from ..constants.methods import Methods
-from ..constants.status_code import StatusCode
+from ..enums.methods import Methods
+from ..enums.status_code import StatusCode
 
 
 class AsyncDeleteItemAPIView(AsyncAPIViewComponent, ABC):

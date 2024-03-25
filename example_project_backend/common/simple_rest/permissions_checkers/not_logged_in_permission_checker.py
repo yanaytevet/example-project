@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 
-from ..constants.status_code import StatusCode
+from ..enums.status_code import StatusCode
 from ..exceptions.rest_api_exception import RestAPIException
 from .permissions_checker import PermissionsChecker
 

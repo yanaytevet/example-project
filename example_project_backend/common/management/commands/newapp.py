@@ -82,6 +82,10 @@ urlpatterns = [
         self.create_package(new_tasks_directory)
         new_permissions_checkers_directory = f'{app_name}/permissions_checkers'
         self.create_package(new_permissions_checkers_directory)
+        new_permissions_checkers_directory = f'{app_name}/item_actions'
+        self.create_package(new_permissions_checkers_directory)
+        new_permissions_checkers_directory = f'{app_name}/query_filters'
+        self.create_package(new_permissions_checkers_directory)
 
     def change_admin_file(self, app_name: str) -> None:
         admin_file = f'{app_name}/admin.py'

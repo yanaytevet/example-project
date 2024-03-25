@@ -1,4 +1,4 @@
-from common.simple_rest.constants.status_code import StatusCode
+from common.simple_rest.enums.status_code import StatusCode
 from common.simple_rest.exceptions.rest_api_exception import RestAPIException
 from common.simple_rest.permissions_checkers.permissions_checker import PermissionsChecker
 from users.models import User

@@ -1,6 +1,6 @@
 
 from ..async_views.async_api_view_component import AsyncAPIViewComponent
-from ..constants.methods import Methods
+from ..enums.methods import Methods
 
 
 class APIViewComponentsConflictException(Exception):

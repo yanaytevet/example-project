@@ -3,7 +3,7 @@ from typing import Type
 from django.db.models import Model
 
 from .rest_api_exception import RestAPIException
-from ..constants.status_code import StatusCode
+from ..enums.status_code import StatusCode
 
 
 class ObjectDoesntExistAPIException(RestAPIException):

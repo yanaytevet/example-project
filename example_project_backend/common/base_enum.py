@@ -1,5 +1,5 @@
 
-class BaseChoices:
+class BaseEnum:
     @classmethod
     def choices(cls) -> list[tuple[str, str]]:
         return [(value, value) for value in cls.get_list()]

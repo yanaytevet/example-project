@@ -4,7 +4,7 @@ from django.db import models
 
 from common.string_utils import StringUtils
 from common.time_utils import TimeUtils
-from users.consts.temporary_access_types import TemporaryAccessType
+from users.enums.temporary_access_types import TemporaryAccessType
 from users.models import User
 
 

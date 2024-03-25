@@ -7,8 +7,8 @@ from django.http import HttpRequest, JsonResponse, HttpResponse
 from common.type_hints import JSONType
 from .async_api_view_component import AsyncAPIViewComponent
 from ..async_api_request import AsyncAPIRequest
-from ..constants.methods import Methods
-from ..constants.status_code import StatusCode
+from ..enums.methods import Methods
+from ..enums.status_code import StatusCode
 from ..permissions_checkers.request_query_params_fields_checker import RequestQueryParamsFieldsAPIChecker
 
 

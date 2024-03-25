@@ -7,7 +7,7 @@ from example_app.serializers.example_models_serializers.full_example_model_seria
 from common.simple_rest.async_api_request import AsyncAPIRequest
 from common.simple_rest.async_views.async_post_create_api_view import AsyncPostCreateAPIView
 from common.simple_rest.permissions_checkers.login_permission_checker import LoginPermissionChecker
-from common.type_hints import JSONType
+from common.simple_rest.serializers.serializer import Serializer
 
 
 class PostCreateExampleModelItemView(AsyncPostCreateAPIView):
@@ -20,9 +20,9 @@ class PostCreateExampleModelItemView(AsyncPostCreateAPIView):
         return set()
 
     @classmethod
-    async def serialize_object(cls, request: AsyncAPIRequest, obj: ExampleModel, **kwargs) -> JSONType:
-        return await FullExampleModelSerializer().async_serialize(obj)
-
-    @classmethod
     def get_model_cls(cls) -> Type[Model]:
         return ExampleModel
+
+    @classmethod
+    async def get_default_serializer(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> Serializer:
+        return FullExampleModelSerializer()

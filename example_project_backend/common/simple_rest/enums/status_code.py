@@ -1,5 +1,7 @@
+from common.base_enum import BaseEnum
 
-class StatusCode:
+
+class StatusCode(BaseEnum):
     HTTP_200_OK = 200
     HTTP_400_BAD_REQUEST = 400
     HTTP_401_UNAUTHORIZED = 401

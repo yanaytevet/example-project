@@ -1,6 +1,6 @@
 from django.db import models
 
-from blocks.consts.block_types import BlockTypes
+from blocks.enums.block_types import BlockTypes
 
 
 class Block(models.Model):

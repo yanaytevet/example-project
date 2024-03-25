@@ -6,15 +6,17 @@ from django.db.models import Model
 from django.http import HttpRequest, JsonResponse, HttpResponse
 
 from .async_api_view_component import AsyncAPIViewComponent
+from .serialize_item_mixin import SerializeItemMixin
 from ..async_api_request import AsyncAPIRequest
-from common.type_hints import JSONType
-from ..constants.methods import Methods
-from ..constants.status_code import StatusCode
+from ..enums.methods import Methods
+from ..enums.status_code import StatusCode
 from ..exceptions.rest_api_exception import RestAPIException
+from ..item_actions.base_put_action import BaseItemAction
 
 
-class AsyncPutActionsItemAPIView(AsyncAPIViewComponent, ABC):
+class AsyncPutActionsItemAPIView(SerializeItemMixin, AsyncAPIViewComponent, ABC):
     ACTION_FIELD = 'action'
+    ACTION_DATA_FIELD = 'action_data'
 
     @classmethod
     def get_method(cls) -> Methods:
@@ -51,24 +53,33 @@ class AsyncPutActionsItemAPIView(AsyncAPIViewComponent, ABC):
             raise RestAPIException(
                 status_code=StatusCode.HTTP_400_BAD_REQUEST,
                 error_code='action_field_is_missing',
-                message='"action" field is missing',
+                message=f'"{self.ACTION_FIELD}" field is missing',
+            )
+        if self.ACTION_DATA_FIELD not in request.data:
+            raise RestAPIException(
+                status_code=StatusCode.HTTP_400_BAD_REQUEST,
+                error_code='action_data_field_is_missing',
+                message=f'"{self.ACTION_DATA_FIELD}" field is missing',
             )
         action = request.data[self.ACTION_FIELD]
-        action_func_name = f'put_{action}'
-        if not hasattr(self, action_func_name):
+        action_data = request.data[self.ACTION_DATA_FIELD]
+        action_classes_by_name = await self.get_put_action_classes_by_name(request, obj, **kwargs)
+        if action not in action_classes_by_name:
             raise RestAPIException(
                 status_code=StatusCode.HTTP_400_BAD_REQUEST,
                 error_code='action_function_is_not_implemented',
                 message=f'action "{action}" is not implemented',
             )
-        func = getattr(self, action_func_name)
-        if asyncio.iscoroutinefunction(func):
-            await func(request, obj, **kwargs)
-        else:
-            await request.future_user
-            await sync_to_async(func)(request, obj, **kwargs)
+        action_obj: BaseItemAction = await action_classes_by_name[action].create_from_request_and_data(
+            request, obj, action_data, **kwargs)
+        await action_obj.run()
 
     @classmethod
     @abstractmethod
-    async def serialize_object(cls, request: AsyncAPIRequest,  obj: Model, **kwargs) -> JSONType:
+    async def get_put_action_classes_by_name(cls, request: AsyncAPIRequest, obj: Model, **kwargs) \
+            -> dict[str, type[BaseItemAction]]:
         raise NotImplementedError()
+
+    @classmethod
+    def get_actions_names(cls) -> list[str]:
+        return []

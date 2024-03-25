@@ -1,6 +1,6 @@
 from typing import TypedDict
 
-from blocks.consts.block_types import BlockTypes
+from blocks.enums.block_types import BlockTypes
 from blocks.models import Block
 from common.simple_rest.serializers.serializer import Serializer
 from users.serializers.user.short_user_serializer import ShortUserSerializerOutput

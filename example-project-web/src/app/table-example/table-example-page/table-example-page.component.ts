@@ -60,7 +60,8 @@ export class TableExamplePageComponent extends BasePageComponent implements OnIn
   }
 
   async buildItem(block: Block): Promise<void> {
-    await this.blocksApiService.putActionsBlockItemById(block.id, {action: 'build'});
+    await this.blocksApiService.putActionsBlockItemById(block.id, {action: 'build',
+      actionData: {shouldBuild: false}});
     await this.paginationDataHandler.fetch();
   }
 

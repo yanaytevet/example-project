@@ -3,14 +3,14 @@ from abc import ABC, abstractmethod
 from django.db.models import Model
 from django.http import HttpRequest, JsonResponse, HttpResponse
 
-from common.type_hints import JSONType
-from common.simple_rest.constants.methods import Methods
-from common.simple_rest.constants.status_code import StatusCode
+from common.simple_rest.enums.methods import Methods
+from common.simple_rest.enums.status_code import StatusCode
 from .async_api_view_component import AsyncAPIViewComponent
+from .serialize_item_mixin import SerializeItemMixin
 from ..async_api_request import AsyncAPIRequest
 
 
-class AsyncGetItemAPIView(AsyncAPIViewComponent, ABC):
+class AsyncGetItemAPIView(SerializeItemMixin, AsyncAPIViewComponent, ABC):
 
     @classmethod
     def get_method(cls) -> Methods:
@@ -45,8 +45,3 @@ class AsyncGetItemAPIView(AsyncAPIViewComponent, ABC):
     @classmethod
     async def run_after_get(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> None:
         pass
-
-    @classmethod
-    @abstractmethod
-    async def serialize_object(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> JSONType:
-        raise NotImplementedError()

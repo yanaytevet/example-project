@@ -7,17 +7,17 @@ from blocks.serializers.blocks_serializers.block_serializer import BlockSerializ
 from common.simple_rest.async_api_request import AsyncAPIRequest
 from common.simple_rest.async_views.async_patch_item_by_id_api_view import AsyncPatchItemByIdAPIView
 from common.simple_rest.permissions_checkers.login_permission_checker import LoginPermissionChecker
-from common.type_hints import JSONType
+from common.simple_rest.serializers.serializer import Serializer
 
 
 class PatchBlockItemView(AsyncPatchItemByIdAPIView):
     @classmethod
-    def get_allowed_edit_fields(cls) -> Set[str]:
-        return {'a', 'b', 'c'}
+    async def get_default_serializer(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> Serializer:
+        return BlockSerializer()
 
     @classmethod
-    async def serialize_object(cls, request: AsyncAPIRequest, obj: Block, **kwargs) -> JSONType:
-        return await BlockSerializer().async_serialize(obj)
+    def get_allowed_edit_fields(cls) -> Set[str]:
+        return {'a', 'b', 'c'}
 
     @classmethod
     def get_model_cls(cls) -> Type[Model]:

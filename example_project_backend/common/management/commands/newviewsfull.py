@@ -19,6 +19,8 @@ class Command(BaseCommand):
         parser.add_argument('model_name_lower', type=str)
         parser.add_argument('model_name_camel', type=str)
         parser.add_argument('--skip-views', action='store_true')
+        parser.add_argument('--skip-actions', action='store_true')
+        parser.add_argument('--skip-filters', action='store_true')
 
     def handle(self, *args, **options) -> None:
         self.app_name = options['app_name']
@@ -29,6 +31,14 @@ class Command(BaseCommand):
             print('Skipping views creation...')
         else:
             self.create_views_package()
+        if options['skip_actions']:
+            print('Skipping item actions creation...')
+        else:
+            self.create_items_actions_package()
+        if options['skip_filters']:
+            print('Skipping filter queries creation...')
+        else:
+            self.create_query_filters_package()
 
     def create_serializers_package(self) -> None:
         serializers_dir_name = f'{self.model_name_lower}s_serializers'
@@ -42,6 +52,18 @@ class Command(BaseCommand):
         data_path = os.path.join(settings.BASE_DIR, 'common', 'management', 'data', 'example_views')
         serializers_path = os.path.join(settings.BASE_DIR, self.app_name, 'views', views_dir_name)
         self.copy_data_directory_and_replace_texts(data_path, serializers_path)
+
+    def create_items_actions_package(self):
+        action_items_dir_name = f'{self.model_name_lower}s_item_actions'
+        data_path = os.path.join(settings.BASE_DIR, 'common', 'management', 'data', 'example_item_actions')
+        item_actions_path = os.path.join(settings.BASE_DIR, self.app_name, 'item_actions', action_items_dir_name)
+        self.copy_data_directory_and_replace_texts(data_path, item_actions_path)
+
+    def create_query_filters_package(self):
+        query_filters_dir_name = f'{self.model_name_lower}s_query_filters'
+        data_path = os.path.join(settings.BASE_DIR, 'common', 'management', 'data', 'example_query_filters')
+        query_filters_path = os.path.join(settings.BASE_DIR, self.app_name, 'query_filters', query_filters_dir_name)
+        self.copy_data_directory_and_replace_texts(data_path, query_filters_path)
 
     def copy_data_directory_and_replace_texts(self, data_path: str, target_path: str) -> None:
         if os.path.exists(target_path):
