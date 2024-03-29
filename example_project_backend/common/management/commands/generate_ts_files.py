@@ -188,7 +188,7 @@ export type {name} = z.infer<typeof Z{name}>;
         return None
 
     def get_field_ts_name(self, field_name: str) -> str:
-        return StringUtils.lower_case_to_title_case(field_name)
+        return StringUtils.lower_case_to_camel_case(field_name)
 
     def replace_z_imports_in_ts_files(self, z_class: str, partial_path: str) -> None:
         for path, dirs, files in os.walk(self.new_generated_files):
