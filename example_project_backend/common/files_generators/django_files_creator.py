@@ -15,6 +15,9 @@ class DjangoFilesCreator:
     MODELS_DIRECTORY = 'models'
     MODEL_EXAMPLE_FILE_PATH = 'example_model.py'
 
+    ITEM_ACTIONS_DIRECTORY = 'item_actions'
+    ITEM_ACTION_EXAMPLE_FILE_PATH = 'example_item_action.py'
+
     def __init__(self):
         self.directories_creator = DirectoriesCreator()
         self.files_copier = FilesCopier()
@@ -72,3 +75,27 @@ class DjangoFilesCreator:
         init_file_path = os.path.join(models_relative_path, self.INIT_FILE)
         self.files_text_replacer.add_line_to_file_in_relative_django(
             init_file_path, f'from .{model_file_name_without_py} import {model_class_name}')
+
+    def create_item_action_file(self, app_name: str, model_name: str, action_name: str, action_file_path: str = None
+                                ) -> None:
+        if self.exit_if_app_doesnt_exist(app_name):
+            return
+        action_class_name = f'{action_name}{model_name}'
+        if action_file_path is None:
+            action_name_lower = StringUtils.pascal_case_to_lower_case(action_name)
+            model_name_lower = StringUtils.pascal_case_to_lower_case(model_name)
+            lower_case_name = f'{action_name_lower}_{model_name_lower}_item_action'
+            model_item_actions_directory_name = f'{model_name_lower}s_item_actions'
+            action_file_relative_path = os.path.join(app_name, self.ITEM_ACTIONS_DIRECTORY,
+                                                     model_item_actions_directory_name, f'{lower_case_name}.py')
+        else:
+            action_file_relative_path = os.path.join(app_name, self.ITEM_ACTIONS_DIRECTORY, action_file_path)
+        actions_relative_path = os.path.split(action_file_relative_path)[0]
+        self.directories_creator.create_django_directory_path(actions_relative_path)
+        self.files_copier.copy_template_file_or_directory_to_relative_django(
+            self.ITEM_ACTION_EXAMPLE_FILE_PATH, action_file_relative_path, should_override=False)
+        self.files_text_replacer.replace_text_in_relative_django(action_file_relative_path, {
+            'ExampleModel': model_name,
+            'ExampleActionModel': action_class_name,
+            'example_app': app_name,
+        })

@@ -8,6 +8,8 @@ T = TypeVar('T')
 
 
 class BaseItemAction(ABC, Generic[T]):
+    INPUT_DATA_TYPE = None
+
     def __init__(self, obj: T):
         self.obj = obj
 
