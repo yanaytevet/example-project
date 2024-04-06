@@ -4,7 +4,7 @@ from common.files_generators.django_files_creator import DjangoFilesCreator
 
 
 class Command(BaseCommand):
-    help = 'Create a new query filter'
+    help = 'Create a new item action'
 
     def add_arguments(self, parser: CommandParser):
         parser.add_argument('app_name', type=str)

@@ -1,4 +1,4 @@
-from typing import Self, TypedDict
+from typing import Self, TypedDict, NotRequired
 
 from example_app.models import ExampleModel
 from common.simple_rest.async_api_request import AsyncAPIRequest
@@ -6,7 +6,7 @@ from common.simple_rest.item_actions.base_put_action import BaseItemAction
 
 
 class ExampleActionModelItemActionDataType(TypedDict):
-    a: int
+    a: NotRequired[int]
 
 
 class ExampleActionModelItemAction(BaseItemAction[ExampleModel]):

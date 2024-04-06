@@ -18,6 +18,12 @@ class DjangoFilesCreator:
     ITEM_ACTIONS_DIRECTORY = 'item_actions'
     ITEM_ACTION_EXAMPLE_FILE_PATH = 'example_item_action.py'
 
+    QUERY_FILTERS_DIRECTORY = 'query_filters'
+    QUERY_FILTER_EXAMPLE_FILE_PATH = 'example_query_filter.py'
+
+    SERIALIZERS_DIRECTORY = 'serializers'
+    SERIALIZER_EXAMPLE_FILE_PATH = 'example_serializer.py'
+
     def __init__(self):
         self.directories_creator = DirectoriesCreator()
         self.files_copier = FilesCopier()
@@ -97,5 +103,60 @@ class DjangoFilesCreator:
         self.files_text_replacer.replace_text_in_relative_django(action_file_relative_path, {
             'ExampleModel': model_name,
             'ExampleActionModel': action_class_name,
+            'example_app': app_name,
+        })
+
+    def create_query_filter_file(self, app_name: str, model_name: str, filter_name: str, filter_file_path: str = None
+                                 ) -> None:
+        if self.exit_if_app_doesnt_exist(app_name):
+            return
+        filter_class_name = f'{filter_name}{model_name}'
+        if filter_file_path is None:
+            filter_name_lower = StringUtils.pascal_case_to_lower_case(filter_name)
+            model_name_lower = StringUtils.pascal_case_to_lower_case(model_name)
+            lower_case_name = f'{filter_name_lower}_{model_name_lower}_query_filter'
+            model_query_filters_directory_name = f'{model_name_lower}s_query_filters'
+            filter_file_relative_path = os.path.join(app_name, self.QUERY_FILTERS_DIRECTORY,
+                                                     model_query_filters_directory_name, f'{lower_case_name}.py')
+        else:
+            filter_file_relative_path = os.path.join(app_name, self.QUERY_FILTERS_DIRECTORY, filter_file_path)
+        filters_relative_path = os.path.split(filter_file_relative_path)[0]
+        self.directories_creator.create_django_directory_path(filters_relative_path)
+        self.files_copier.copy_template_file_or_directory_to_relative_django(
+            self.QUERY_FILTER_EXAMPLE_FILE_PATH, filter_file_relative_path, should_override=False)
+        self.files_text_replacer.replace_text_in_relative_django(filter_file_relative_path, {
+            'ExampleModel': model_name,
+            'ExampleFilterModel': filter_class_name,
+            'example_app': app_name,
+        })
+
+    def create_serializer_file(self, app_name: str, model_name: str, serializer_name_prefix: str = None,
+                               serializer_name_suffix: str = None,
+                               serializer_file_path: str = None):
+        if self.exit_if_app_doesnt_exist(app_name):
+            return
+        if serializer_name_prefix is None:
+            serializer_name_prefix = 'Full'
+        serializer_class_name = f'{serializer_name_prefix}{model_name}{serializer_name_suffix or ""}'
+        if serializer_file_path is None:
+            serializer_name_prefix_lower = StringUtils.pascal_case_to_lower_case(serializer_name_prefix)
+            serializer_name_suffix_lower = ''
+            if serializer_name_suffix:
+                serializer_name_suffix_lower = f'_{StringUtils.pascal_case_to_lower_case(serializer_name_suffix)}'
+            model_name_lower = StringUtils.pascal_case_to_lower_case(model_name)
+            lower_case_name = (f'{serializer_name_prefix_lower}_{model_name_lower}'
+                               f'{serializer_name_suffix_lower}_serializer')
+            model_query_filters_directory_name = f'{model_name_lower}s_serializers'
+            serializer_file_relative_path = os.path.join(app_name, self.SERIALIZERS_DIRECTORY,
+                                                         model_query_filters_directory_name, f'{lower_case_name}.py')
+        else:
+            serializer_file_relative_path = os.path.join(app_name, self.SERIALIZERS_DIRECTORY, serializer_file_path)
+        serializers_relative_path = os.path.split(serializer_file_relative_path)[0]
+        self.directories_creator.create_django_directory_path(serializers_relative_path)
+        self.files_copier.copy_template_file_or_directory_to_relative_django(
+            self.SERIALIZER_EXAMPLE_FILE_PATH, serializer_file_relative_path, should_override=False)
+        self.files_text_replacer.replace_text_in_relative_django(serializer_file_relative_path, {
+            'ExampleModel': model_name,
+            'ExampleName': serializer_class_name,
             'example_app': app_name,
         })
