@@ -37,3 +37,11 @@ class FilesCopier:
             self, template_relative_path: str, relative_path: str, should_override: bool = False) -> None:
         full_path = os.path.join(self.paths_manager.get_new_generated_ts_path(), relative_path)
         self.copy_template_file_or_directory(template_relative_path, full_path, should_override)
+
+    def remove_relative_django(self, relative_path: str) -> None:
+        full_path = os.path.join(self.paths_manager.get_django_base_path(), relative_path)
+        os.remove(full_path)
+
+    def remove_relative_new_generated_ts(self, relative_path: str) -> None:
+        full_path = os.path.join(self.paths_manager.get_django_base_path(), relative_path)
+        os.remove(full_path)

@@ -1,8 +1,11 @@
 import os.path
 
+from django.core.management import call_command
+
 from common.files_generators.directories_creator import DirectoriesCreator
 from common.files_generators.files_copier import FilesCopier
 from common.files_generators.files_text_replacer import FilesTextReplacer
+from common.files_generators.paths_manager import PathsManager
 from common.string_utils import StringUtils
 
 
@@ -24,10 +27,27 @@ class DjangoFilesCreator:
     SERIALIZERS_DIRECTORY = 'serializers'
     SERIALIZER_EXAMPLE_FILE_PATH = 'example_serializer.py'
 
+    APP_URL_FILE = 'urls.py'
+    URL_EXAMPLE_FILE_PATH = 'example_urls.py'
+
+    ADMIN_EXAMPLE_FILE_PATH = 'example_admin.py'
+    ADMIN_FILE = 'admin.py'
+
+    TESTS_DIRECTORY = 'tests'
+    VIEWS_DIRECTORY = 'views'
+    TASKS_DIRECTORY = 'tasks'
+    PERMISSIONS_CHECKERS_DIRECTORY = 'permissions_checkers'
+
+    FILES_TO_REMOVE_ON_CREATE_APP = ['tests.py', 'views.py', 'models.py', ADMIN_FILE]
+    DIRECTORIES_TO_CREATE_ON_CREATE_APP = [ENUMS_DIRECTORY, MODELS_DIRECTORY, ITEM_ACTIONS_DIRECTORY,
+                                           QUERY_FILTERS_DIRECTORY, SERIALIZERS_DIRECTORY, TESTS_DIRECTORY,
+                                           VIEWS_DIRECTORY, TASKS_DIRECTORY, PERMISSIONS_CHECKERS_DIRECTORY]
+
     def __init__(self):
         self.directories_creator = DirectoriesCreator()
         self.files_copier = FilesCopier()
         self.files_text_replacer = FilesTextReplacer()
+        self.paths_manager = PathsManager()
 
     def exit_if_app_doesnt_exist(self, app_name: str) -> bool:
         if not self.directories_creator.does_app_exists(app_name):
@@ -35,11 +55,39 @@ class DjangoFilesCreator:
             return True
         return False
 
-    def create_enums_directory(self, app_name: str) -> None:
-        if self.exit_if_app_doesnt_exist(app_name):
+    def create_app(self, app_name: str) -> None:
+        if self.directories_creator.does_app_exists(app_name):
+            print(f"app {app_name} already exists")
             return
-        enums_relative_path = os.path.join(app_name, self.ENUMS_DIRECTORY)
-        self.directories_creator.create_django_directory_path(enums_relative_path)
+        call_command('startapp', app_name)
+        self.init_app_urls(app_name)
+        self.init_app_settings(app_name)
+        for file_name in self.FILES_TO_REMOVE_ON_CREATE_APP:
+            self.files_copier.remove_relative_django(f'{app_name}/{file_name}')
+        for dir_name in self.DIRECTORIES_TO_CREATE_ON_CREATE_APP:
+            self.directories_creator.create_django_directory_path(f'{app_name}/{dir_name}')
+        admin_file_path = f'{app_name}/{self.ADMIN_FILE}'
+        self.files_copier.copy_template_file_or_directory_to_relative_django(
+            self.ADMIN_EXAMPLE_FILE_PATH, admin_file_path, should_override=True)
+        self.files_text_replacer.replace_text_in_relative_django(admin_file_path, {
+            'example_app': app_name,
+        })
+
+    def init_app_urls(self, app_name: str) -> None:
+        urls_relative_path = os.path.join(app_name, self.APP_URL_FILE)
+        self.files_copier.copy_template_file_or_directory_to_relative_django(
+            self.URL_EXAMPLE_FILE_PATH, urls_relative_path, should_override=True)
+        general_urls_relative_path = self.paths_manager.get_django_project_general_urls_relative_path()
+        app_url = app_name.replace('_', '-')
+        url_file_line = f"    path(r'api/{app_url}/', include('{app_name}.urls')),\n]"
+        self.files_text_replacer.replace_text_in_relative_django(general_urls_relative_path,
+                                                                 {']': url_file_line})
+
+    def init_app_settings(self, app_name: str) -> None:
+        installed_apps_relative_path = self.paths_manager.get_django_project_general_installed_apps()
+        url_file_line = f"    '{app_name}',\n]"
+        self.files_text_replacer.replace_text_in_relative_django(installed_apps_relative_path,
+                                                                 {']': url_file_line})
 
     def create_enum_file(self, app_name: str, enum_class_name: str, enum_file_path: str = None) -> None:
         if self.exit_if_app_doesnt_exist(app_name):
@@ -57,12 +105,6 @@ class DjangoFilesCreator:
         self.files_text_replacer.replace_text_in_relative_django(enum_file_relative_path, {
             'ExampleEnum': enum_class_name,
         })
-
-    def create_models_directory(self, app_name: str) -> None:
-        if self.exit_if_app_doesnt_exist(app_name):
-            return
-        enums_relative_path = os.path.join(app_name, self.MODELS_DIRECTORY)
-        self.directories_creator.create_django_directory_path(enums_relative_path)
 
     def create_model_file(self, app_name: str, model_class_name: str, model_file_name: str = None) -> None:
         if self.exit_if_app_doesnt_exist(app_name):

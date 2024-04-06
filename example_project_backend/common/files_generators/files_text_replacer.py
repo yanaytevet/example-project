@@ -1,4 +1,5 @@
 import os
+import re
 
 from common.files_generators.paths_manager import PathsManager
 
@@ -24,7 +25,6 @@ class FilesTextReplacer:
         self.replace_text(full_path, replace_dict)
 
     def add_line_to_file(self, full_path: str, line: str) -> None:
-        print(full_path)
         with open(full_path, 'r') as f:
             s = f.read()
         s = s.strip()

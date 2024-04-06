@@ -23,3 +23,10 @@ class PathsManager:
 
     def get_django_templates_directory(self) -> str:
         return os.path.join(self.get_django_base_path(), 'common', 'files_generators', 'data')
+
+    def get_django_project_general_urls_relative_path(self) -> str:
+        return settings.ROOT_URLCONF.replace('.', '/') + '.py'
+
+    def get_django_project_general_installed_apps(self) -> str:
+        urls_path = self.get_django_project_general_urls_relative_path()
+        return urls_path.replace('urls.py', 'installed_apps.py')
