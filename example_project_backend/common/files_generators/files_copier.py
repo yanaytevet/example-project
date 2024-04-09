@@ -21,6 +21,9 @@ class FilesCopier:
         if os.path.exists(full_path) and not should_override:
             print(f'Path {full_path} already exists. Skipping...')
             return
+        if os.path.exists(full_path) and should_override:
+            print(f'Path {full_path} already exists. Overriding...')
+            shutil.rmtree(full_path)
         print(f'Copying {template_relative_path} to {full_path}')
         template_full_path = os.path.join(self.paths_manager.get_django_templates_directory(), template_relative_path)
         if os.path.isfile(template_full_path):

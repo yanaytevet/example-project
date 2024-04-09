@@ -38,6 +38,8 @@ class DjangoFilesCreator:
     TASKS_DIRECTORY = 'tasks'
     PERMISSIONS_CHECKERS_DIRECTORY = 'permissions_checkers'
 
+    VIEWS_EXAMPLE_DIRECTORY_PATH = 'example_views'
+
     FILES_TO_REMOVE_ON_CREATE_APP = ['tests.py', 'views.py', 'models.py', ADMIN_FILE]
     DIRECTORIES_TO_CREATE_ON_CREATE_APP = [ENUMS_DIRECTORY, MODELS_DIRECTORY, ITEM_ACTIONS_DIRECTORY,
                                            QUERY_FILTERS_DIRECTORY, SERIALIZERS_DIRECTORY, TESTS_DIRECTORY,
@@ -174,7 +176,7 @@ class DjangoFilesCreator:
 
     def create_serializer_file(self, app_name: str, model_name: str, serializer_name_prefix: str = None,
                                serializer_name_suffix: str = None,
-                               serializer_file_path: str = None):
+                               serializer_file_path: str = None) -> None:
         if self.exit_if_app_doesnt_exist(app_name):
             return
         if serializer_name_prefix is None:
@@ -193,6 +195,8 @@ class DjangoFilesCreator:
                                                          model_query_filters_directory_name, f'{lower_case_name}.py')
         else:
             serializer_file_relative_path = os.path.join(app_name, self.SERIALIZERS_DIRECTORY, serializer_file_path)
+        if os.path.exists(serializer_file_relative_path):
+            return
         serializers_relative_path = os.path.split(serializer_file_relative_path)[0]
         self.directories_creator.create_django_directory_path(serializers_relative_path)
         self.files_copier.copy_template_file_or_directory_to_relative_django(
@@ -200,5 +204,27 @@ class DjangoFilesCreator:
         self.files_text_replacer.replace_text_in_relative_django(serializer_file_relative_path, {
             'ExampleModel': model_name,
             'ExampleName': serializer_class_name,
+            'example_app': app_name,
+        })
+
+    def create_views(self, app_name: str, model_name: str, class_name_suffix: str = None) -> None:
+        if class_name_suffix is None:
+            class_name_suffix = ''
+        self.create_serializer_file(app_name, model_name, 'Full', class_name_suffix)
+        self.create_serializer_file(app_name, model_name, 'Short', class_name_suffix)
+
+        model_lower_case = StringUtils.pascal_case_to_lower_case(model_name)
+        model_views_directory = os.path.join(app_name, self.VIEWS_DIRECTORY, f'{model_lower_case}s_views')
+        specific_class_name = f'{model_name}{class_name_suffix}'
+        specific_views_lower_case = StringUtils.pascal_case_to_lower_case(specific_class_name)
+        specific_views_directory = os.path.join(model_views_directory, specific_views_lower_case)
+        self.directories_creator.create_django_directory_path(specific_views_directory)
+        self.files_copier.copy_template_file_or_directory_to_relative_django(
+            self.VIEWS_EXAMPLE_DIRECTORY_PATH, specific_views_directory, should_override=True)
+        self.files_text_replacer.replace_text_in_relative_django_directory(specific_views_directory, {
+            'example_view': specific_views_lower_case,
+            'example_model': model_lower_case,
+            'ExampleView': specific_class_name,
+            'ExampleModel': model_name,
             'example_app': app_name,
         })

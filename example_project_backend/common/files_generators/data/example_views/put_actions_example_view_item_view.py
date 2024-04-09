@@ -2,8 +2,7 @@ from typing import Type
 
 from django.db.models import Model
 from example_app.models import ExampleModel
-from example_app.serializers.example_models_serializers.full_example_model_serializer import FullExampleModelSerializer
-from example_app.item_actions.example_models_action_items.do_stuff_example_model_item_action import DoStuffExampleModelItemAction
+from example_app.serializers.example_models_serializers.full_example_view_serializer import FullExampleViewSerializer
 
 from common.simple_rest.async_api_request import AsyncAPIRequest
 from common.simple_rest.async_views.async_put_actions_item_by_id_api_view import AsyncPutActionsItemByIdAPIView
@@ -12,17 +11,16 @@ from common.simple_rest.item_actions.base_put_action import BaseItemAction
 from common.simple_rest.serializers.serializer import Serializer
 
 
-class PutActionsExampleModelItemView(AsyncPutActionsItemByIdAPIView):
+class PutActionsExampleViewItemView(AsyncPutActionsItemByIdAPIView):
     @classmethod
     async def get_put_action_classes_by_name(cls, request: AsyncAPIRequest, obj: Model, **kwargs) \
             -> dict[str, type[BaseItemAction]]:
         return {
-            'do_stuff': DoStuffExampleModelItemAction,
         }
 
     @classmethod
     async def get_default_serializer(cls, request: AsyncAPIRequest, obj: ExampleModel, **kwargs) -> Serializer:
-        return FullExampleModelSerializer()
+        return FullExampleViewSerializer()
 
     @classmethod
     def get_model_cls(cls) -> Type[Model]:
