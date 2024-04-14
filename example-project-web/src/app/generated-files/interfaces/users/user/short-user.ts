@@ -1,7 +1,7 @@
-import {z} from "zod"
+import {z} from "zod";
 
 
-export const ZShortUser = z.object( {
+export const ZShortUser = z.object({
   id: z.number(),
   username: z.string(),
   fullName: z.string(),

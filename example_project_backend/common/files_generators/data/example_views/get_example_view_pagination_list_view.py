@@ -19,7 +19,7 @@ class GetExampleViewPaginationListView(AsyncGetListAPIView):
 
     @classmethod
     async def get_optional_query_filter_classes_by_name(cls, request: AsyncAPIRequest, **kwargs
-                                                        ) -> dict[str, BaseQueryFilter]:
+                                                        ) -> dict[str, Type[BaseQueryFilter]]:
         return {}
 
     @classmethod

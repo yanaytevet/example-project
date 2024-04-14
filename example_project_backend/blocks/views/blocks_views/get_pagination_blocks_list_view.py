@@ -19,8 +19,9 @@ class GetPaginationBlockListView(AsyncGetListAPIView):
 
     @classmethod
     async def get_optional_query_filter_classes_by_name(cls, request: AsyncAPIRequest, **kwargs) \
-            -> dict[str, BaseQueryFilter]:
-        return {}
+            -> dict[str, Type[BaseQueryFilter]]:
+        return {
+        }
 
     @classmethod
     async def get_default_serializer(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> Serializer:

@@ -2,7 +2,7 @@ import os.path
 
 from django.core.management import call_command
 
-from common.files_generators.directories_creator import DirectoriesCreator
+from common.files_generators.directories_manager import DirectoriesManager
 from common.files_generators.files_copier import FilesCopier
 from common.files_generators.files_text_replacer import FilesTextReplacer
 from common.files_generators.paths_manager import PathsManager
@@ -46,19 +46,19 @@ class DjangoFilesCreator:
                                            VIEWS_DIRECTORY, TASKS_DIRECTORY, PERMISSIONS_CHECKERS_DIRECTORY]
 
     def __init__(self):
-        self.directories_creator = DirectoriesCreator()
+        self.directories_manager = DirectoriesManager()
         self.files_copier = FilesCopier()
         self.files_text_replacer = FilesTextReplacer()
         self.paths_manager = PathsManager()
 
     def exit_if_app_doesnt_exist(self, app_name: str) -> bool:
-        if not self.directories_creator.does_app_exists(app_name):
+        if not self.directories_manager.does_app_exists(app_name):
             print(f"app {app_name} doesn't exist")
             return True
         return False
 
     def create_app(self, app_name: str) -> None:
-        if self.directories_creator.does_app_exists(app_name):
+        if self.directories_manager.does_app_exists(app_name):
             print(f"app {app_name} already exists")
             return
         call_command('startapp', app_name)
@@ -67,7 +67,7 @@ class DjangoFilesCreator:
         for file_name in self.FILES_TO_REMOVE_ON_CREATE_APP:
             self.files_copier.remove_relative_django(f'{app_name}/{file_name}')
         for dir_name in self.DIRECTORIES_TO_CREATE_ON_CREATE_APP:
-            self.directories_creator.create_django_directory_path(f'{app_name}/{dir_name}')
+            self.directories_manager.create_django_directory_path(f'{app_name}/{dir_name}')
         admin_file_path = f'{app_name}/{self.ADMIN_FILE}'
         self.files_copier.copy_template_file_or_directory_to_relative_django(
             self.ADMIN_EXAMPLE_FILE_PATH, admin_file_path, should_override=True)
@@ -101,7 +101,7 @@ class DjangoFilesCreator:
         else:
             enum_file_relative_path = os.path.join(app_name, self.ENUMS_DIRECTORY, enum_file_path)
             enums_relative_path = os.path.split(enum_file_relative_path)[0]
-        self.directories_creator.create_django_directory_path(enums_relative_path)
+        self.directories_manager.create_django_directory_path(enums_relative_path)
         self.files_copier.copy_template_file_or_directory_to_relative_django(
             self.ENUM_EXAMPLE_FILE_PATH, enum_file_relative_path, should_override=False)
         self.files_text_replacer.replace_text_in_relative_django(enum_file_relative_path, {
@@ -116,7 +116,7 @@ class DjangoFilesCreator:
         model_file_name_without_py = model_file_name.replace('.py', '')
         model_file_relative_path = os.path.join(app_name, self.MODELS_DIRECTORY, model_file_name)
         models_relative_path = os.path.join(app_name, self.MODELS_DIRECTORY)
-        self.directories_creator.create_django_directory_path(models_relative_path)
+        self.directories_manager.create_django_directory_path(models_relative_path)
         self.files_copier.copy_template_file_or_directory_to_relative_django(
             self.MODEL_EXAMPLE_FILE_PATH, model_file_relative_path, should_override=False)
         self.files_text_replacer.replace_text_in_relative_django(model_file_relative_path, {
@@ -141,7 +141,7 @@ class DjangoFilesCreator:
         else:
             action_file_relative_path = os.path.join(app_name, self.ITEM_ACTIONS_DIRECTORY, action_file_path)
         actions_relative_path = os.path.split(action_file_relative_path)[0]
-        self.directories_creator.create_django_directory_path(actions_relative_path)
+        self.directories_manager.create_django_directory_path(actions_relative_path)
         self.files_copier.copy_template_file_or_directory_to_relative_django(
             self.ITEM_ACTION_EXAMPLE_FILE_PATH, action_file_relative_path, should_override=False)
         self.files_text_replacer.replace_text_in_relative_django(action_file_relative_path, {
@@ -165,7 +165,7 @@ class DjangoFilesCreator:
         else:
             filter_file_relative_path = os.path.join(app_name, self.QUERY_FILTERS_DIRECTORY, filter_file_path)
         filters_relative_path = os.path.split(filter_file_relative_path)[0]
-        self.directories_creator.create_django_directory_path(filters_relative_path)
+        self.directories_manager.create_django_directory_path(filters_relative_path)
         self.files_copier.copy_template_file_or_directory_to_relative_django(
             self.QUERY_FILTER_EXAMPLE_FILE_PATH, filter_file_relative_path, should_override=False)
         self.files_text_replacer.replace_text_in_relative_django(filter_file_relative_path, {
@@ -198,7 +198,7 @@ class DjangoFilesCreator:
         if os.path.exists(serializer_file_relative_path):
             return
         serializers_relative_path = os.path.split(serializer_file_relative_path)[0]
-        self.directories_creator.create_django_directory_path(serializers_relative_path)
+        self.directories_manager.create_django_directory_path(serializers_relative_path)
         self.files_copier.copy_template_file_or_directory_to_relative_django(
             self.SERIALIZER_EXAMPLE_FILE_PATH, serializer_file_relative_path, should_override=False)
         self.files_text_replacer.replace_text_in_relative_django(serializer_file_relative_path, {
@@ -218,7 +218,7 @@ class DjangoFilesCreator:
         specific_class_name = f'{model_name}{class_name_suffix}'
         specific_views_lower_case = StringUtils.pascal_case_to_lower_case(specific_class_name)
         specific_views_directory = os.path.join(model_views_directory, specific_views_lower_case)
-        self.directories_creator.create_django_directory_path(specific_views_directory)
+        self.directories_manager.create_django_directory_path(specific_views_directory)
         self.files_copier.copy_template_file_or_directory_to_relative_django(
             self.VIEWS_EXAMPLE_DIRECTORY_PATH, specific_views_directory, should_override=True)
         self.files_text_replacer.replace_text_in_relative_django_directory(specific_views_directory, {

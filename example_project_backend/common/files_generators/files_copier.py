@@ -48,3 +48,18 @@ class FilesCopier:
     def remove_relative_new_generated_ts(self, relative_path: str) -> None:
         full_path = os.path.join(self.paths_manager.get_django_base_path(), relative_path)
         os.remove(full_path)
+
+    def create_file_with_content(self, full_path: str, content: str, should_override: bool = False) -> None:
+        if os.path.exists(full_path) and not should_override:
+            print(f'Path {full_path} already exists. Skipping...')
+            return
+        if os.path.exists(full_path) and should_override:
+            print(f'Path {full_path} already exists. Overriding...')
+            shutil.rmtree(full_path)
+        print(f'setting content to {full_path}')
+        with open(full_path, 'w') as file:
+            file.write(content)
+
+    def create_file_with_content_in_relative_new_generated_ts(self, relative_path: str, content: str) -> None:
+        full_path = os.path.join(self.paths_manager.get_new_generated_ts_path(), relative_path)
+        self.create_file_with_content(full_path, content)

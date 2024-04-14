@@ -14,6 +14,7 @@ export class PaginationDataHandler<T> {
   pageSize: number = 25;
   isEmpty: boolean = true;
   filterObject: Record<string, any> = {};
+  optionalFiltersObject: Record<string, any> = {};
   sortObjectsArray: SortObject[] = [];
 
   private readonly _isLoadingSub = new BehaviorSubject<boolean>(true);
@@ -52,6 +53,7 @@ export class PaginationDataHandler<T> {
       page_size: this.pageSize,
       order_by: this.getSortString(),
       filter: this.getFilterString(),
+      optional_filters: this.getOptionalFiltersString(),
     }
     this.paginationData = await this.fetchPaginationData(data);
     this.isLoading = false;
@@ -65,21 +67,14 @@ export class PaginationDataHandler<T> {
 
   clearAllFilter(): void {
     this.filterObject = {};
-    this.fetch();
   }
 
-  setFilter(key: string, value: any, fetch: boolean = true): void {
+  setFilter(key: string, value: any): void {
     this.filterObject[key] = value;
-    if (fetch) {
-      this.fetch();
-    }
   }
 
-  clearFilter(key: string, fetch: boolean = true): void {
+  clearFilter(key: string): void {
     delete this.filterObject[key];
-    if (fetch) {
-      this.fetch();
-    }
   }
 
   getFilterValue(key: string): any {
@@ -88,7 +83,6 @@ export class PaginationDataHandler<T> {
 
   removeFilter(key: string, value: string): void {
     this.filterObject[key] = value;
-    this.fetch();
   }
 
   addSort(key: string, direction: SortDirection): void {
@@ -99,12 +93,18 @@ export class PaginationDataHandler<T> {
     else {
       this.sortObjectsArray.push({key, direction});
     }
-    this.fetch();
   }
 
   clearSort(key: string): void {
     this.sortObjectsArray= this.sortObjectsArray.filter(sort => sort.key !== key);
-    this.fetch();
+  }
+
+  setOptionalFilter(key: string, value: any): void {
+    this.optionalFiltersObject[key] = value;
+  }
+
+  clearOptionalFilter(key: string): void {
+    delete this.optionalFiltersObject[key];
   }
 
   private getSortString(): string {
@@ -113,6 +113,13 @@ export class PaginationDataHandler<T> {
 
   private getFilterString(): string {
     return JSON.stringify(this.filterObject);
+  }
+
+  private getOptionalFiltersString(): string {
+    const res = Object.keys(this.optionalFiltersObject).map(key => {
+      return [key, this.optionalFiltersObject[key]];
+    });
+    return JSON.stringify(res);
   }
 
   startAutoFetch(seconds: number): void {

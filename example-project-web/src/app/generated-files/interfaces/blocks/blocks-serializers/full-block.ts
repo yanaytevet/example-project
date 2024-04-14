@@ -1,8 +1,8 @@
-import {z} from "zod"
-import { ZBlockTypes } from "../../../enums/blocks/block-types"
-import { ZShortUser } from "../../users/user/short-user"
+import {z} from "zod";
+import {ZBlockTypes} from "../../../enums/blocks/block-types";
+import {ZShortUser} from "../../users/user/short-user";
 
-export const ZFullBlock = z.object( {
+export const ZFullBlock = z.object({
   id: z.number(),
   a: z.string(),
   b: z.number(),

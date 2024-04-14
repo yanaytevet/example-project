@@ -147,7 +147,9 @@ class AsyncGetListAPIView(SerializeItemMixin, AsyncAPIViewComponent, ABC):
         res = None
         if optional_filters_operator == QueriesLogicOperators.AND:
             res = objects
+        print(await objects.acount())
         async for query_filter in cls.get_optional_query_filters(request, objects, **kwargs):
+            print(query_filter, optional_filters_operator)
             if optional_filters_operator == QueriesLogicOperators.OR:
                 if res is None:
                     res = await query_filter.run(objects)
@@ -155,13 +157,14 @@ class AsyncGetListAPIView(SerializeItemMixin, AsyncAPIViewComponent, ABC):
                     res = res.union(await query_filter.run(objects))
             elif optional_filters_operator == QueriesLogicOperators.AND:
                 res = await query_filter.run(res)
+        print(await objects.acount())
         if res is None:
             res = objects
         return res
 
     @classmethod
     async def get_optional_queries_operator(cls, request: AsyncAPIRequest, **kwargs) -> QueriesLogicOperators:
-        return cls.get_params_from_request(request, 'optional_queries_operator', 'and')
+        return cls.get_params_from_request(request, 'optional_queries_operator', 'AND')
 
     @classmethod
     async def get_optional_query_filters(cls, request: AsyncAPIRequest, objects: QuerySet, **kwargs) \
@@ -170,12 +173,12 @@ class AsyncGetListAPIView(SerializeItemMixin, AsyncAPIViewComponent, ABC):
         optional_query_filter_classes_by_name = await cls.get_optional_query_filter_classes_by_name(request, **kwargs)
         for filter_name, data in optional_filters_and_data:
             query_filter_cls = optional_query_filter_classes_by_name[filter_name]
-            yield query_filter_cls.create_from_request_and_data(request, data, **kwargs)
+            yield await query_filter_cls.create_from_request_and_data(request, data, **kwargs)
 
     @classmethod
     @abstractmethod
     async def get_optional_query_filter_classes_by_name(cls, request: AsyncAPIRequest, **kwargs) \
-            -> dict[str, BaseQueryFilter]:
+            -> dict[str, Type[BaseQueryFilter]]:
         raise NotImplementedError()
 
     @classmethod
