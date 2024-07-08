@@ -1,23 +1,28 @@
-from typing import Type, Set
+from typing import Type
 
 from django.db.models import Model
 from example_app.models import ExampleModel
 from example_app.serializers.example_models_serializers.full_example_view_serializer import FullExampleViewSerializer
 
 from common.simple_rest.async_api_request import AsyncAPIRequest
-from common.simple_rest.async_views.async_post_create_api_view import AsyncPostCreateAPIView
+from common.simple_rest.async_views.async_post_action_item_by_id_api_view import AsyncPostActionItemByIdAPIView
 from common.simple_rest.permissions_checkers.login_permission_checker import LoginPermissionChecker
 from common.simple_rest.serializers.serializer import Serializer
+from common.type_hints import JSONType
 
 
-class PostCreateExampleViewItemView(AsyncPostCreateAPIView):
+class PostActionExampleViewItemView(AsyncPostActionItemByIdAPIView):
     @classmethod
-    async def check_permitted(cls, request: AsyncAPIRequest, **kwargs) -> None:
+    async def check_permitted_before_object(cls, request: AsyncAPIRequest, **kwargs) -> None:
         await LoginPermissionChecker().async_raise_exception_if_not_valid(await request.future_user)
 
     @classmethod
-    def get_allowed_creation_fields(cls) -> Set[str]:
-        return set()
+    async def check_permitted_after_object(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> None:
+        pass
+
+    @classmethod
+    async def run_action(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> JSONType:
+        pass
 
     @classmethod
     def get_model_cls(cls) -> Type[Model]:

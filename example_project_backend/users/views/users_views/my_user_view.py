@@ -22,5 +22,5 @@ class MyUserItemView(AsyncGetItemAPIView):
         pass
 
     @classmethod
-    async def get_default_serializer(cls, request: AsyncAPIRequest, obj: User, **kwargs) -> Serializer:
+    async def get_default_serializer(cls, **kwargs) -> Serializer:
         return UserSerializer()

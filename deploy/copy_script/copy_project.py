@@ -122,7 +122,7 @@ def change_frontend_name():
     new_project_frontend_path = os.path.join(project_path, new_project_frontend_name)
 
     os.rename(project_frontend_path, new_project_frontend_path)
-    change_string_in_directory_by_param(project_frontend_name, new_project_frontend_name)
+    change_string_in_directory_by_param(project_frontend_name, 'project_frontend_name')
 
 
 def change_frontend_name_in_files():

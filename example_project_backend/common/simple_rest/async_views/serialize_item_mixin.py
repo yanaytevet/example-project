@@ -18,8 +18,8 @@ class SerializeItemMixin(ABC):
         wanted_serializer_name = request.query_params.get(cls.QUERY_PARAM_NAME, None) or \
                                  cls.DEFAULT_SERIALIZER_NAME
         if wanted_serializer_name == cls.DEFAULT_SERIALIZER_NAME:
-            return await (await cls.get_default_serializer(request, obj, **kwargs)).async_serialize(obj)
-        serializers_by_name = await cls.get_serializers_by_name(request, obj, **kwargs)
+            return await (await cls.get_default_serializer(request=request, obj=obj, **kwargs)).async_serialize(obj)
+        serializers_by_name = await cls.get_serializers_by_name(request=request, obj=obj, **kwargs)
         if wanted_serializer_name not in serializers_by_name:
             raise RestAPIException(StatusCode.HTTP_501_NOT_IMPLEMENTED, 'unimplemented_serializer',
                                    'Serializer not implemented')
@@ -27,9 +27,15 @@ class SerializeItemMixin(ABC):
 
     @classmethod
     @abstractmethod
-    async def get_default_serializer(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> Serializer:
+    async def get_default_serializer(cls, **kwargs) -> Serializer:
         raise NotImplementedError()
 
     @classmethod
-    async def get_serializers_by_name(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> dict[str, Serializer]:
+    async def get_serializers_by_name(cls, **kwargs) -> dict[str, Serializer]:
+        return {}
+
+    @classmethod
+    async def get_all_serializers_by_name(cls) -> dict[str, Serializer]:
+        res = dict(cls.get_serializers_by_name())
+
         return {}

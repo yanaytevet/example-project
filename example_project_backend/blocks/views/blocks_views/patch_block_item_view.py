@@ -12,7 +12,7 @@ from common.simple_rest.serializers.serializer import Serializer
 
 class PatchBlockItemView(AsyncPatchItemByIdAPIView):
     @classmethod
-    async def get_default_serializer(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> Serializer:
+    async def get_default_serializer(cls, **kwargs) -> Serializer:
         return BlockSerializer()
 
     @classmethod

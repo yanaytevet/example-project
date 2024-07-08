@@ -24,7 +24,7 @@ class GetPaginationBlockListView(AsyncGetListAPIView):
         }
 
     @classmethod
-    async def get_default_serializer(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> Serializer:
+    async def get_default_serializer(cls, **kwargs) -> Serializer:
         return BlockSerializer()
 
     @classmethod

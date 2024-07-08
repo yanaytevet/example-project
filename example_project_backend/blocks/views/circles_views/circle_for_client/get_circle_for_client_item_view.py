@@ -6,23 +6,23 @@ from common.simple_rest.async_api_request import AsyncAPIRequest
 from common.simple_rest.async_views.async_get_item_by_id_api_view import AsyncGetItemByIdAPIView
 from common.simple_rest.permissions_checkers.login_permission_checker import LoginPermissionChecker
 from common.simple_rest.serializers.serializer import Serializer
-from example_app.models import ExampleModel
-from example_app.serializers.example_models_serializers.full_example_view_serializer import FullExampleViewSerializer
+from blocks.models import Circle
+from blocks.serializers.circles_serializers.full_circle_for_client_serializer import FullCircleForClientSerializer
 
 
-class GetExampleViewItemView(AsyncGetItemByIdAPIView):
+class GetCircleForClientItemView(AsyncGetItemByIdAPIView):
     @classmethod
     async def get_default_serializer(cls, **kwargs) -> Serializer:
-        return FullExampleViewSerializer()
+        return FullCircleForClientSerializer()
 
     @classmethod
     def get_model_cls(cls) -> Type[Model]:
-        return ExampleModel
+        return Circle
 
     @classmethod
     async def check_permitted_before_object(cls, request: AsyncAPIRequest, **kwargs) -> None:
         await LoginPermissionChecker().async_raise_exception_if_not_valid(await request.future_user)
 
     @classmethod
-    async def check_permitted_after_object(cls, request: AsyncAPIRequest, obj: ExampleModel, **kwargs) -> None:
+    async def check_permitted_after_object(cls, request: AsyncAPIRequest, obj: Circle, **kwargs) -> None:
         pass

@@ -26,7 +26,7 @@ class AsyncPostCreateAPIView(SerializeItemMixin, AsyncAPIViewComponent, ABC):
         await self.check_permitted(request, **kwargs)
         await self.run_before_creation(request, **kwargs)
         obj = await self.create_obj(request, **kwargs)
-        await self.run_after_post(request, obj, **kwargs)
+        await self.run_after_creation(request, obj, **kwargs)
         data = await self.serialize_object(request, obj, **kwargs)
         return JsonResponse(data, status=StatusCode.HTTP_200_OK)
 
@@ -64,5 +64,5 @@ class AsyncPostCreateAPIView(SerializeItemMixin, AsyncAPIViewComponent, ABC):
         raise NotImplementedError()
 
     @classmethod
-    async def run_after_post(cls, request: AsyncAPIRequest,  obj: Model, **kwargs) -> None:
+    async def run_after_creation(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> None:
         pass

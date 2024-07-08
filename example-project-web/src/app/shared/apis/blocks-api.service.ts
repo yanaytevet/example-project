@@ -22,8 +22,8 @@ export class BlocksApiService {
     return await this.baseApi.patch<Block>(ZBlock, `/api/blocks/${id}/`, data);
   }
 
-  async putActionsBlockItemById(id: number, data: any): Promise<Block> {
-    return await this.baseApi.put<Block>(ZBlock, `/api/blocks/${id}/`, data);
+  async postActionBuildBlockItemById(id: number, data: {shouldBuild: boolean}): Promise<Block> {
+    return await this.baseApi.post<Block>(ZBlock, `/api/blocks/${id}/build/`, data);
   }
 
   async deleteBlockItemById(id: number): Promise<void> {

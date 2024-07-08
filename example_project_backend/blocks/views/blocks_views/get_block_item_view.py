@@ -8,13 +8,12 @@ from common.simple_rest.async_api_request import AsyncAPIRequest
 from common.simple_rest.async_views.async_get_item_by_id_api_view import AsyncGetItemByIdAPIView
 from common.simple_rest.permissions_checkers.login_permission_checker import LoginPermissionChecker
 from common.simple_rest.serializers.serializer import Serializer
-from common.type_hints import JSONType
 
 
 class GetBlockItemView(AsyncGetItemByIdAPIView):
     @classmethod
-    async def get_default_serializer(cls, request: AsyncAPIRequest, obj: Block, **kwargs) -> Serializer:
-        return await BlockSerializer().async_serialize(obj)
+    async def get_default_serializer(cls, **kwargs) -> Serializer:
+        return BlockSerializer()
 
     @classmethod
     def get_model_cls(cls) -> Type[Model]:

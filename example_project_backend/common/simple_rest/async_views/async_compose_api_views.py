@@ -1,5 +1,6 @@
 from typing import Dict, Type
 
+from asgiref.sync import async_to_sync
 from django.http import HttpRequest, HttpResponse
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -24,7 +25,7 @@ def async_compose_api_views(*api_view_components: AsyncAPIViewComponent) -> Type
 
     @method_decorator(csrf_exempt, name='dispatch')
     class AsyncComposedAPIView(View):
-        pass
+        METHOD_TO_SERIALIZERS = {}
 
     for api_view_component in api_view_components:
         method = api_view_component.get_method()
@@ -34,4 +35,6 @@ def async_compose_api_views(*api_view_components: AsyncAPIViewComponent) -> Type
 
         method_to_view_component[method] = api_view_component
         setattr(AsyncComposedAPIView, str(api_view_component.get_method()), get_method_async_func(api_view_component))
+        AsyncComposedAPIView.METHOD_TO_SERIALIZERS[method] = async_to_sync(
+            api_view_component.get_serializers_cls_list)()
     return AsyncComposedAPIView

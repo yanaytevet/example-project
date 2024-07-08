@@ -1,8 +1,8 @@
 from typing import Type
 
 from django.db.models import Model, QuerySet
-from example_app.models import ExampleModel
-from example_app.serializers.example_models_serializers.short_example_view_serializer import ShortExampleViewSerializer
+from blocks.models import Circle
+from blocks.serializers.circles_serializers.short_circle_for_client_serializer import ShortCircleForClientSerializer
 
 from common.simple_rest.async_api_request import AsyncAPIRequest
 from common.simple_rest.async_views.async_get_list_api_view import AsyncGetListAPIView
@@ -11,7 +11,7 @@ from common.simple_rest.query_filters.base_query_filter import BaseQueryFilter
 from common.simple_rest.serializers.serializer import Serializer
 
 
-class GetExampleViewPaginationListView(AsyncGetListAPIView):
+class GetCircleForClientPaginationListView(AsyncGetListAPIView):
     @classmethod
     async def get_mandatory_query_filters(cls, request: AsyncAPIRequest, objects: QuerySet, **kwargs
                                           ) -> list[BaseQueryFilter]:
@@ -24,7 +24,7 @@ class GetExampleViewPaginationListView(AsyncGetListAPIView):
 
     @classmethod
     async def get_default_serializer(cls, **kwargs) -> Serializer:
-        return ShortExampleViewSerializer()
+        return ShortCircleForClientSerializer()
 
     @classmethod
     def get_allowed_filters(cls) -> set[str]:
@@ -40,4 +40,4 @@ class GetExampleViewPaginationListView(AsyncGetListAPIView):
 
     @classmethod
     def get_model_cls(cls) -> Type[Model]:
-        return ExampleModel
+        return Circle

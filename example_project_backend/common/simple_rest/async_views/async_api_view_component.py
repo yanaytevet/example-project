@@ -1,5 +1,4 @@
 from abc import abstractmethod, ABC
-from typing import Type
 
 from django.db.models import Model
 from django.http import JsonResponse, HttpResponse
@@ -34,5 +33,5 @@ class AsyncAPIViewComponent(View, ABC):
             }, status=e.status_code)
 
     @classmethod
-    async def get_serializers_cls_list(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> list[Type[Serializer]]:
-        return []
+    async def get_all_serializers_by_name(cls) -> dict[str, Serializer]:
+        return {}

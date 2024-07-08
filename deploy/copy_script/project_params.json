@@ -1,11 +1,11 @@
 {
-  "project_path": "~/dev/rpg_utils/nep",
-  "project_backend_name": "nep_backend",
-  "project_frontend_name": "nep-web",
-  "db_name": "nep_db",
-  "db_username": "nep_admin",
-  "db_password": "GB8Gd3gffjLDjhD453",
-  "dockers_group_name": "nep",
-  "domain": "never-ending-path.yanaytevet.com",
-  "title": "Never-ending Path"
+  "project_path": "~/dev/B2BQuotaCreator/",
+  "project_backend_name": "b2b_quota_creator_backend",
+  "project_frontend_name": "b2b-quota-creator-web",
+  "db_name": "b2b_quota_creator_db",
+  "db_username": "admin",
+  "db_password": "GBdGd3gfYjLDjDD43D3",
+  "dockers_group_name": "b2b_quota_creator",
+  "domain": "quota-creator.xperiti.com",
+  "title": "B2B Quota Creator"
 }
