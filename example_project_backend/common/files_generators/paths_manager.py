@@ -8,7 +8,7 @@ class PathsManager:
     TS_GENERATED = 'generated-files'
 
     def get_ts_app_path(self) -> str:
-        return os.path.realpath(os.path.join(settings.BASE_DIR, '..', settings.FRONT_DIR_NAME, 'src', 'app'))
+        return os.path.realpath(os.path.join(settings.BASE_DIR, '..', settings.FRONT_DIR_NAME))
 
     def get_new_generated_ts_path(self) -> str:
         app_files = self.get_ts_app_path()

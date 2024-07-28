@@ -24,8 +24,9 @@ class AsyncPostActionItemAPIView(SerializeItemMixin, AsyncAPIViewComponent, ABC)
         await self.check_permitted_before_object(request, **kwargs)
         obj = await self.get_object(request, **kwargs)
         await self.check_permitted_after_object(request, obj, **kwargs)
-        await self.run_action(request, obj, **kwargs)
-        data = await self.serialize_object(request, obj, **kwargs)
+        data = await self.run_action(request, obj, **kwargs)
+        if data is None:
+            data = await self.serialize_object(request, obj, **kwargs)
         return JsonResponse(data, status=StatusCode.HTTP_200_OK)
 
     @classmethod
@@ -45,6 +46,6 @@ class AsyncPostActionItemAPIView(SerializeItemMixin, AsyncAPIViewComponent, ABC)
 
     @classmethod
     @abstractmethod
-    async def run_action(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> JSONType:
+    async def run_action(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> JSONType | None:
         raise NotImplementedError()
 

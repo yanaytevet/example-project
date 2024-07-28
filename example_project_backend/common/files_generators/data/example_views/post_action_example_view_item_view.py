@@ -17,11 +17,11 @@ class PostActionExampleViewItemView(AsyncPostActionItemByIdAPIView):
         await LoginPermissionChecker().async_raise_exception_if_not_valid(await request.future_user)
 
     @classmethod
-    async def check_permitted_after_object(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> None:
+    async def check_permitted_after_object(cls, request: AsyncAPIRequest, obj: ExampleModel, **kwargs) -> None:
         pass
 
     @classmethod
-    async def run_action(cls, request: AsyncAPIRequest, obj: Model, **kwargs) -> JSONType:
+    async def run_action(cls, request: AsyncAPIRequest, obj: ExampleModel, **kwargs) -> JSONType | None:
         pass
 
     @classmethod
