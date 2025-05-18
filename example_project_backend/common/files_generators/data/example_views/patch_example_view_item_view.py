@@ -1,32 +1,37 @@
-from typing import Type, Set
+from typing import Type
 
 from django.db.models import Model
 from example_app.models import ExampleModel
+from ninja import Path, Schema
+
+from common.simple_api.api_request import APIRequest
+from common.simple_api.permissions_checkers.login_permission_checker import LoginPermissionChecker
+from common.simple_api.serializers.serializer import Serializer
+from common.simple_api.views.update_item_by_id_api_view import UpdateItemByIdAPIView
 from example_app.serializers.example_models_serializers.full_example_view_serializer import FullExampleViewSerializer
 
-from common.simple_rest.async_api_request import AsyncAPIRequest
-from common.simple_rest.async_views.async_patch_item_by_id_api_view import AsyncPatchItemByIdAPIView
-from common.simple_rest.permissions_checkers.login_permission_checker import LoginPermissionChecker
-from common.simple_rest.serializers.serializer import Serializer
+
+class PatchExampleViewItemSchema(Schema):
+    pass
 
 
-class PatchExampleViewItemView(AsyncPatchItemByIdAPIView):
+class PatchExampleViewItemView(UpdateItemByIdAPIView):
     @classmethod
-    async def get_default_serializer(cls, **kwargs) -> Serializer:
-        return FullExampleViewSerializer()
+    def get_data_schema(cls) -> Type[Schema]:
+        return PatchExampleViewItemSchema
 
     @classmethod
-    def get_allowed_edit_fields(cls) -> Set[str]:
-        return set()
+    def get_serializer(cls) -> Serializer:
+        return FullExampleViewSerializer
 
     @classmethod
     def get_model_cls(cls) -> Type[Model]:
         return ExampleModel
 
     @classmethod
-    async def check_permitted_before_object(cls, request: AsyncAPIRequest, **kwargs) -> None:
+    async def check_permitted_before_object(cls, request: APIRequest, data: Schema, path: Path) -> None:
         await LoginPermissionChecker().async_raise_exception_if_not_valid(await request.future_user)
 
     @classmethod
-    async def check_permitted_after_object(cls, request: AsyncAPIRequest, obj: ExampleModel, **kwargs) -> None:
+    async def check_permitted_after_object(cls, request: APIRequest, obj: ExampleModel, data: Schema, path: Path) -> None:
         pass

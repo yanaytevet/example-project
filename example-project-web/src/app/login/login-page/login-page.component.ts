@@ -25,7 +25,7 @@ export class LoginPageComponent {
 
   async tryLogin() {
     const authUser: AuthUser = await this.authService.login(this.loginForm.value.username, this.loginForm.value.password);
-    if (!authUser.isAuthenticated) {
+    if (!authUser.is_authenticated) {
       this.failedLogin = true;
       this.failedLoginMsg = authUser.msg;
       return;

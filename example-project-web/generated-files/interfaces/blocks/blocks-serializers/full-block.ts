@@ -6,8 +6,8 @@ export const ZFullBlock = z.object({
   a: z.string(),
   b: z.number(),
   c: z.boolean(),
-  blockType: ZBlockTypes,
-  anotherField: z.string(),
+  block_type: ZBlockTypes,
+  another_field: z.string(),
 });
 
 export type FullBlock = z.infer<typeof ZFullBlock>;

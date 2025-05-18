@@ -47,3 +47,6 @@ class TemporaryAccess(models.Model):
         obj = cls(user=user_obj)
         obj.save()
         return obj
+
+    async def async_get_user(self) -> User:
+        return await User.objects.filter(id=self.user_id).afirst()

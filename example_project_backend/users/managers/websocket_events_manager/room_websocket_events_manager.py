@@ -1,6 +1,6 @@
 from typing import Self
 
-from common.simple_rest.permissions_checkers.login_permission_checker import LoginPermissionChecker
+from common.simple_api.permissions_checkers.login_permission_checker import LoginPermissionChecker
 from common.type_hints import JSONType
 from users.managers.websocket_events_manager.base_websocket_events_manager import BaseWebsocketEventsManager
 from users.models import User

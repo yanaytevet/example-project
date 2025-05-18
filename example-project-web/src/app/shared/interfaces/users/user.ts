@@ -5,13 +5,13 @@ export const ZUser = z.object({
   id: z.number(),
   username: z.string(),
   email: z.string().nullable(),
-  firstName: z.string(),
-  lastName: z.string(),
-  picUrl: z.string().nullable(),
+  first_name: z.string(),
+  last_name: z.string(),
+  pic_url: z.string().nullable(),
   permissions: z.array(ZPermission),
-  fullName: z.string(),
+  full_name: z.string(),
   initials: z.string(),
-  isAdmin: z.boolean(),
+  is_admin: z.boolean(),
 });
 
 export type User = z.infer<typeof ZUser>;

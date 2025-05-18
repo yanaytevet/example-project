@@ -1,7 +1,7 @@
 export interface PaginationData<T> {
-  totalAmount: number;
-  pagesAmount: number;
+  total_amount: number;
+  pages_amount: number;
   page: number;
-  pageSize: number;
+  page_size: number;
   data: T[];
 }

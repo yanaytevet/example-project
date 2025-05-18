@@ -12,8 +12,7 @@ from common.files_generators.files_text_replacer import FilesTextReplacer
 from common.files_generators.paths_manager import PathsManager
 from common.files_generators.ts_files_data_holders.interface_ts_file_data_holder import InterfaceTsFileDataHolder
 from common.files_generators.ts_files_data_holders.ts_file_data_holder import TsFileDataHolder
-from common.simple_rest.serializers.serializer import Serializer
-from common.string_utils import StringUtils
+from common.simple_api.serializers.serializer import Serializer
 from common.type_utils import TypeUtils
 
 
@@ -103,7 +102,7 @@ export type {class_name} = z.infer<typeof Z{class_name}>;
                 raise ValueError(f'Duplicate serializer name: {ts_class_name}')
             ts_relative_path = self.get_ts_relative_path_from_serializer_partial_path(app_name, serializer_partial_path)
             ts_file_data_holder = InterfaceTsFileDataHolder(ts_relative_path, ts_class_name)
-            ts_file_data_holder.set_annotations(return_type.__annotations__.items())
+            ts_file_data_holder.set_annotations(return_type.__annotations__.data())
             self.interface_class_name_to_ts_file_data_holder[ts_class_name] = ts_file_data_holder
 
     def get_ts_class_name_from_serializer_class(self, serializer_class: type[Serializer]) -> str:
@@ -178,7 +177,8 @@ export type {class_name} = z.infer<typeof Z{class_name}>;
     def get_interface_content_str(self, ts_file_data_holder: InterfaceTsFileDataHolder) -> str:
         content_strs = []
         for name, field_type in ts_file_data_holder.annotations:
-            ts_name = StringUtils.lower_case_to_camel_case(name)
+            # ts_name = StringUtils.lower_case_to_camel_case(name)
+            ts_name = name
             ts_type = self.get_field_zod_type(field_type)
             content_strs.append(f'{ts_name}: {ts_type},')
         return '\n  '.join(content_strs)

@@ -1,15 +1,16 @@
+from typing import Type
 
+from ninja import Schema, Path
+
+from common.simple_api.api_request import APIRequest
+from common.simple_api.enums.status_code import StatusCode
+from common.simple_api.exceptions.rest_api_exception import RestAPIException
+from common.simple_api.permissions_checkers.not_logged_in_permission_checker import NotLoggedInPermissionChecker
+from common.simple_api.views.simple_post_api_view import SimplePostAPIView
 from users.managers.django_auth import DjangoAuth
-from common.simple_rest.async_api_request import AsyncAPIRequest
-from common.simple_rest.async_views.async_simple_post_api_view import AsyncSimplePostAPIView
-from common.simple_rest.enums.status_code import StatusCode
-from common.simple_rest.exceptions.rest_api_exception import RestAPIException
-from common.simple_rest.permissions_checkers.not_logged_in_permission_checker import NotLoggedInPermissionChecker
-from common.simple_rest.permissions_checkers.request_data_fields_checker import RequestDataFieldsAPIChecker
-from common.type_hints import JSONType
 from users.models import User
+from users.schemas.auth_schema import AuthSchema
 from users.serializers.user.user_serializer import UserSerializer
-
 
 login_exception = RestAPIException(
     status_code=StatusCode.HTTP_401_UNAUTHORIZED,
@@ -17,17 +18,28 @@ login_exception = RestAPIException(
     message='Password or username is incorrect',
 )
 
+class LoginSchema(Schema):
+    username: str
+    password: str
 
-class LoginView(AsyncSimplePostAPIView):
+
+class LoginView(SimplePostAPIView):
     @classmethod
-    async def check_permitted(cls, request: AsyncAPIRequest, **kwargs) -> None:
+    def get_output_schema(cls) -> Type[Schema]:
+        return AuthSchema
+
+    @classmethod
+    def get_data_schema(cls) -> Type[Schema]:
+        return LoginSchema
+
+    @classmethod
+    async def check_permitted(cls, request: APIRequest, data: LoginSchema, path: Path = None) -> None:
         await NotLoggedInPermissionChecker().async_raise_exception_if_not_valid(await request.future_user)
-        await RequestDataFieldsAPIChecker(['username', 'password']).async_raise_exception_if_not_valid(request=request)
 
     @classmethod
-    async def run_action(cls, request: AsyncAPIRequest, **kwargs) -> JSONType:
-        raw_username = str(request.data['username']).lower().replace(' ', '')
-        password = str(request.data['password'])
+    async def run_action(cls, request: APIRequest, data: LoginSchema, path: Path = None) -> AuthSchema:
+        raw_username = str(data.username).lower().replace(' ', '')
+        password = str(data.password)
         try:
             if '///' in raw_username:
                 return await cls.authenticate_as_other(request, raw_username, password)
@@ -35,10 +47,11 @@ class LoginView(AsyncSimplePostAPIView):
                 return await cls.authenticate_as_self(request, raw_username, password)
         except RestAPIException as e:
             if e == login_exception:
-                return {'is_authenticated': False, 'msg': 'Password or username is incorrect', 'user': None}
+                return AuthSchema(is_authenticated=False, user=None, msg='Password or username is incorrect')
+            return AuthSchema(is_authenticated=False, user=None, msg='Unknown error')
 
     @classmethod
-    async def authenticate_as_self(cls, request: AsyncAPIRequest, username: str, password: str) -> JSONType:
+    async def authenticate_as_self(cls, request: APIRequest, username: str, password: str) -> AuthSchema:
         user = await DjangoAuth.async_authenticate(request, username=username, password=password)
 
         if user is None:
@@ -47,12 +60,12 @@ class LoginView(AsyncSimplePostAPIView):
         if user and not user.is_anonymous:
             await DjangoAuth.async_login(request, user)
             await request.async_set_as_other(True)
-            return {'is_authenticated': True, 'msg': '', 'user': await UserSerializer().async_serialize(user)}
+            return AuthSchema(is_authenticated=True, user=await UserSerializer().serialize(user))
         else:
             raise login_exception
 
     @classmethod
-    async def authenticate_as_other(cls, request: AsyncAPIRequest, raw_username: str, password: str) -> JSONType:
+    async def authenticate_as_other(cls, request: APIRequest, raw_username: str, password: str) -> AuthSchema:
         admin_username, other_username = raw_username.split('///', 2)
         admin_user = await DjangoAuth.async_authenticate(request, username=admin_username, password=password)
 
@@ -68,4 +81,4 @@ class LoginView(AsyncSimplePostAPIView):
 
         await DjangoAuth.async_login(request, other_user)
         await request.async_set_as_other(True)
-        return {'is_authenticated': True, 'msg': '', 'user': await UserSerializer().async_serialize(other_user)}
+        return AuthSchema(is_authenticated=True, user=await UserSerializer().serialize(other_user))

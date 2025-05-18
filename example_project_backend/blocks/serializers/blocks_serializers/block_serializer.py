@@ -1,14 +1,24 @@
+from ninja import Schema
+
+from blocks.enums.block_types import BlockTypes
 from blocks.models import Block
-from common.simple_rest.serializers.serializer import Serializer, T
-from common.type_hints import OptionalJSONType
+from common.simple_api.serializers.serializer import Serializer
 
 
-class BlockSerializer(Serializer[Block]):
-    def inner_serialize(self, obj: Block) -> OptionalJSONType:
-        return {
-            'id': obj.id,
-            'a': obj.a,
-            'b': obj.b,
-            'c': obj.c,
-            'block_type': obj.block_type,
-        }
+class BlockSchema(Schema):
+    id: int
+    a: str
+    b: int
+    c: bool
+    block_type: BlockTypes
+
+
+class BlockSerializer(Serializer):
+    async def inner_serialize(self, obj: Block) -> BlockSchema:
+        return BlockSchema(
+            id=obj.id,
+            a=obj.a,
+            b=obj.b,
+            c=obj.c,
+            block_type=obj.block_type,
+        )

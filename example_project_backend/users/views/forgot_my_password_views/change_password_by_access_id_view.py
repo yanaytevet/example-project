@@ -1,24 +1,40 @@
-from common.simple_rest.async_api_request import AsyncAPIRequest
-from common.simple_rest.async_views.async_simple_post_api_view import AsyncSimplePostAPIView
-from common.simple_rest.enums.status_code import StatusCode
-from common.simple_rest.exceptions.rest_api_exception import RestAPIException
-from common.simple_rest.permissions_checkers.request_data_fields_checker import RequestDataFieldsAPIChecker
-from common.type_hints import JSONType
+from typing import Type
+
+from ninja import Schema, Path
+
+from common.simple_api.api_request import APIRequest
+from common.simple_api.enums.status_code import StatusCode
+from common.simple_api.exceptions.rest_api_exception import RestAPIException
+from common.simple_api.views.simple_post_api_view import SimplePostAPIView
 from users.models import TemporaryAccess
-from users.serializers.user.user_serializer import UserSerializer
+from users.serializers.user.user_serializer import UserSerializer, UserSchema
 
 
-class ChangePasswordByAccessIdView(AsyncSimplePostAPIView):
+class ChangePasswordByAccessIdSchema(Schema):
+    user_id: int
+    access_id: str
+    new_password: str
+
+
+class ChangePasswordByAccessIdView(SimplePostAPIView):
     @classmethod
-    async def check_permitted(cls, request: AsyncAPIRequest, **kwargs) -> None:
-        await RequestDataFieldsAPIChecker(['user_id', 'access_id', 'new_password']).async_raise_exception_if_not_valid(
-            request=request)
+    def get_output_schema(cls) -> Type[Schema]:
+        return UserSchema
 
     @classmethod
-    async def run_action(cls, request: AsyncAPIRequest, **kwargs) -> JSONType:
+    def get_data_schema(cls) -> Type[Schema]:
+        return ChangePasswordByAccessIdSchema
+
+    @classmethod
+    async def check_permitted(cls, request: APIRequest, data: ChangePasswordByAccessIdSchema, path: Path = None) -> None:
+        pass
+
+    @classmethod
+    async def run_action(cls, request: APIRequest, data: ChangePasswordByAccessIdSchema, path: Path = None
+                         ) -> Schema | None:
         try:
             temporary_access = await TemporaryAccess.objects.filter(
-                user_id=request.query_params['user_id'], access_id=request.query_params['access_id']).afirst()
+                user_id=data.user_id, access_id=data.access_id).afirst()
         except TemporaryAccess.DoesNotExist as e:
             raise RestAPIException(
                 status_code=StatusCode.HTTP_401_UNAUTHORIZED,
@@ -27,9 +43,9 @@ class ChangePasswordByAccessIdView(AsyncSimplePostAPIView):
             )
 
         user = temporary_access.user
-        new_pass = str(request.data['new_password'])
+        new_pass = str(data.new_password)
         user.set_password(new_pass)
         await user.asave()
         await temporary_access.adelete()
 
-        return UserSerializer().serialize(temporary_access.user)
+        return await UserSerializer().serialize(temporary_access.user)

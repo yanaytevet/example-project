@@ -14,7 +14,7 @@ export abstract class PermissionsGuard {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.authService.authUser$.pipe(map(authUser => {
-      return authUser.isAuthenticated && this.checkPermissions(authUser);
+      return authUser.is_authenticated && this.checkPermissions(authUser);
     }));
   }
 }

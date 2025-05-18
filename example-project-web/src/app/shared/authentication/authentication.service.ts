@@ -12,7 +12,7 @@ export class AuthenticationService {
   private readonly _authUserSub = new ReplaySubject<AuthUser>(1);
   readonly authUser$ = this._authUserSub.asObservable();
   readonly user$ = this.authUser$.pipe(map(authUser => authUser?.user || null));
-  readonly isAuthenticated$ = this.authUser$.pipe(map(authUser => authUser?.isAuthenticated),
+  readonly isAuthenticated$ = this.authUser$.pipe(map(authUser => authUser?.is_authenticated),
     distinctUntilChanged());
   public userId: number;
   private _authUser: AuthUser;

@@ -1,16 +1,29 @@
+from typing import Type
+
+from ninja import Schema, Path
+
+from common.simple_api.api_request import APIRequest
+from common.simple_api.permissions_checkers.login_permission_checker import LoginPermissionChecker
+from common.simple_api.schemas.empty_schema import EmptySchema
+from common.simple_api.views.simple_post_api_view import SimplePostAPIView
 from users.managers.django_auth import DjangoAuth
-from common.simple_rest.async_api_request import AsyncAPIRequest
-from common.simple_rest.async_views.async_simple_post_api_view import AsyncSimplePostAPIView
-from common.simple_rest.permissions_checkers.login_permission_checker import LoginPermissionChecker
-from common.type_hints import JSONType
+from users.schemas.auth_schema import AuthSchema
 
 
-class LogoutView(AsyncSimplePostAPIView):
+class LogoutView(SimplePostAPIView):
     @classmethod
-    async def check_permitted(cls, request: AsyncAPIRequest, **kwargs) -> None:
+    def get_output_schema(cls) -> Type[Schema]:
+        return AuthSchema
+
+    @classmethod
+    def get_data_schema(cls) -> Type[Schema]:
+        return EmptySchema
+
+    @classmethod
+    async def check_permitted(cls, request: APIRequest, data: EmptySchema, path: Path = None) -> None:
         await LoginPermissionChecker().async_raise_exception_if_not_valid(await request.future_user)
 
     @classmethod
-    async def run_action(cls, request: AsyncAPIRequest, **kwargs) -> JSONType:
+    async def run_action(cls, request: APIRequest, data: EmptySchema, path: Path = None) -> AuthSchema:
         await DjangoAuth.async_logout(request)
-        return {'is_authenticated': False, 'user': None}
+        return AuthSchema(is_authenticated=False, user=None)

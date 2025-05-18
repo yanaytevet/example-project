@@ -5,6 +5,6 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class AdminGuard extends PermissionsGuard {
   checkPermissions(authUser: AuthUser): boolean {
-    return authUser?.user?.isAdmin;
+    return authUser?.user?.is_admin;
   }
 }

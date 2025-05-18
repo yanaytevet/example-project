@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {EventsAnalyticsService} from './shared/services/events-analytics.service';
 import {SiteRefreshService} from './shared/services/site-refresh.service';
 import {RouteConfigLoadEnd, RouteConfigLoadStart, Router} from '@angular/router';
 import {ThemeModeService} from './shared/services/theme-mode.service';
 import {UserWebsocketsService} from './shared/services/user-websockets.service';
+import {ConfigurationsService} from './shared/services/configurations.service';
 
 @Component({
   selector: 'app-root',
@@ -13,16 +13,16 @@ import {UserWebsocketsService} from './shared/services/user-websockets.service';
 export class AppComponent implements OnInit {
   loadingElement: HTMLElement;
 
-  constructor(private eventsAnalyticsService: EventsAnalyticsService,
-              private siteRefreshService: SiteRefreshService,
+  constructor(private siteRefreshService: SiteRefreshService,
               private router: Router,
               private themeModeService: ThemeModeService,
               private userWebsocketsService: UserWebsocketsService,
+              private configurationsService: ConfigurationsService,
   ) {
     this.userWebsocketsService.connect();
     this.themeModeService.initThemeMode();
-    this.eventsAnalyticsService.registerRouter();
     this.siteRefreshService.registerRouter();
+    this.configurationsService.loadData();
   }
 
   ngOnInit(): void {

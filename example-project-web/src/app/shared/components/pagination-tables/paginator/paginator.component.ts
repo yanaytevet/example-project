@@ -30,15 +30,15 @@ export class PaginatorComponent implements OnInit {
     if (!paginationData) {
       return '';
     }
-    if (paginationData.totalAmount === 0) {
+    if (paginationData.total_amount === 0) {
       return 'item 0 of 0';
     }
-    const start = 1 + paginationData.page * paginationData.pageSize;
-    const end = Math.min(start + paginationData.pageSize - 1, paginationData.totalAmount);
+    const start = 1 + paginationData.page * paginationData.page_size;
+    const end = Math.min(start + paginationData.page_size - 1, paginationData.total_amount);
     if (start === end) {
-      return `item ${start} of ${paginationData.totalAmount}`
+      return `item ${start} of ${paginationData.total_amount}`
     }
-    return `items ${start} - ${end} of ${paginationData.totalAmount}`
+    return `items ${start} - ${end} of ${paginationData.total_amount}`
   }
 
   goBackOnePage() {
@@ -55,7 +55,7 @@ export class PaginatorComponent implements OnInit {
     const dialogRef = this.dialog.open(NumberInputDialogComponent, {
       data: {
         title: 'Select Page',
-        text: `Set the page number. Acceptable values are numbers between 1 and ${this.genericDataHandler.paginationData?.pagesAmount}.`,
+        text: `Set the page number. Acceptable values are numbers between 1 and ${this.genericDataHandler.paginationData?.pages_amount}.`,
         label: 'Page',
         defaultValue: this.genericDataHandler.paginationData?.page + 1,
         confirmActionName: 'Update',

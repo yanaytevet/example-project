@@ -1,39 +1,54 @@
+from typing import Type
+
+from ninja import Schema, Path
+
+from common.simple_api.api_request import APIRequest
+from common.simple_api.enums.status_code import StatusCode
+from common.simple_api.exceptions.rest_api_exception import RestAPIException
+from common.simple_api.permissions_checkers.login_permission_checker import LoginPermissionChecker
+from common.simple_api.views.simple_post_api_view import SimplePostAPIView
 from users.managers.django_auth import DjangoAuth
-from common.simple_rest.async_api_request import AsyncAPIRequest
-from common.simple_rest.async_views.async_simple_post_api_view import AsyncSimplePostAPIView
-from common.simple_rest.enums.status_code import StatusCode
-from common.simple_rest.exceptions.rest_api_exception import RestAPIException
-from common.simple_rest.permissions_checkers.login_permission_checker import LoginPermissionChecker
-from common.simple_rest.permissions_checkers.request_data_fields_checker import RequestDataFieldsAPIChecker
-from common.type_hints import JSONType
-from users.models import UserEvent
 
 
-class ChangePasswordView(AsyncSimplePostAPIView):
+class ChangePasswordInputSchema(Schema):
+    old_password: str
+    new_password: str
+
+
+class ChangePasswordOutputSchema(Schema):
+    is_success: bool
+    msg: str
+
+
+class ChangePasswordView(SimplePostAPIView):
     @classmethod
-    async def check_permitted(cls, request: AsyncAPIRequest, **kwargs) -> None:
+    def get_output_schema(cls) -> Type[Schema]:
+        return ChangePasswordOutputSchema
+
+    @classmethod
+    def get_data_schema(cls) -> Type[Schema]:
+        return ChangePasswordInputSchema
+
+    @classmethod
+    async def check_permitted(cls, request: APIRequest, data: ChangePasswordInputSchema, path: Path = None) -> None:
         user_obj = await request.future_user
-        await RequestDataFieldsAPIChecker(['old_password', 'new_password']).async_raise_exception_if_not_valid(
-            request=request)
         await LoginPermissionChecker().async_raise_exception_if_not_valid(user_obj)
 
     @classmethod
-    async def run_action(cls, request: AsyncAPIRequest, **kwargs) -> JSONType:
+    async def run_action(cls, request: APIRequest, data: ChangePasswordInputSchema, path: Path = None
+                         ) -> ChangePasswordOutputSchema:
         user_obj = await request.future_user
 
-        await RequestDataFieldsAPIChecker(['old_password', 'new_password']).async_raise_exception_if_not_valid(
-            request=request)
         await LoginPermissionChecker().async_raise_exception_if_not_valid(user_obj)
 
-        old_pass = str(request.data['old_password'])
+        old_pass = str(data.old_password)
         user = await DjangoAuth.async_authenticate(request, username=user_obj.username, password=old_pass)
 
         if user:
-            new_pass = str(request.data['new_password'])
+            new_pass = str(data.new_password)
             user.set_password(new_pass)
             await user.asave()
-            await UserEvent(name='change_my_password', user=user).asave()
-            return {'is_success': True, 'msg': 'Password successfully changed'}
+            return ChangePasswordOutputSchema(is_success=True, msg='Password successfully changed')
 
         else:
             raise RestAPIException(

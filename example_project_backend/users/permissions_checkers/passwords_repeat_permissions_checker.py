@@ -1,6 +1,6 @@
-from common.simple_rest.enums.status_code import StatusCode
-from common.simple_rest.exceptions.rest_api_exception import RestAPIException
-from common.simple_rest.permissions_checkers.permissions_checker import PermissionsChecker
+from common.simple_api.enums.status_code import StatusCode
+from common.simple_api.exceptions.rest_api_exception import RestAPIException
+from common.simple_api.permissions_checkers.permissions_checker import PermissionsChecker
 
 
 class PasswordRepeatPermissionsChecker(PermissionsChecker):

@@ -2,7 +2,7 @@ from typing import TypedDict
 
 from blocks.enums.block_types import BlockTypes
 from blocks.models import Block
-from common.simple_rest.serializers.serializer import Serializer
+from common.simple_api.serializers.serializer import Serializer
 
 
 class FullBlockSerializerOutput(TypedDict):
@@ -14,7 +14,7 @@ class FullBlockSerializerOutput(TypedDict):
     another_field: str
 
 
-class FullBlockSerializer(Serializer[Block]):
+class FullBlockSerializer(Serializer):
     def inner_serialize(self, obj: Block) -> FullBlockSerializerOutput:
         return {
             'id': obj.id,

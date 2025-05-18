@@ -1,0 +1,757 @@
+{
+  "version": "6.0",
+  "nxVersion": "19.5.3",
+  "deps": {
+    "@angular/animations": "^18.1.2",
+    "@angular/cdk": "^18.1.2",
+    "@angular/common": "^18.1.2",
+    "@angular/compiler": "^18.1.2",
+    "@angular/core": "^18.1.2",
+    "@angular/forms": "^18.1.2",
+    "@angular/material": "^18.1.2",
+    "@angular/platform-browser": "^18.1.2",
+    "@angular/platform-browser-dynamic": "^18.1.2",
+    "@angular/router": "^18.1.2",
+    "@types/humps": "^2.0.3",
+    "humps": "^2.0.1",
+    "moment": "^2.29.4",
+    "ngx-permissions": "^15.0.1",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zod": "^3.21.4",
+    "zone.js": "~0.14.8",
+    "@angular-devkit/build-angular": "^18.1.2",
+    "@angular/cli": "~18.1.2",
+    "@angular/compiler-cli": "^18.1.2",
+    "@spartan-ng/cli": "^0.0.1-alpha.361",
+    "@types/jasmine": "~4.3.0",
+    "jasmine-core": "~4.6.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "typescript": "~5.4.5"
+  },
+  "pathMappings": {},
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "projectFileMap": {
+      "example-project-web": [
+        {
+          "file": ".editorconfig",
+          "hash": "6686520031028425313"
+        },
+        {
+          "file": ".gitignore",
+          "hash": "13044518069027839699"
+        },
+        {
+          "file": "README.md",
+          "hash": "5621232994353729377"
+        },
+        {
+          "file": "angular.json",
+          "hash": "6855763924600130216"
+        },
+        {
+          "file": "generated-files/enums/blocks/block-types.ts",
+          "hash": "3206488473639426735"
+        },
+        {
+          "file": "generated-files/enums/blocks/sub-block-consts/sub-block-types.ts",
+          "hash": "1520894381380108301"
+        },
+        {
+          "file": "generated-files/enums/configurations/emails-senders-types.ts",
+          "hash": "7777060865975860878"
+        },
+        {
+          "file": "generated-files/enums/configurations/emails-validations-types.ts",
+          "hash": "11179426202297485561"
+        },
+        {
+          "file": "generated-files/enums/configurations/marketing-platforms-type.ts",
+          "hash": "2513033835703646017"
+        },
+        {
+          "file": "generated-files/enums/configurations/storages-types.ts",
+          "hash": "16763347556640065933"
+        },
+        {
+          "file": "generated-files/enums/users/bounce-status.ts",
+          "hash": "3172673906035938558"
+        },
+        {
+          "file": "generated-files/enums/users/email-validation-status.ts",
+          "hash": "16230104749990557058"
+        },
+        {
+          "file": "generated-files/enums/users/permissions.ts",
+          "hash": "11382094308217880102"
+        },
+        {
+          "file": "generated-files/enums/users/temporary-access-types.ts",
+          "hash": "13614771135762991421"
+        },
+        {
+          "file": "generated-files/interfaces/blocks/blocks-serializers/full-block.ts",
+          "hash": "7742412267331287839"
+        },
+        {
+          "file": "generated-files/interfaces/blocks/circles-serializers/full-circle-for-client.ts",
+          "hash": "17494208592405953182"
+        },
+        {
+          "file": "generated-files/interfaces/blocks/circles-serializers/short-circle-for-client.ts",
+          "hash": "2798857567875736302"
+        },
+        {
+          "file": "generated-files/interfaces/users/user/short-user.ts",
+          "hash": "15289192496639762967"
+        },
+        {
+          "file": "package-lock.json",
+          "hash": "12505864000653560743"
+        },
+        {
+          "file": "package.json",
+          "hash": "10232298534940216268",
+          "deps": [
+            "npm:@angular-devkit/build-angular",
+            "npm:@angular/cli",
+            "npm:@angular/compiler-cli",
+            "npm:@spartan-ng/cli",
+            "npm:@types/jasmine",
+            "npm:jasmine-core",
+            "npm:karma",
+            "npm:karma-chrome-launcher",
+            "npm:karma-coverage",
+            "npm:karma-jasmine",
+            "npm:karma-jasmine-html-reporter",
+            "npm:typescript",
+            "npm:@angular/animations",
+            "npm:@angular/cdk",
+            "npm:@angular/common",
+            "npm:@angular/compiler",
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/material",
+            "npm:@angular/platform-browser",
+            "npm:@angular/platform-browser-dynamic",
+            "npm:@angular/router",
+            "npm:@types/humps",
+            "npm:humps",
+            "npm:moment",
+            "npm:ngx-permissions",
+            "npm:rxjs",
+            "npm:tslib",
+            "npm:zod",
+            "npm:zone.js"
+          ]
+        },
+        {
+          "file": "proxy.conf.json",
+          "hash": "6378154499213701888"
+        },
+        {
+          "file": "src/app/app-routing.module.ts",
+          "hash": "11655082840154038937"
+        },
+        {
+          "file": "src/app/app.component.html",
+          "hash": "17816966185630879015"
+        },
+        {
+          "file": "src/app/app.component.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "src/app/app.component.ts",
+          "hash": "5503770601752245451"
+        },
+        {
+          "file": "src/app/app.module.ts",
+          "hash": "5131586938863805456"
+        },
+        {
+          "file": "src/app/dialogs-example/dialogs-example-page/dialogs-example-page.component.html",
+          "hash": "3756773872890644338"
+        },
+        {
+          "file": "src/app/dialogs-example/dialogs-example-page/dialogs-example-page.component.scss",
+          "hash": "3742899794026041898"
+        },
+        {
+          "file": "src/app/dialogs-example/dialogs-example-page/dialogs-example-page.component.ts",
+          "hash": "1760418093992090525"
+        },
+        {
+          "file": "src/app/dialogs-example/dialogs-example.module.ts",
+          "hash": "15782031395917167291"
+        },
+        {
+          "file": "src/app/form-example/form-example-page/form-example-page.component.html",
+          "hash": "14407658149940734073"
+        },
+        {
+          "file": "src/app/form-example/form-example-page/form-example-page.component.scss",
+          "hash": "17906660778251638107"
+        },
+        {
+          "file": "src/app/form-example/form-example-page/form-example-page.component.ts",
+          "hash": "6040217907637857493"
+        },
+        {
+          "file": "src/app/form-example/form-example.module.ts",
+          "hash": "11451482044999202382"
+        },
+        {
+          "file": "src/app/generated-files/enums/blocks/block-types.ts",
+          "hash": "3206488473639426735"
+        },
+        {
+          "file": "src/app/generated-files/enums/blocks/sub-block-consts/sub-block-types.ts",
+          "hash": "1520894381380108301"
+        },
+        {
+          "file": "src/app/generated-files/enums/configurations/emails-senders-types.ts",
+          "hash": "7777060865975860878"
+        },
+        {
+          "file": "src/app/generated-files/enums/configurations/emails-validations-types.ts",
+          "hash": "11179426202297485561"
+        },
+        {
+          "file": "src/app/generated-files/enums/configurations/marketing-platforms-type.ts",
+          "hash": "2513033835703646017"
+        },
+        {
+          "file": "src/app/generated-files/enums/configurations/storages-types.ts",
+          "hash": "16763347556640065933"
+        },
+        {
+          "file": "src/app/generated-files/enums/users/bounce-status.ts",
+          "hash": "3172673906035938558"
+        },
+        {
+          "file": "src/app/generated-files/enums/users/email-validation-status.ts",
+          "hash": "16230104749990557058"
+        },
+        {
+          "file": "src/app/generated-files/enums/users/permissions.ts",
+          "hash": "11382094308217880102"
+        },
+        {
+          "file": "src/app/generated-files/enums/users/temporary-access-types.ts",
+          "hash": "13614771135762991421"
+        },
+        {
+          "file": "src/app/generated-files/interfaces/blocks/blocks-serializers/full-block.ts",
+          "hash": "7742412267331287839"
+        },
+        {
+          "file": "src/app/generated-files/interfaces/blocks/circles-serializers/full-circle-for-client.ts",
+          "hash": "10338003519850017426"
+        },
+        {
+          "file": "src/app/generated-files/interfaces/blocks/circles-serializers/short-circle-for-client.ts",
+          "hash": "2798857567875736302"
+        },
+        {
+          "file": "src/app/generated-files/interfaces/users/user/short-user.ts",
+          "hash": "15289192496639762967"
+        },
+        {
+          "file": "src/app/home/dashboard-layout/dashboard-layout.component.html",
+          "hash": "12628059761045986961"
+        },
+        {
+          "file": "src/app/home/dashboard-layout/dashboard-layout.component.scss",
+          "hash": "7734417690218693706"
+        },
+        {
+          "file": "src/app/home/dashboard-layout/dashboard-layout.component.ts",
+          "hash": "9412431480022627737"
+        },
+        {
+          "file": "src/app/home/home-page/home-page.component.html",
+          "hash": "443835841726924841"
+        },
+        {
+          "file": "src/app/home/home-page/home-page.component.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "src/app/home/home-page/home-page.component.ts",
+          "hash": "5332138949240645690"
+        },
+        {
+          "file": "src/app/home/home.module.ts",
+          "hash": "8248473874930827108"
+        },
+        {
+          "file": "src/app/login/login-page/login-page.component.html",
+          "hash": "17093690523782517883"
+        },
+        {
+          "file": "src/app/login/login-page/login-page.component.scss",
+          "hash": "5208703148330447778"
+        },
+        {
+          "file": "src/app/login/login-page/login-page.component.ts",
+          "hash": "1575556146348190841"
+        },
+        {
+          "file": "src/app/login/login.module.ts",
+          "hash": "5553017941319391002"
+        },
+        {
+          "file": "src/app/shared/apis/blocks-api.service.ts",
+          "hash": "11276605279697403027"
+        },
+        {
+          "file": "src/app/shared/authentication/admin-guard.service.ts",
+          "hash": "5978505470007394353"
+        },
+        {
+          "file": "src/app/shared/authentication/authentication.service.ts",
+          "hash": "14183002373883335357"
+        },
+        {
+          "file": "src/app/shared/authentication/logged-in-guard.service.ts",
+          "hash": "4927172592957096839"
+        },
+        {
+          "file": "src/app/shared/authentication/logged-out-guard.service.ts",
+          "hash": "17993635915981399253"
+        },
+        {
+          "file": "src/app/shared/authentication/permissions-guard.service.ts",
+          "hash": "1288395175238933069"
+        },
+        {
+          "file": "src/app/shared/components/base-component.ts",
+          "hash": "7298681327291071251"
+        },
+        {
+          "file": "src/app/shared/components/base-page-component.ts",
+          "hash": "9917753550979374799"
+        },
+        {
+          "file": "src/app/shared/components/breadcrumbs/breadcrumbs.component.html",
+          "hash": "13873194237845281365"
+        },
+        {
+          "file": "src/app/shared/components/breadcrumbs/breadcrumbs.component.scss",
+          "hash": "7095260189970240879"
+        },
+        {
+          "file": "src/app/shared/components/breadcrumbs/breadcrumbs.component.ts",
+          "hash": "2742253412807293921"
+        },
+        {
+          "file": "src/app/shared/components/breadcrumbs/breadcrumbs.service.ts",
+          "hash": "2887291987090869472"
+        },
+        {
+          "file": "src/app/shared/components/breadcrumbs/link-item.ts",
+          "hash": "9292803667414867217"
+        },
+        {
+          "file": "src/app/shared/components/chips/chips-autocomplete-drag/chips-autocomplete-drag.component.html",
+          "hash": "16829900801157004359"
+        },
+        {
+          "file": "src/app/shared/components/chips/chips-autocomplete-drag/chips-autocomplete-drag.component.scss",
+          "hash": "2421980078574514539"
+        },
+        {
+          "file": "src/app/shared/components/chips/chips-autocomplete-drag/chips-autocomplete-drag.component.ts",
+          "hash": "13896137050699261198"
+        },
+        {
+          "file": "src/app/shared/components/chips/chips-list-input/chips-list-input.component.html",
+          "hash": "5395872648180345236"
+        },
+        {
+          "file": "src/app/shared/components/chips/chips-list-input/chips-list-input.component.scss",
+          "hash": "7056126119393506335"
+        },
+        {
+          "file": "src/app/shared/components/chips/chips-list-input/chips-list-input.component.ts",
+          "hash": "1954053589107698345"
+        },
+        {
+          "file": "src/app/shared/components/pagination-tables/column-options-filter/column-options-filter.component.html",
+          "hash": "10846877826808604327"
+        },
+        {
+          "file": "src/app/shared/components/pagination-tables/column-options-filter/column-options-filter.component.scss",
+          "hash": "14125804472877398876"
+        },
+        {
+          "file": "src/app/shared/components/pagination-tables/column-options-filter/column-options-filter.component.ts",
+          "hash": "15480500113496673160"
+        },
+        {
+          "file": "src/app/shared/components/pagination-tables/column-text-filter/column-text-filter.component.html",
+          "hash": "1455604080325536480"
+        },
+        {
+          "file": "src/app/shared/components/pagination-tables/column-text-filter/column-text-filter.component.scss",
+          "hash": "14125804472877398876"
+        },
+        {
+          "file": "src/app/shared/components/pagination-tables/column-text-filter/column-text-filter.component.ts",
+          "hash": "2167526020407298536"
+        },
+        {
+          "file": "src/app/shared/components/pagination-tables/mat-sorting-data-accessor.ts",
+          "hash": "14702891628190234832"
+        },
+        {
+          "file": "src/app/shared/components/pagination-tables/pagination-data-handler.ts",
+          "hash": "13462626335075648288"
+        },
+        {
+          "file": "src/app/shared/components/pagination-tables/pagination-data.ts",
+          "hash": "11245934866003852269"
+        },
+        {
+          "file": "src/app/shared/components/pagination-tables/pagination-table/pagination-table.component.html",
+          "hash": "7620180650498735975"
+        },
+        {
+          "file": "src/app/shared/components/pagination-tables/pagination-table/pagination-table.component.scss",
+          "hash": "11681383550549139738"
+        },
+        {
+          "file": "src/app/shared/components/pagination-tables/pagination-table/pagination-table.component.ts",
+          "hash": "8341296417901646066"
+        },
+        {
+          "file": "src/app/shared/components/pagination-tables/paginator/paginator.component.html",
+          "hash": "15469123616823158978"
+        },
+        {
+          "file": "src/app/shared/components/pagination-tables/paginator/paginator.component.scss",
+          "hash": "2454317520629564436"
+        },
+        {
+          "file": "src/app/shared/components/pagination-tables/paginator/paginator.component.ts",
+          "hash": "9060560955687033683"
+        },
+        {
+          "file": "src/app/shared/components/texts/display-text/display-text.component.html",
+          "hash": "9064494599706093270"
+        },
+        {
+          "file": "src/app/shared/components/texts/display-text/display-text.component.scss",
+          "hash": "3270270192182125520"
+        },
+        {
+          "file": "src/app/shared/components/texts/display-text/display-text.component.ts",
+          "hash": "8508304545973487821"
+        },
+        {
+          "file": "src/app/shared/dialogs/confirmation-dialog/confirmation-dialog.component.html",
+          "hash": "6895865334779332862"
+        },
+        {
+          "file": "src/app/shared/dialogs/confirmation-dialog/confirmation-dialog.component.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "src/app/shared/dialogs/confirmation-dialog/confirmation-dialog.component.ts",
+          "hash": "515844261747328415"
+        },
+        {
+          "file": "src/app/shared/dialogs/dialogs.service.ts",
+          "hash": "15272845831754332863"
+        },
+        {
+          "file": "src/app/shared/dialogs/key-value-dialog/key-value-dialog.component.html",
+          "hash": "5954314442584635852"
+        },
+        {
+          "file": "src/app/shared/dialogs/key-value-dialog/key-value-dialog.component.scss",
+          "hash": "7264307312954929496"
+        },
+        {
+          "file": "src/app/shared/dialogs/key-value-dialog/key-value-dialog.component.ts",
+          "hash": "5153479596376840644"
+        },
+        {
+          "file": "src/app/shared/dialogs/list-selection-dialog/list-selection-dialog.component.html",
+          "hash": "5930334424274236456"
+        },
+        {
+          "file": "src/app/shared/dialogs/list-selection-dialog/list-selection-dialog.component.scss",
+          "hash": "4971401176811144694"
+        },
+        {
+          "file": "src/app/shared/dialogs/list-selection-dialog/list-selection-dialog.component.ts",
+          "hash": "4703390359014525466"
+        },
+        {
+          "file": "src/app/shared/dialogs/list-single-selection-dialog/list-single-selection-dialog.component.html",
+          "hash": "16795074691980173312"
+        },
+        {
+          "file": "src/app/shared/dialogs/list-single-selection-dialog/list-single-selection-dialog.component.scss",
+          "hash": "7355778360569280384"
+        },
+        {
+          "file": "src/app/shared/dialogs/list-single-selection-dialog/list-single-selection-dialog.component.ts",
+          "hash": "9277452758680362865"
+        },
+        {
+          "file": "src/app/shared/dialogs/notification-text-dialog/notification-text-dialog.component.html",
+          "hash": "8084880566468289269"
+        },
+        {
+          "file": "src/app/shared/dialogs/notification-text-dialog/notification-text-dialog.component.scss",
+          "hash": "3270270192182125520"
+        },
+        {
+          "file": "src/app/shared/dialogs/notification-text-dialog/notification-text-dialog.component.ts",
+          "hash": "15729542813389378778"
+        },
+        {
+          "file": "src/app/shared/dialogs/number-input-dialog/number-input-dialog.component.html",
+          "hash": "12912865087866631421"
+        },
+        {
+          "file": "src/app/shared/dialogs/number-input-dialog/number-input-dialog.component.scss",
+          "hash": "8658885159992090695"
+        },
+        {
+          "file": "src/app/shared/dialogs/number-input-dialog/number-input-dialog.component.ts",
+          "hash": "9452944606325214374"
+        },
+        {
+          "file": "src/app/shared/dialogs/text-input-dialog/text-input-dialog.component.html",
+          "hash": "16893153286263049520"
+        },
+        {
+          "file": "src/app/shared/dialogs/text-input-dialog/text-input-dialog.component.scss",
+          "hash": "15981604922861037893"
+        },
+        {
+          "file": "src/app/shared/dialogs/text-input-dialog/text-input-dialog.component.ts",
+          "hash": "3063974713098222727"
+        },
+        {
+          "file": "src/app/shared/directives/long-press.directive.ts",
+          "hash": "4034288017701627319"
+        },
+        {
+          "file": "src/app/shared/directives/ng-var.directive.ts",
+          "hash": "2562243655625943956"
+        },
+        {
+          "file": "src/app/shared/enums/theme-options.ts",
+          "hash": "11030757506646902430"
+        },
+        {
+          "file": "src/app/shared/inputs/input-debounce.ts",
+          "hash": "600713706520377564"
+        },
+        {
+          "file": "src/app/shared/interceptors/error-handling-interceptor.ts",
+          "hash": "9008547971144334488"
+        },
+        {
+          "file": "src/app/shared/interceptors/naming-convention-interceptor.ts",
+          "hash": "5661925653609680979"
+        },
+        {
+          "file": "src/app/shared/interfaces/blocks/block.ts",
+          "hash": "6037583127474553304"
+        },
+        {
+          "file": "src/app/shared/interfaces/blocks/blocks-type.ts",
+          "hash": "6104495901432401444"
+        },
+        {
+          "file": "src/app/shared/interfaces/users/auth-user.ts",
+          "hash": "7852571771650039632"
+        },
+        {
+          "file": "src/app/shared/interfaces/users/permission.ts",
+          "hash": "9392498125649242360"
+        },
+        {
+          "file": "src/app/shared/interfaces/users/short-user.ts",
+          "hash": "1863409137704688637"
+        },
+        {
+          "file": "src/app/shared/interfaces/users/user.ts",
+          "hash": "8386848766026986082"
+        },
+        {
+          "file": "src/app/shared/interfaces/util/option.ts",
+          "hash": "11514229680514808521"
+        },
+        {
+          "file": "src/app/shared/interfaces/util/point.ts",
+          "hash": "981083014200454468"
+        },
+        {
+          "file": "src/app/shared/interfaces/util/time-slot.ts",
+          "hash": "16122661923292672789"
+        },
+        {
+          "file": "src/app/shared/interfaces/websockets/websocket-event.ts",
+          "hash": "1836766688161819688"
+        },
+        {
+          "file": "src/app/shared/interfaces/websockets/websocket-group-info.ts",
+          "hash": "10067011594080973038"
+        },
+        {
+          "file": "src/app/shared/pipes/repeat.pipe.ts",
+          "hash": "7071244353238968812"
+        },
+        {
+          "file": "src/app/shared/services/base-api.service.ts",
+          "hash": "11133722211722929092"
+        },
+        {
+          "file": "src/app/shared/services/events-analytics.service.ts",
+          "hash": "3795779255757452503"
+        },
+        {
+          "file": "src/app/shared/services/responsive.service.ts",
+          "hash": "9811743057796630181"
+        },
+        {
+          "file": "src/app/shared/services/routing.service.ts",
+          "hash": "2757555393201567546"
+        },
+        {
+          "file": "src/app/shared/services/site-refresh.service.ts",
+          "hash": "308070974161693257"
+        },
+        {
+          "file": "src/app/shared/services/string-utils.service.ts",
+          "hash": "17214105509408365791"
+        },
+        {
+          "file": "src/app/shared/services/theme-mode.service.ts",
+          "hash": "1864350621316969507"
+        },
+        {
+          "file": "src/app/shared/services/time-utils.service.ts",
+          "hash": "4995012784230987718"
+        },
+        {
+          "file": "src/app/shared/services/user-websockets.service.ts",
+          "hash": "4956427545160820336"
+        },
+        {
+          "file": "src/app/shared/shared.module.ts",
+          "hash": "13290222187638740310"
+        },
+        {
+          "file": "src/app/shared/string-display/block-type-display.ts",
+          "hash": "17935448916673691875"
+        },
+        {
+          "file": "src/app/shared/string-display/boolean-display.ts",
+          "hash": "12397662065117048065"
+        },
+        {
+          "file": "src/app/shared/string-display/enum-display.ts",
+          "hash": "16013798490739793099"
+        },
+        {
+          "file": "src/app/table-example/table-example-page/table-example-page.component.html",
+          "hash": "479794995015171583"
+        },
+        {
+          "file": "src/app/table-example/table-example-page/table-example-page.component.scss",
+          "hash": "10164908268861505834"
+        },
+        {
+          "file": "src/app/table-example/table-example-page/table-example-page.component.ts",
+          "hash": "8238252642544905769"
+        },
+        {
+          "file": "src/app/table-example/table-example.module.ts",
+          "hash": "9252568804586839913"
+        },
+        {
+          "file": "src/app/websockets-example/websockets-example-page/websockets-example-page.component.html",
+          "hash": "7828311020405912303"
+        },
+        {
+          "file": "src/app/websockets-example/websockets-example-page/websockets-example-page.component.scss",
+          "hash": "76056320497706340"
+        },
+        {
+          "file": "src/app/websockets-example/websockets-example-page/websockets-example-page.component.ts",
+          "hash": "13089167144796659549"
+        },
+        {
+          "file": "src/app/websockets-example/websockets-example.module.ts",
+          "hash": "10546489440917047156"
+        },
+        {
+          "file": "src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "src/assets/styles/dialogs.scss",
+          "hash": "8362253023177146580"
+        },
+        {
+          "file": "src/assets/styles/material-changes.scss",
+          "hash": "8633915355311128950"
+        },
+        {
+          "file": "src/assets/styles/scrollbar.scss",
+          "hash": "9198875990002793213"
+        },
+        {
+          "file": "src/assets/styles/structure-components.scss",
+          "hash": "12866523131279035070"
+        },
+        {
+          "file": "src/assets/styles/texts.scss",
+          "hash": "7671608018354175806"
+        },
+        {
+          "file": "src/favicon.ico",
+          "hash": "3464744996580215640"
+        },
+        {
+          "file": "src/index.html",
+          "hash": "16737677425839450651"
+        },
+        {
+          "file": "src/main.ts",
+          "hash": "12246588107753938993"
+        },
+        {
+          "file": "src/styles.scss",
+          "hash": "11726281486771361774"
+        },
+        {
+          "file": "tsconfig.app.json",
+          "hash": "17337579397915052279"
+        },
+        {
+          "file": "tsconfig.json",
+          "hash": "806734120723088748"
+        },
+        {
+          "file": "tsconfig.spec.json",
+          "hash": "15575553540147145788"
+        }
+      ]
+    },
+    "nonProjectFiles": []
+  }
+}

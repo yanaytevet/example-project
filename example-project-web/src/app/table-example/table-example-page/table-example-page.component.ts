@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {Block} from '../../shared/interfaces/blocks/block';
 import {PaginationDataHandler} from '../../shared/components/pagination-tables/pagination-data-handler';
 import {BooleanDisplay} from '../../shared/string-display/boolean-display';
@@ -8,6 +8,7 @@ import {ZBlockType} from '../../shared/interfaces/blocks/blocks-type';
 import {BlockTypeDisplay} from '../../shared/string-display/block-type-display';
 import {BreadcrumbsService} from '../../shared/components/breadcrumbs/breadcrumbs.service';
 import {BasePageComponent} from '../../shared/components/base-page-component';
+import {DialogsService} from '../../shared/dialogs/dialogs.service';
 
 @Component({
   selector: 'app-table-example-page',
@@ -15,6 +16,7 @@ import {BasePageComponent} from '../../shared/components/base-page-component';
   styleUrls: ['./table-example-page.component.scss']
 })
 export class TableExamplePageComponent extends BasePageComponent implements OnInit {
+  private dialogsService = inject(DialogsService);
   paginationDataHandler: PaginationDataHandler<Block>;
   booleanDisplay = new BooleanDisplay();
   blockTypeDisplay = new BlockTypeDisplay();
@@ -40,7 +42,7 @@ export class TableExamplePageComponent extends BasePageComponent implements OnIn
       a: this.stringUtilsService.generateRandomString(10),
       b: Math.floor(Math.random() * 11),
       c: Math.random() < 0.5,
-      blockType: this.stringUtilsService.getRandomEnumValue(ZBlockType.enum),
+      block_type: this.stringUtilsService.getRandomEnumValue(ZBlockType.enum),
     });
     await this.paginationDataHandler.fetch();
   }
@@ -48,6 +50,14 @@ export class TableExamplePageComponent extends BasePageComponent implements OnIn
   async deleteItem(block: Block): Promise<void> {
     await this.blocksApiService.deleteBlockItemById(block.id);
     await this.paginationDataHandler.fetch();
+  }
+
+  async readItem(block: Block): Promise<void> {
+    const newBlock = await this.blocksApiService.getBlockItemById(block.id);
+    await this.dialogsService.showNotificationDialog({
+      title: `Block ${block.id}`,
+      text: JSON.stringify(newBlock),
+    });
   }
 
   async updateItem(block: Block): Promise<void> {
@@ -60,12 +70,12 @@ export class TableExamplePageComponent extends BasePageComponent implements OnIn
   }
 
   async buildItem(block: Block): Promise<void> {
-    await this.blocksApiService.postActionBuildBlockItemById(block.id, {shouldBuild: true});
+    await this.blocksApiService.postActionBuildBlockItemById(block.id, {should_build: true});
     await this.paginationDataHandler.fetch();
   }
 
   rowToClassCallback = (block: Block) => {
-    if (block.blockType === ZBlockType.enum.triangle) {
+    if (block.block_type === ZBlockType.enum.triangle) {
       return 'warning-row';
     }
     return '';

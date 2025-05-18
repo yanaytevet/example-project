@@ -14,7 +14,6 @@ export class PaginationDataHandler<T> {
   pageSize: number = 25;
   isEmpty: boolean = true;
   filterObject: Record<string, any> = {};
-  optionalFiltersObject: Record<string, any> = {};
   sortObjectsArray: SortObject[] = [];
 
   private readonly _isLoadingSub = new BehaviorSubject<boolean>(true);
@@ -22,7 +21,6 @@ export class PaginationDataHandler<T> {
 
   private readonly _paginationDataSub = new BehaviorSubject<PaginationData<T>>(null);
   readonly paginationData$ = this._paginationDataSub.asObservable();
-  private autoFetchInterval: number;
 
   public get isLoading(): boolean {
     return this._isLoadingSub.getValue();
@@ -36,7 +34,7 @@ export class PaginationDataHandler<T> {
   }
   public set paginationData(val: PaginationData<T>) {
     this._paginationDataSub.next(val);
-    this.isEmpty = val.pageSize === 0 && val.pagesAmount === 0;
+    this.isEmpty = val.page_size === 0 && val.pages_amount === 0;
   }
 
   constructor(
@@ -46,14 +44,13 @@ export class PaginationDataHandler<T> {
 
   public async fetch(): Promise<void> {
     this.isLoading = true;
-    this.currentPage = Math.min(this.currentPage, this.paginationData?.pagesAmount - 1 || 0);
+    this.currentPage = Math.min(this.currentPage, this.paginationData?.pages_amount - 1 || 0);
     this.currentPage = Math.max(this.currentPage, 0);
     const data = {
       page: this.currentPage,
       page_size: this.pageSize,
       order_by: this.getSortString(),
       filter: this.getFilterString(),
-      optional_filters: this.getOptionalFiltersString(),
     }
     this.paginationData = await this.fetchPaginationData(data);
     this.isLoading = false;
@@ -65,27 +62,27 @@ export class PaginationDataHandler<T> {
     this.fetch();
   }
 
-  clearAllFilter(): void {
+  public clearAllFilter(): void {
     this.filterObject = {};
   }
 
-  setFilter(key: string, value: any): void {
+  public setFilter(key: string, value: any): void {
     this.filterObject[key] = value;
   }
 
-  clearFilter(key: string): void {
+  public clearFilter(key: string): void {
     delete this.filterObject[key];
   }
 
-  getFilterValue(key: string): any {
+  public getFilterValue(key: string): any {
     return this.filterObject[key];
   }
 
-  removeFilter(key: string, value: string): void {
+  public removeFilter(key: string, value: string): void {
     this.filterObject[key] = value;
   }
 
-  addSort(key: string, direction: SortDirection): void {
+  public addSort(key: string, direction: SortDirection): void {
     const currentSort = this.sortObjectsArray.find(sort => sort.key === key);
     if (currentSort) {
       currentSort.direction = direction;
@@ -95,45 +92,16 @@ export class PaginationDataHandler<T> {
     }
   }
 
-  clearSort(key: string): void {
+  public clearSort(key: string): void {
     this.sortObjectsArray= this.sortObjectsArray.filter(sort => sort.key !== key);
   }
 
-  setOptionalFilter(key: string, value: any): void {
-    this.optionalFiltersObject[key] = value;
-  }
-
-  clearOptionalFilter(key: string): void {
-    delete this.optionalFiltersObject[key];
-  }
-
-  private getSortString(): string {
-    return JSON.stringify(this.sortObjectsArray.map(sort => `${sort.direction === 'asc' ? '' : '-'}${sort.key}`));
+  private getSortString(): string[] {
+    return this.sortObjectsArray.map(sort => `${sort.direction === 'asc' ? '' : '-'}${sort.key}`);
   }
 
   private getFilterString(): string {
     return JSON.stringify(this.filterObject);
-  }
-
-  private getOptionalFiltersString(): string {
-    const res = Object.keys(this.optionalFiltersObject).map(key => {
-      return [key, this.optionalFiltersObject[key]];
-    });
-    return JSON.stringify(res);
-  }
-
-  startAutoFetch(seconds: number): void {
-    this.clearAutoFetch();
-    this.autoFetchInterval = setInterval(() => {
-      this.fetch();
-    }, seconds * 1000);
-  }
-
-  clearAutoFetch(): void {
-    if (this.autoFetchInterval) {
-      clearInterval(this.autoFetchInterval);
-    }
-    this.autoFetchInterval = null;
   }
 
   sortFromTable(sort: Sort): void {

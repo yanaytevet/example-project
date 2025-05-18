@@ -11,7 +11,7 @@ export class BlocksApiService {
   }
 
   async sendBlockEvent(roomId: number): Promise<void> {
-    await this.baseApi.post<void>(null, '/api/blocks/websocket-test/', {roomId});
+    await this.baseApi.post<void>(null, '/api/blocks/websocket-test/', {room_id: roomId});
   }
 
   async getBlockItemById(id: number): Promise<Block> {
@@ -22,7 +22,7 @@ export class BlocksApiService {
     return await this.baseApi.patch<Block>(ZBlock, `/api/blocks/${id}/`, data);
   }
 
-  async postActionBuildBlockItemById(id: number, data: {shouldBuild: boolean}): Promise<Block> {
+  async postActionBuildBlockItemById(id: number, data: {should_build: boolean}): Promise<Block> {
     return await this.baseApi.post<Block>(ZBlock, `/api/blocks/${id}/build/`, data);
   }
 

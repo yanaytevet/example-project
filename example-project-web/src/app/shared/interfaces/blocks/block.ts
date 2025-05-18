@@ -6,7 +6,7 @@ export const ZBlock = z.object({
   a: z.string(),
   b: z.number(),
   c: z.boolean(),
-  blockType: ZBlockType,
+  block_type: ZBlockType,
 });
 
 export type Block = z.infer<typeof ZBlock>;

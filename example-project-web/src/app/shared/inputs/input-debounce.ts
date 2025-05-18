@@ -1,11 +1,13 @@
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
-import {Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {FormControl} from '@angular/forms';
+import {InputDebouceStatus} from '../interfaces/util/input-debouce-status';
 
 export class InputDebounce<T> {
   valueChangedSub: Subject<T> = new Subject<T>();
   valueChangedFinishedSub: Subject<T> = new Subject<T>();
   valueChangedFinished$: Observable<T> = this.valueChangedFinishedSub.asObservable();
+  debounceStatus: BehaviorSubject<InputDebouceStatus> = new BehaviorSubject<InputDebouceStatus>('idle');
   value: T = null;
   ctrl = new FormControl<T>(null);
 
@@ -16,6 +18,7 @@ export class InputDebounce<T> {
       .subscribe( newValue => {
         this.value = newValue;
         this.valueChangedFinishedSub.next(newValue);
+        this.debounceStatus.next('idle');
       });
 
     this.ctrl.valueChanges.subscribe(event => {
@@ -23,11 +26,12 @@ export class InputDebounce<T> {
     });
 
     if (initValue !== undefined) {
-      this.setValue(initValue);
+      this.setValueWithoutTrigger(initValue);
     }
   }
 
   onValueChangedInCtrl(newValue: T): void {
+    this.debounceStatus.next('working');
     this.valueChangedSub.next(newValue);
   }
 
@@ -35,14 +39,8 @@ export class InputDebounce<T> {
     this.ctrl.setValue(newValue);
   }
 
-  setValueImmediately(newValue: T): void {
-    this.ctrl.setValue(newValue, {emitEvent: false});
-    this.value = newValue;
-    this.valueChangedFinishedSub.next(newValue);
-  }
-
   setValueWithoutTrigger(newValue: T): void {
-    this.ctrl.setValue(newValue, {emitEvent: false});
+    this.ctrl.setValue(newValue, {emitEvent: false,onlySelf: true});
     this.value = newValue;
   }
 
