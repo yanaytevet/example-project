@@ -1,0 +1,8 @@
+.main-navbar {
+  display:  flex;
+  justify-content:space-between;
+}
+
+.logo {
+  font-size: 22px;
+}

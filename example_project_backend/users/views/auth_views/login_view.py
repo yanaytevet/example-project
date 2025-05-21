@@ -59,7 +59,6 @@ class LoginView(SimplePostAPIView):
 
         if user and not user.is_anonymous:
             await DjangoAuth.async_login(request, user)
-            await request.async_set_as_other(True)
             return AuthSchema(is_authenticated=True, user=await UserSerializer().serialize(user))
         else:
             raise login_exception

@@ -3,6 +3,8 @@ import os
 import typing
 from typing import get_type_hints, TypedDict
 
+from ninja import Schema
+
 from common.base_enum import BaseEnum
 from common.files_generators.classes_finder import ClassesFinder
 from common.files_generators.directories_manager import DirectoriesManager
@@ -70,8 +72,8 @@ export type {class_name} = z.infer<typeof Z{class_name}>;
 
     def create_ts_file_for_enum(self, klass: type[BaseEnum]) -> None:
         ts_file_data_holder = self.enum_class_name_to_ts_file_data_holder[klass.__name__]
-        values = klass.get_list()
-        values_str = json.dumps(values)
+        values = klass.get_dict()
+        values_str = ',\n\t'.join(f'{key}="{value}"' for key, value in values.items())
 
         ts_relative_path = ts_file_data_holder.ts_relative_path
         directory_path = os.path.split(ts_relative_path)[0]
@@ -95,14 +97,17 @@ export type {class_name} = z.infer<typeof Z{class_name}>;
             serializer_class: type[Serializer]
             type_hints = get_type_hints(serializer_class.inner_serialize)
             return_type = type_hints.get('return')
-            if not TypeUtils.is_typeddict(return_type):
+            if not issubclass(return_type, Schema):
                 continue
             ts_class_name = self.get_ts_class_name_from_serializer_class(serializer_class)
             if ts_class_name in self.interface_class_name_to_ts_file_data_holder:
                 raise ValueError(f'Duplicate serializer name: {ts_class_name}')
             ts_relative_path = self.get_ts_relative_path_from_serializer_partial_path(app_name, serializer_partial_path)
             ts_file_data_holder = InterfaceTsFileDataHolder(ts_relative_path, ts_class_name)
-            ts_file_data_holder.set_annotations(return_type.__annotations__.data())
+            print(return_type)
+            print(return_type.__annotations__)
+            print(list(return_type.__annotations__.items()))
+            ts_file_data_holder.set_annotations(list(return_type.__annotations__.items()))
             self.interface_class_name_to_ts_file_data_holder[ts_class_name] = ts_file_data_holder
 
     def get_ts_class_name_from_serializer_class(self, serializer_class: type[Serializer]) -> str:
@@ -151,7 +156,7 @@ export type {class_name} = z.infer<typeof Z{class_name}>;
 
     def get_imports_strs_from_type(self, ts_file_data_holder: InterfaceTsFileDataHolder, field_type: type) -> list[str]:
         imports_strs = []
-        if (not TypeUtils.is_typeddict(field_type)) and (not issubclass(field_type, BaseEnum)) and \
+        if (not issubclass(field_type, Schema)) and (not issubclass(field_type, BaseEnum)) and \
                 (not typing.get_origin(field_type) in [list, dict]):
             return imports_strs
 

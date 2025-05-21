@@ -1,80 +1,72 @@
-import { Injectable } from '@angular/core';
-import {Router} from '@angular/router';
+import { Injectable, inject } from '@angular/core';
+import { Router, UrlTree } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoutingService {
+  private router = inject(Router);
 
-  constructor(private router: Router) {
+  // Root route
+  getRootUrl(): UrlTree {
+    return this.router.createUrlTree(['/']);
   }
 
-  forceRefresh(): void {
-    location.reload();
+  navigateToRoot(): Promise<boolean> {
+    return this.router.navigate(['/']);
   }
 
-  // Login
-
-  getLoginUrl(): any[] {
-    return ['/login'];
+  // Home route
+  getHomeUrl(): UrlTree {
+    return this.router.createUrlTree(['/home']);
   }
 
-  async navigateToLogin(redirectUrl?: string): Promise<void> {
-    await this.router.navigate(this.getLoginUrl(), { queryParams: { redirectUrl } });
+  navigateToHome(): Promise<boolean> {
+    return this.router.navigate(['/home']);
   }
 
-  // Home
-
-  getHomeUrl(): any[] {
-    return ['/'];
+  // Login route
+  getLoginUrl(): UrlTree {
+    return this.router.createUrlTree(['/login']);
   }
 
-  async navigateToRoot(): Promise<void> {
-    await this.router.navigate(['/']);
+  navigateToLogin(): Promise<boolean> {
+    return this.router.navigate(['/login']);
   }
 
-  async navigateToRootAndRefresh(): Promise<void> {
-    await this.router.navigate(['/']);
-    this.forceRefresh();
+  // Example Form route
+  getExampleFormUrl(): UrlTree {
+    return this.router.createUrlTree(['/example-form']);
   }
 
-  // Websockets Example
-
-  getWebsocketsExamplePageUrl(): any[] {
-    return ['/websockets-example'];
+  navigateToExampleForm(): Promise<boolean> {
+    return this.router.navigate(['/example-form']);
   }
 
-  async navigateToWebsocketsExamplePage(): Promise<void> {
-    await this.router.navigate(this.getWebsocketsExamplePageUrl());
+  // Example Table route
+  getExampleTableUrl(): UrlTree {
+    return this.router.createUrlTree(['/example-table']);
   }
 
-  // Dialog Example
-
-  getDialogsExamplePageUrl(): any[] {
-    return ['/dialogs-example'];
+  navigateToExampleTable(): Promise<boolean> {
+    return this.router.navigate(['/example-table']);
   }
 
-  async navigateToDialogsExamplePage(): Promise<void> {
-    await this.router.navigate(this.getDialogsExamplePageUrl());
+  // Example Dialogs route
+  getExampleDialogsUrl(): UrlTree {
+    return this.router.createUrlTree(['/example-dialogs']);
   }
 
-  // Forms Example
-
-  getFormsExamplePageUrl(): any[] {
-    return ['/form-example'];
+  navigateToExampleDialogs(): Promise<boolean> {
+    return this.router.navigate(['/example-dialogs']);
   }
 
-  async navigateToFormsExamplePage(): Promise<void> {
-    await this.router.navigate(this.getFormsExamplePageUrl());
+  // Example Websockets route
+  getExampleWebsocketsUrl(): UrlTree {
+    return this.router.createUrlTree(['/example-websockets']);
   }
 
-  // Tables Example
-
-  getTablesExamplePageUrl(): any[] {
-    return ['/table-example'];
-  }
-
-  async navigateToTablesExamplePage(): Promise<void> {
-    await this.router.navigate(this.getTablesExamplePageUrl());
+  navigateToExampleWebsockets(): Promise<boolean> {
+    return this.router.navigate(['/example-websockets']);
   }
 }

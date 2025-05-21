@@ -1,5 +1,4 @@
-from ninja import Router
-
+from common.django_utils.api_router_creator import ApiRouterCreator
 from users.views.auth_views.auth_view import AuthView
 from users.views.auth_views.change_password_views import ChangePasswordView
 from users.views.auth_views.login_view import LoginView
@@ -8,7 +7,7 @@ from users.views.forgot_my_password_views.change_password_by_access_id_view impo
 from users.views.forgot_my_password_views.check_temporary_access_view import CheckTemporaryAccessView
 from users.views.forgot_my_password_views.forgot_my_password_view import ForgotMyPasswordView
 
-router = Router()
+api, router = ApiRouterCreator.create_api_and_router('auth')
 
 AuthView.register_get(router, '')
 LoginView.register_post(router, 'login/')

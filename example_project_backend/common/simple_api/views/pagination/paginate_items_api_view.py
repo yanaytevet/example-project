@@ -21,8 +21,9 @@ class PaginateItemsAPIView(SerializeItemMixin, ABC):
 
         class SpecificPaginationQueryParams(PaginationQueryParams[filter_schema]):
             filters: filter_schema
+        SpecificPaginationQueryParams.__name__ = f'{cls.__name__}PaginationQueryParams'
 
-        @router.get(url, response=PaginationOutput[resp_schema], tags=cls.get_tags())
+        @router.get(url, response=PaginationOutput[resp_schema], tags=cls.get_tags(), operation_id=cls.__name__)
         async def pagination(request: HttpRequest,
                              query: Query[SpecificPaginationQueryParams] = None,
                              path: Path[path_schema] = None) -> PaginationOutput[resp_schema]:

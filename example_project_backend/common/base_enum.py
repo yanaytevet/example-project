@@ -8,4 +8,8 @@ class BaseEnum(StrEnum):
 
     @classmethod
     def get_list(cls) -> list[str]:
-        return list(cls)
+        return [member.value for member in cls]
+
+    @classmethod
+    def get_dict(cls) -> dict[str, str]:
+        return {member.name: member.value for member in cls}

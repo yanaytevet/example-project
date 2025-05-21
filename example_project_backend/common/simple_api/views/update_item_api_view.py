@@ -17,7 +17,7 @@ class UpdateItemAPIView(SerializeItemMixin, ABC):
         resp_schema = cls.get_output_schema()
         data_schema = cls.get_data_schema()
         path_schema = cls.get_path_args_schema()
-        @router.patch(url, response=resp_schema, tags=cls.get_tags())
+        @router.patch(url, response=resp_schema, tags=cls.get_tags(), operation_id=cls.__name__)
         async def patch(request: HttpRequest,
                       data: data_schema,
                       path: Path[path_schema] = None) -> resp_schema:

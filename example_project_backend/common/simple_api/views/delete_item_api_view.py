@@ -14,7 +14,7 @@ class DeleteItemAPIView(ABC):
     def register_delete(cls, router: Router, url: str) -> None:
         data_schema = cls.get_data_schema()
         path_schema = cls.get_path_args_schema()
-        @router.delete(url, tags=cls.get_tags())
+        @router.delete(url, tags=cls.get_tags(), operation_id=cls.__name__)
         async def delete(request: HttpRequest,
                       data: data_schema = None,
                       path: Path[path_schema] = None) -> EmptySchema:

@@ -19,7 +19,7 @@ class SimplePostAPIView(ABC):
         resp_schema = cls.get_output_schema()
         data_schema = cls.get_data_schema()
         path_schema = cls.get_path_args_schema()
-        @router.post(url, response=resp_schema, tags=cls.get_tags())
+        @router.post(url, response=resp_schema, tags=cls.get_tags(), operation_id=cls.__name__)
         async def get(request: HttpRequest,
                       data: data_schema,
                       path: Path[path_schema] = None) -> resp_schema:

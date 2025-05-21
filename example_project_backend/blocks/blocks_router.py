@@ -1,5 +1,4 @@
-from ninja import Router
-
+from common.django_utils.api_router_creator import ApiRouterCreator
 from blocks.views.blocks_views.create_block_item_view import PostCreateBlockItemView
 from blocks.views.blocks_views.delete_block_item_view import DeleteBlockItemView
 from blocks.views.blocks_views.pagination_blocks_view import PaginationBlockView
@@ -8,7 +7,7 @@ from blocks.views.blocks_views.run_action_build_block_item_view import RunAction
 from blocks.views.blocks_views.update_block_item_view import UpdateBlockItemView
 from blocks.views.post_sample_websocket_view import PostSampleWebsocketView
 
-router = Router()
+api, router = ApiRouterCreator.create_api_and_router('blocks')
 
 PaginationBlockView.register_get(router, '')
 PostCreateBlockItemView.register_post(router)
