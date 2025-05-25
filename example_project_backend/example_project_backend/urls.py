@@ -12,7 +12,7 @@ urlpatterns = [
     path(r'admin/log_viewer/', include('log_viewer.urls')),
 
     path(r'auth/', auth_api.urls),
-    path(r'users/', users_api.urls),
-    path(r'configurations/', configurations_api.urls),
-    path(r'blocks/', blocks_api.urls),
+    path(r'api/users/', users_api.urls),
+    path(r'api/configurations/', configurations_api.urls),
+    path(r'api/blocks/', blocks_api.urls),
 ]

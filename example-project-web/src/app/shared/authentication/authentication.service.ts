@@ -14,6 +14,9 @@ export class AuthenticationService {
   isLoggedIn = computed<boolean>(() => {
     return this.auth()?.is_authenticated ?? null;
   });
+  userInitials = computed<string>(() => {
+    return this.user()?.initials?.toUpperCase() ?? null;
+  });
 
   private routingService = inject(RoutingService);
 

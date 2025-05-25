@@ -1,0 +1,15 @@
+<div class="flex items-center">
+  @for (linkItem of linkItems(); track linkItem; let first = $first, last = $last) {
+    @if (linkItem.active) {
+      <a class="text-base leading-tight no-underline text-primary transition-all duration-300 hover:underline" [class.font-semibold]="first"
+         [routerLink]="linkItem.linkArr">{{linkItem.text}}</a>
+    } @else {
+      <span class="text-base leading-tight no-underline text-primary transition-all duration-300">{{linkItem.text}}</span>
+    }
+    @if (!last) {
+      <svg xmlns="http://www.w3.org/2000/svg" class="mx-2.5 h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    }
+  }
+</div>

@@ -1,1 +1,31 @@
-<p>example-form works!</p>
+<div class="max-w-[600px] mx-auto p-5 font-sans">
+  <h2 class="text-gray-800 mb-5">Example Form</h2>
+
+  <div class="mb-4">
+    <label class="inline-flex items-center">
+      <input type="checkbox" class="mr-2" [(ngModel)]="canEdit" (change)="updateDisabled()"> Can Edit
+    </label>
+  </div>
+
+  <div class="mb-4">
+    <label class="block font-bold mb-1">Input Field:</label>
+    <input type="text"
+           class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+           [formControl]="inputDebouncer.ctrl">
+  </div>
+
+  <div class="mb-4">
+    <label class="block font-bold mb-1">Text Area:</label>
+    <textarea class="w-full p-2 border border-gray-300 rounded resize-y focus:outline-none focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+              [formControl]="textAreaDebouncer.ctrl" rows="4"></textarea>
+  </div>
+
+  <div class="mt-8 p-4 bg-gray-100 rounded">
+    <h3 class="font-bold mb-2">Values:</h3>
+    <div>
+      @for (value of values; track $index) {
+        <p class="my-1 p-2 bg-white border border-gray-200 rounded">{{ value }}</p>
+      }
+    </div>
+  </div>
+</div>

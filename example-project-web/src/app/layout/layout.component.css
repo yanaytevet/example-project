@@ -1,8 +1,1 @@
-.main-navbar {
-  display:  flex;
-  justify-content:space-between;
-}
-
-.logo {
-  font-size: 22px;
-}
+/* All styling is now handled by Tailwind CSS classes */

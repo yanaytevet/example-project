@@ -1,8 +1,1 @@
-.home-container {
-  display:  flex;
-  gap:  10px;
-}
-
-.main-link {
-
-}
+/* Styles moved to Tailwind classes in the template */
