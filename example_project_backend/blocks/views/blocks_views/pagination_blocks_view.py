@@ -1,8 +1,7 @@
 from typing import Type, Optional
 
 from django.db.models import Model
-from funcy import retry
-from ninja import Query, Path, Field, Schema, FilterSchema
+from ninja import Query, Path, FilterSchema
 
 from blocks.enums.block_types import BlockTypes
 from blocks.models import Block
@@ -30,7 +29,7 @@ class PaginationBlockView(PaginateItemsAPIView):
 
     @classmethod
     def get_allowed_order_by(cls) -> set[str]:
-        return {'a', 'b', 'c'}
+        return {'id', 'a', 'b', 'c'}
 
     @classmethod
     def get_filter_schema(cls) -> Type[FilterSchema]:

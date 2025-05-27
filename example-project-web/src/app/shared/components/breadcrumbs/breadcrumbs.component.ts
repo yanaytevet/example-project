@@ -2,13 +2,19 @@ import {Component, input, OnInit} from '@angular/core';
 import {LinkItem} from './link-item';
 import {NgClass} from '@angular/common';
 import {RouterLink} from '@angular/router';
+import {NgIcon, NgIconsModule, provideIcons} from '@ng-icons/core';
+import {bootstrapChevronRight} from '@ng-icons/bootstrap-icons';
 
 @Component({
     selector: 'app-breadcrumbs',
     templateUrl: './breadcrumbs.component.html',
     imports: [
-        NgClass,
         RouterLink,
+        NgIconsModule,
+        NgIcon,
+    ],
+    providers: [
+        provideIcons({ bootstrapChevronRight })
     ]
 })
 export class BreadcrumbsComponent implements OnInit {

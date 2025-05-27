@@ -69,7 +69,8 @@ class PaginateItemsAPIView(SerializeItemMixin, ABC):
     def apply_order_by(cls, query_set: QuerySet, query: PaginationQueryParams, path: Path) -> QuerySet:
         allowed_order_by_set = cls.get_allowed_order_by()
         for order_by_item in query.order_by:
-            if order_by_item not in allowed_order_by_set:
+            clear_order_by_item = order_by_item.lstrip('-')
+            if clear_order_by_item not in allowed_order_by_set:
                 raise ValueError(f'order_by item {order_by_item} is not allowed')
         return query_set.order_by(*query.order_by)
 

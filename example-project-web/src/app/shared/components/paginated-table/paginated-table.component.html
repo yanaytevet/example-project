@@ -1,0 +1,22 @@
+<ng-template #actionTmpl let-row="row" let-value="value">
+    <app-menu-button [icon]="bootstrapDice6Fill" [actions]="getActions(row)"></app-menu-button>
+</ng-template>
+
+<ngx-datatable
+    class="material"
+    [rows]="paginationDataSignal()?.data"
+    [columns]="realColumns()"
+    [columnMode]="ColumnMode.force"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    rowHeight="auto"
+    [externalPaging]="true"
+    [sortType]="SortType.multi"
+    [externalSorting]="true"
+    [count]="paginationDataSignal()?.total_amount"
+    [offset]="paginationDataSignal()?.page"
+    [limit]="paginationDataSignal()?.page_size"
+    (page)="setPage($event)"
+    (sort)="setSort($event)"
+>
+</ngx-datatable>

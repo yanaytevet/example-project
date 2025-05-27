@@ -1,12 +1,14 @@
-import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { RoutingService } from '../shared/services/routing.service';
+import {Component, inject} from '@angular/core';
+import {RoutingService} from '../shared/services/routing.service';
+import {NgIcon, provideIcons} from '@ng-icons/core';
+import {bootstrapChatSquare, bootstrapFileEarmark, bootstrapLightning, bootstrapTable} from '@ng-icons/bootstrap-icons';
 
 @Component({
   selector: 'app-home',
-  imports: [
-    RouterLink
-  ],
+  imports: [NgIcon],
+  providers: [provideIcons({
+    bootstrapFileEarmark, bootstrapTable, bootstrapChatSquare, bootstrapLightning
+  })],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
