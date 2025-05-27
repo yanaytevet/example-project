@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+.dialog-container {
+  @apply p-6 bg-white rounded-lg shadow-lg max-w-md w-full;
+}
+
+.dialog-container h2 {
+  @apply text-xl font-bold mb-4 text-gray-800;
+}
+
+.dialog-container p {
+  @apply text-gray-600 mb-6;
+}
+
+.dialog-container button {
+  @apply px-4 py-2 rounded-md font-medium mr-2;
+}
+
+.dialog-container button:first-of-type {
+  @apply bg-blue-500 text-white hover:bg-blue-600;
+}
+
+.dialog-container button:last-of-type {
+  @apply bg-gray-200 text-gray-700 hover:bg-gray-300;
+}

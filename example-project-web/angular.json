@@ -52,7 +52,8 @@
               "node_modules/@swimlane/ngx-datatable/index.css",
               "node_modules/@swimlane/ngx-datatable/themes/material.css",
               "node_modules/@swimlane/ngx-datatable/assets/icons.css",
-              "src/styles.css"
+              "src/styles.css",
+              "src/app/shared/dialogs/dialogs-style.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": ["src"]

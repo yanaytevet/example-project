@@ -1,0 +1,6 @@
+<div class="dialog-container">
+    <h2>{{ data.title }}</h2>
+    <p>{{ data.text }}</p>
+    <button (click)="emitClose(true)">{{ data.confirmActionName ?? 'Submit' }}</button>
+    <button (click)="emitClose(false)">{{ data.cancelActionName ?? 'Cancel' }}</button>
+</div>
