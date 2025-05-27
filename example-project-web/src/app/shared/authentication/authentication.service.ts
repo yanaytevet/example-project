@@ -2,12 +2,14 @@ import {computed, inject, Injectable, signal} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthSchema, authView, loginView, logoutView, UserSchema} from '../../../generated-files/auth';
 import {RoutingService} from '../services/routing.service';
+import {toObservable} from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
   auth = signal<AuthSchema>(null);
+  auth$ = toObservable(this.auth);
   user = computed<UserSchema>(() => {
     return this.auth()?.user ?? null;
   });
