@@ -16,18 +16,31 @@ export class BreadcrumbsService {
     ];
   }
 
-  public getSimpleBreadcrumbs(text: string): LinkItem[] {
+  public getExampleFormBreadcrumbs(): LinkItem[] {
     return [
       {text: 'Home', linkArr: this.routingService.getHomeUrl(), active: true},
-      {text, linkArr: [], active: false},
+      {text: 'Example Form', linkArr: this.routingService.getExampleFormUrl(), active: true},
     ];
   }
 
-  public getBattlefieldsBreadcrumbs(name: string) {
+  public getExampleTableBreadcrumbs(): LinkItem[] {
     return [
       {text: 'Home', linkArr: this.routingService.getHomeUrl(), active: true},
-      {text: 'Battlefields', linkArr: this.routingService.getBattlefieldsTablePageUrl(), active: true},
-      {text: name, linkArr: [], active: false},
+      {text: 'Example Table', linkArr: this.routingService.getExampleTableUrl(), active: true},
+    ];
+  }
+
+  public getExampleDialogsBreadcrumbs(): LinkItem[] {
+    return [
+      {text: 'Home', linkArr: this.routingService.getHomeUrl(), active: true},
+      {text: 'Example Dialogs', linkArr: this.routingService.getExampleDialogsUrl(), active: true},
+    ];
+  }
+
+  public getExampleWebsocketsBreadcrumbs(): LinkItem[] {
+    return [
+      {text: 'Home', linkArr: this.routingService.getHomeUrl(), active: true},
+      {text: 'Example Websockets', linkArr: this.routingService.getExampleWebsocketsUrl(), active: true},
     ];
   }
 }

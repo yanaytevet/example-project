@@ -1,17 +1,22 @@
-import {Component, effect} from '@angular/core';
+import {Component, effect, inject} from '@angular/core';
 import {Option} from '../shared/interfaces/util/option';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {BasePageComponent} from '../shared/components/base-page-component';
 import {InputDebounce} from '../shared/data/input-debouncer';
+import {BreadcrumbsComponent} from '../shared/components/breadcrumbs/breadcrumbs.component';
+import {BreadcrumbsService} from '../shared/components/breadcrumbs/breadcrumbs.service';
+import {LinkItem} from '../shared/components/breadcrumbs/link-item';
 
 @Component({
   selector: 'app-example-form',
-  imports: [FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, BreadcrumbsComponent],
   templateUrl: './example-form.component.html',
   styleUrl: './example-form.component.css'
 })
 export class ExampleFormComponent extends BasePageComponent{
+  breadcrumbsService = inject(BreadcrumbsService);
+
   canEdit = true;
   inputDebouncer = new InputDebounce<string>();
   textAreaDebouncer = new InputDebounce<string>();
@@ -26,6 +31,7 @@ export class ExampleFormComponent extends BasePageComponent{
     super();
     this.inputDebouncer.setValueWithoutTrigger('test');
     this.updateDisabled(); // Set initial state of form controls
+    this.breadcrumbs = this.breadcrumbsService.getExampleFormBreadcrumbs();
 
     this.subscriptions.push(this.inputDebouncer.valueChangedFinished$.subscribe(newVal => {
       this.values.push(newVal);
@@ -34,14 +40,6 @@ export class ExampleFormComponent extends BasePageComponent{
     this.subscriptions.push(this.textAreaDebouncer.valueChangedFinished$.subscribe(newVal => {
       this.values.push(newVal);
     }));
-  }
-
-  chipsValuesChanged(chipsValues: string[]) {
-    this.values.push(JSON.stringify(chipsValues));
-  }
-
-  chipsAutocompleteValuesChanged(optionsList: Option[]) {
-    this.values.push(JSON.stringify(optionsList));
   }
 
   updateDisabled() {

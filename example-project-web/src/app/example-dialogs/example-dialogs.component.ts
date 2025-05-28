@@ -12,21 +12,32 @@ import {DialogService} from '../shared/dialogs/dialogs.service';
 import {CommonModule} from '@angular/common';
 import {NgClass} from '@angular/common';
 import {NgIconComponent} from '@ng-icons/core';
+import {BreadcrumbsComponent} from '../shared/components/breadcrumbs/breadcrumbs.component';
+import {BreadcrumbsService} from '../shared/components/breadcrumbs/breadcrumbs.service';
+import {LinkItem} from '../shared/components/breadcrumbs/link-item';
+import {BasePageComponent} from '../shared/components/base-page-component';
 
 @Component({
   selector: 'app-example-dialogs',
   imports: [
     CommonModule,
     NgClass,
-    NgIconComponent
+    NgIconComponent,
+    BreadcrumbsComponent
   ],
   templateUrl: './example-dialogs.component.html',
   styleUrl: './example-dialogs.component.css',
   standalone: true
 })
-export class ExampleDialogsComponent {
-  dialogService  = inject(DialogService);
+export class ExampleDialogsComponent extends BasePageComponent{
+  dialogService = inject(DialogService);
+  breadcrumbsService = inject(BreadcrumbsService);
   data = signal<string>('');
+
+  constructor() {
+    super();
+    this.breadcrumbs = this.breadcrumbsService.getExampleDialogsBreadcrumbs();
+  }
 
   actions: Action[] = [
     {

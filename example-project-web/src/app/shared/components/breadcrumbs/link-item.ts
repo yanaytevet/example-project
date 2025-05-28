@@ -1,6 +1,7 @@
+import {UrlTree} from '@angular/router';
 
 export interface LinkItem {
-  linkArr?: any[];
+  linkArr?: UrlTree;
   text: string;
   active?: boolean;
 }

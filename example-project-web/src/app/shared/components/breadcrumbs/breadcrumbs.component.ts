@@ -10,7 +10,6 @@ import {bootstrapChevronRight} from '@ng-icons/bootstrap-icons';
     templateUrl: './breadcrumbs.component.html',
     imports: [
         RouterLink,
-        NgIconsModule,
         NgIcon,
     ],
     providers: [

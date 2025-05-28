@@ -4,16 +4,25 @@ import {UserWebsocketsService} from '../shared/services/user-websockets.service'
 import {WebsocketEvent} from '../shared/interfaces/websockets/websocket-event';
 import {postSampleWebsocketView} from '../../generated-files/api/blocks';
 import {CommonModule} from '@angular/common';
+import {BreadcrumbsComponent} from '../shared/components/breadcrumbs/breadcrumbs.component';
+import {BreadcrumbsService} from '../shared/components/breadcrumbs/breadcrumbs.service';
+import {LinkItem} from '../shared/components/breadcrumbs/link-item';
 
 @Component({
   selector: 'app-example-websocket',
-  imports: [CommonModule],
+  imports: [CommonModule, BreadcrumbsComponent],
   templateUrl: './example-websocket.component.html',
   styleUrl: './example-websocket.component.css'
 })
 export class ExampleWebsocketComponent extends BasePageComponent{
   events: string[] = [];
-  userWebsocketsService = inject(UserWebsocketsService)
+  userWebsocketsService = inject(UserWebsocketsService);
+  breadcrumbsService = inject(BreadcrumbsService);
+
+  constructor() {
+    super();
+    this.breadcrumbs = this.breadcrumbsService.getExampleWebsocketsBreadcrumbs();
+  }
 
   ngOnInit(): void {
     this.addWsSubscriptions();
