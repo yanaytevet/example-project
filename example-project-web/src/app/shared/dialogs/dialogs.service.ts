@@ -20,6 +20,22 @@ import {
   NotificationDialogComponent,
   NotificationDialogInput
 } from './common-dialogs/notification-dialog/notification-dialog.component';
+import {
+  NumberInputDialogComponent,
+  NumberInputDialogInput
+} from './common-dialogs/number-input-dialog/number-input-dialog.component';
+import {
+  TextInputDialogComponent,
+  TextInputDialogInput
+} from './common-dialogs/text-input-dialog/text-input-dialog.component';
+import {
+  SingleSelectionDialogComponent,
+  SingleSelectionDialogInput
+} from './common-dialogs/single-selection-dialog/single-selection-dialog.component';
+import {
+  MultipleSelectionDialogComponent,
+  MultipleSelectionDialogInput
+} from './common-dialogs/multiple-selection-dialog/multiple-selection-dialog.component';
 
 export const DIALOG_DATA = new InjectionToken<any>('DIALOG_DATA');
 
@@ -78,5 +94,21 @@ export class DialogService {
 
   public async showNotificationDialog(data: NotificationDialogInput): Promise<void> {
     await this.open<NotificationDialogInput, void>(NotificationDialogComponent, data);
+  }
+
+  public async getNumberFromInputDialog(data: NumberInputDialogInput): Promise<number | null> {
+    return await this.open<NumberInputDialogInput, number | null>(NumberInputDialogComponent, data);
+  }
+
+  public async getTextFromInputDialog(data: TextInputDialogInput): Promise<string | null> {
+    return await this.open<TextInputDialogInput, string | null>(TextInputDialogComponent, data);
+  }
+
+  public async getValueFromSelectionDialog(data: SingleSelectionDialogInput): Promise<any | null> {
+    return await this.open<SingleSelectionDialogInput, any | null>(SingleSelectionDialogComponent, data);
+  }
+
+  public async getValuesFromMultipleSelectionDialog(data: MultipleSelectionDialogInput): Promise<any[] | null> {
+    return await this.open<MultipleSelectionDialogInput, any[] | null>(MultipleSelectionDialogComponent, data);
   }
 }

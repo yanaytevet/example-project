@@ -1,0 +1,66 @@
+<div class="dialog-container">
+    <h2>{{ data.title }}</h2>
+    <p>{{ data.text }}</p>
+
+    <form [formGroup]="form">
+        <div class="mb-4">
+            @if (data.label) {
+                <label class="block text-gray-700 text-sm font-bold mb-2">{{ data.label }}</label>
+            }
+
+            <!-- Dropdown selection method (default) -->
+            @if (!data.method || data.method === 'dropdown') {
+                <div class="relative">
+                    <select
+                            formControlName="selectedValue"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pr-8 cursor-pointer"
+                            [class.border-red-500]="getErrorMessage() && (selectionControl?.touched || selectionControl?.dirty)"
+                    >
+                        @if (data.allowEmpty) {
+                            <option value="">-- Select an option --</option>
+                        }
+                        @for (option of data.options; track option.value) {
+                            <option [value]="option.value">{{ option.display }}</option>
+                        }
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <ng-icon [svg]="chevronDownIcon" class="h-4 w-4"></ng-icon>
+                    </div>
+                </div>
+            }
+
+            <!-- Buttons selection method -->
+            @if (data.method === 'buttons') {
+                <div class="flex flex-col space-y-2">
+                    @for (option of data.options; track option.value) {
+                        <button
+                                type="button"
+                                (click)="toggleValue(option.value)"
+                                class="text-left px-4 py-2 border rounded bg-white hover:bg-gray-100 text-gray-700 cursor-pointer"
+                                [class.dialog-btn-selected]="isSelected(option.value)"
+                        >
+                            {{ option.display }}
+                        </button>
+                    }
+                </div>
+            }
+
+            @if (getErrorMessage() && (selectionControl?.touched || selectionControl?.dirty)) {
+                <p class="text-red-500 text-xs italic mt-1">{{ getErrorMessage() }}</p>
+            }
+        </div>
+    </form>
+
+    <div class="flex justify-end space-x-2">
+        <app-confirmation-button
+                [disabled]="form.invalid"
+                [text]="data.confirmActionName ?? 'Submit'"
+                (click)="onConfirm()">
+        </app-confirmation-button>
+        <button
+                (click)="emitClose(null)"
+                class="dialog-btn dialog-cancel-btn">
+            {{ data.cancelActionName ?? 'Cancel' }}
+        </button>
+    </div>
+</div>

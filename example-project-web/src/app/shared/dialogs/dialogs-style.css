@@ -12,14 +12,24 @@
   @apply text-gray-600 mb-6;
 }
 
-.dialog-container button {
-  @apply px-4 py-2 rounded-md font-medium mr-2;
+.dialog-btn {
+  @apply px-4 py-2 rounded-md font-medium mr-2 cursor-pointer;
 }
 
-.dialog-container button:first-of-type {
+.dialog-confirm-btn {
   @apply bg-blue-500 text-white hover:bg-blue-600;
 }
 
-.dialog-container button:last-of-type {
+.dialog-cancel-btn {
   @apply bg-gray-200 text-gray-700 hover:bg-gray-300;
+}
+
+/* Selected button state */
+.dialog-btn-selected {
+  @apply bg-blue-600 text-white border-blue-700 border;
+}
+
+/* Hover effect for selected buttons */
+.dialog-btn-selected:hover {
+  @apply bg-blue-700;
 }
