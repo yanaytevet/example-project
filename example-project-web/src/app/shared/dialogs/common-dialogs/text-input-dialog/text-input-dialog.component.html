@@ -30,14 +30,14 @@
     </div>
   </form>
 
-  <div class="flex justify-end">
+  <div class="dialog-buttons-container">
     <app-confirmation-button
       [disabled]="form.invalid"
       [text]="data.confirmActionName ?? 'Submit'"
       (click)="onConfirm()">
     </app-confirmation-button>
     <button
-      class="dialog-btn dialog-cancel-btn"
+      class="btn cancel-btn"
       (click)="emitClose(null)">
       {{ data.cancelActionName ?? 'Cancel' }}
     </button>

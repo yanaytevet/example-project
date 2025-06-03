@@ -2,21 +2,21 @@
     <app-breadcrumbs [linkItems]="breadcrumbs"></app-breadcrumbs>
 </div>
 <div class="flex flex-col items-center justify-center py-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-8">Welcome to Example Project</h1>
-    <div class="flex flex-col gap-4 w-full max-w-md bg-white p-6 rounded-xl shadow-lg">
-        <button (click)="navigateToExampleForm()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center">
+    <h1 class="text-3xl font-bold mb-8">Welcome to Example Project</h1>
+    <div class="flex flex-col gap-4 w-full max-w-md bg-layer-2 p-6 rounded-xl shadow-lg dark:shadow-gray-900">
+        <button (click)="navigateToExampleForm()" class="btn indigo-btn">
             <ng-icon name="bootstrapFileEarmark" class="h-5 w-5 mr-2"></ng-icon>
             <span>Example Form</span>
         </button>
-        <button (click)="navigateToExampleTable()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center">
+        <button (click)="navigateToExampleTable()" class="btn emerald-btn">
             <ng-icon name="bootstrapTable" class="h-5 w-5 mr-2"></ng-icon>
             <span>Example Table</span>
         </button>
-        <button (click)="navigateToExampleDialogs()" class="bg-violet-600 hover:bg-violet-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center">
+        <button (click)="navigateToExampleDialogs()" class="btn violet-btn">
             <ng-icon name="bootstrapChatSquare" class="h-5 w-5 mr-2"></ng-icon>
             <span>Example Dialogs</span>
         </button>
-        <button (click)="navigateToExampleWebsockets()" class="bg-rose-600 hover:bg-rose-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center">
+        <button (click)="navigateToExampleWebsockets()" class="btn red-btn">
             <ng-icon name="bootstrapLightning" class="h-5 w-5 mr-2"></ng-icon>
             <span>Example Websockets</span>
         </button>

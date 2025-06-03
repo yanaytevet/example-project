@@ -2,7 +2,7 @@
   <app-breadcrumbs [linkItems]="breadcrumbs"></app-breadcrumbs>
 </div>
 <div class="max-w-[600px] mx-auto p-5 font-sans">
-  <h2 class="text-gray-800 mb-5">Example Form</h2>
+  <h2 class="mb-5">Example Form</h2>
 
   <div class="mb-4">
     <label class="inline-flex items-center">
@@ -23,11 +23,11 @@
               [formControl]="textAreaDebouncer.ctrl" rows="4"></textarea>
   </div>
 
-  <div class="mt-8 p-4 bg-gray-100 rounded">
+  <div class="mt-8 p-4 bg-layer-2 rounded">
     <h3 class="font-bold mb-2">Values:</h3>
     <div>
       @for (value of values; track $index) {
-        <p class="my-1 p-2 bg-white border border-gray-200 rounded">{{ value }}</p>
+        <p class="my-1 p-2 border border-gray-200 rounded">{{ value }}</p>
       }
     </div>
   </div>

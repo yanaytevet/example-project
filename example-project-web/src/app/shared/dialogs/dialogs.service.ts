@@ -36,6 +36,7 @@ import {
   MultipleSelectionDialogComponent,
   MultipleSelectionDialogInput
 } from './common-dialogs/multiple-selection-dialog/multiple-selection-dialog.component';
+import {DarkModeService} from '../services/dark-mode.service';
 
 export const DIALOG_DATA = new InjectionToken<any>('DIALOG_DATA');
 
@@ -43,6 +44,7 @@ export const DIALOG_DATA = new InjectionToken<any>('DIALOG_DATA');
 export class DialogService {
   private overlay = inject(Overlay);
   private injector = inject(Injector);
+  private darkModeService = inject(DarkModeService);
 
   open<TInput, TOutput>(
       component: Type<BaseDialogComponent<TInput, TOutput>>,
@@ -76,9 +78,10 @@ export class DialogService {
   }
 
   private getOverlayConfig(): OverlayConfig {
+    const isDarkMode = this.darkModeService.darkMode();
     return {
       hasBackdrop: true,
-      backdropClass: 'cdk-overlay-dark-backdrop',
+      backdropClass: isDarkMode ? 'cdk-overlay-black-backdrop' : 'cdk-overlay-dark-backdrop',
       positionStrategy: this.overlay
           .position()
           .global()

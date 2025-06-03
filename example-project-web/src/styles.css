@@ -1,1 +1,35 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+html, body {
+  min-height: 100%;
+}
+
+button {
+  @apply cursor-pointer;
+}
+
+.cdk-overlay-black-backdrop {
+  background-color: rgba(0, 0, 0, 0.75); /* Dark mode backdrop */
+}
+
+@theme {
+  --color-layer-1: var(--color-gray-50);
+  --color-layer-2: var(--color-gray-100);
+  --color-layer-3: var(--color-gray-200);
+  --color-writing: var(--color-gray-800);
+  --color-logo-1: var(--color-indigo-600);
+  --color-logo-2: var(--color-indigo-800);
+  --color-layer-overlay: rgba(255, 255, 255, 0.15);
+}
+
+@layer theme {
+  .dark {
+    --color-layer-1: var(--color-gray-900);
+    --color-layer-2: var(--color-gray-800);
+    --color-layer-3: var(--color-gray-700);
+    --color-writing: var(--color-white);
+    --color-logo-1: var(--color-indigo-300);
+    --color-logo-2: var(--color-indigo-200);
+  }
+}

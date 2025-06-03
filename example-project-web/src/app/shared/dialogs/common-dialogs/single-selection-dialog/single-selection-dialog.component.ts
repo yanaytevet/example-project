@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { NgIcon } from '@ng-icons/core';
 import { bootstrapChevronDown } from '@ng-icons/bootstrap-icons';
 import { ConfirmationButtonComponent } from '../../confirmation-button/confirmation-button.component';
+import { SelectableBoxComponent } from '../../../components/selectable-box/selectable-box.component';
 
 export interface SingleSelectionOption {
   display: string;
@@ -25,7 +26,7 @@ export interface SingleSelectionDialogInput {
 
 @Component({
   selector: 'app-single-selection-dialog',
-  imports: [ReactiveFormsModule, CommonModule, NgIcon, ConfirmationButtonComponent],
+  imports: [ReactiveFormsModule, CommonModule, NgIcon, ConfirmationButtonComponent, SelectableBoxComponent],
   templateUrl: './single-selection-dialog.component.html',
   standalone: true
 })

@@ -24,24 +24,4 @@ export class BreadcrumbsComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  get textClass() {
-    return {
-      'text-base': true,
-      'leading-tight': true,
-      'no-underline': true,
-      'text-primary': true,
-      'transition-all': true,
-      'duration-300': true
-    };
-  }
-
-  get iconClass() {
-    return {
-      'mx-2.5': true,
-      'h-5': true,
-      'w-5': true,
-      'text-primary': true
-    };
-  }
 }

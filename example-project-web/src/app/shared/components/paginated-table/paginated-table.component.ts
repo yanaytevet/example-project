@@ -6,7 +6,7 @@ import {PaginatedData} from './paginated-data';
 import {MenuButtonComponent} from '../menu-button/menu-button.component';
 import {TableAction} from './table-action';
 import {Action} from '../../interfaces/util/action';
-import {bootstrapDice6Fill} from '@ng-icons/bootstrap-icons';
+import {bootstrapThreeDotsVertical} from '@ng-icons/bootstrap-icons';
 
 @Component({
   selector: 'app-paginated-table',
@@ -42,8 +42,6 @@ export class PaginatedTableComponent<T, S extends PaginationInput> {
     return columns;
   });
 
-  protected readonly ColumnMode = ColumnMode;
-
   setPage($event: PageEvent) {
     this.paginatedDataHandler()?.fetchPage($event.offset, $event.pageSize);
   }
@@ -57,8 +55,6 @@ export class PaginatedTableComponent<T, S extends PaginationInput> {
     paginatedDataHandler.fetch();
   }
 
-  protected readonly SortType = SortType;
-
   getActions(row: any): Action[] {
     return this.actions().map((tableAction) => {
       return {
@@ -71,5 +67,7 @@ export class PaginatedTableComponent<T, S extends PaginationInput> {
     });
   }
 
-  protected readonly bootstrapDice6Fill = bootstrapDice6Fill;
+  protected readonly ColumnMode = ColumnMode;
+  protected readonly SortType = SortType;
+  protected readonly bootstrapThreeDotsVertical = bootstrapThreeDotsVertical;
 }

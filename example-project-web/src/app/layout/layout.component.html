@@ -1,13 +1,24 @@
-<div class="min-h-screen bg-gray-50">
-    <div class="main-navbar flex justify-between items-center bg-white shadow-md px-6 py-4 sticky top-0 z-50">
-        <a class="logo text-2xl font-bold text-indigo-600 hover:text-indigo-800 transition-colors duration-200" [routerLink]="routingService.getHomeUrl()">ExampleProject</a>
-        @if(authService.isLoggedIn()) {
-        <app-menu-button
-            [text]="authService.userInitials() ?? ''"
-            [icon]="bootstrapChevronDown"
-            [actions]="userMenuActions">
-        </app-menu-button>
-        }
+<div class="min-h-screen bg-layer-1">
+    <div class="flex justify-between items-center bg-layer-2 shadow-md px-6 py-4 sticky top-0 z-50">
+        <a class="text-2xl font-bold text-logo-1 hover:text-logo-2" [routerLink]="routingService.getHomeUrl()">ExampleProject</a>
+        <div class="flex items-center justify-center gap-4">
+            <button
+                class="p-2 rounded-full hover:bg-layer-overlay cursor-pointer"
+                (click)="darkModeService.toggleDarkMode()">
+                @if(darkModeService.darkMode()) {
+                    <ng-icon [svg]="bootstrapSunFill" class="h-5 w-5 text-yellow-500"></ng-icon>
+                } @else {
+                    <ng-icon [svg]="bootstrapMoonFill" class="h-5 w-5 text-gray-700"></ng-icon>
+                }
+            </button>
+            @if(authService.isLoggedIn()) {
+            <app-menu-button
+                    [text]="authService.userInitials() ?? ''"
+                    [icon]="bootstrapChevronDown"
+                    [actions]="userMenuActions">
+            </app-menu-button>
+            }
+        </div>
     </div>
     <div class="container mx-auto px-4 py-6">
         <router-outlet />

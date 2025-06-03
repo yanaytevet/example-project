@@ -14,6 +14,7 @@ import {NgIcon} from '@ng-icons/core';
 })
 export class MenuButtonComponent {
   text = input<string>('');
+  color = input<string>('writing');
   icon = input<string>(null);
   actions= input<Action[]>();
 }

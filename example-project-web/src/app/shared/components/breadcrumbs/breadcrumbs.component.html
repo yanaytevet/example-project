@@ -1,13 +1,13 @@
 <div class="flex items-center">
-  @for (linkItem of linkItems(); track linkItem; let first = $first, last = $last) {
+  @for (linkItem of linkItems(); track linkItem; let last = $last) {
     @if (linkItem.active) {
-      <a class="text-base leading-tight no-underline text-primary transition-all duration-300 hover:underline" [class.font-semibold]="first"
+      <a class="no-underline text-writing"
          [routerLink]="linkItem.linkArr">{{linkItem.text}}</a>
     } @else {
-      <span class="text-base leading-tight no-underline text-primary transition-all duration-300">{{linkItem.text}}</span>
+      <span class="no-underline text-writing">{{linkItem.text}}</span>
     }
     @if (!last) {
-      <ng-icon name="bootstrapChevronRight" class="mx-2.5 h-5 w-5 text-primary"></ng-icon>
+      <ng-icon name="bootstrapChevronRight" class="mx-2.5 h-5 w-5" color="var(--color-writing)"></ng-icon>
     }
   }
 </div>

@@ -1,18 +1,18 @@
-<button [cdkMenuTriggerFor]="menu" class="flex items-center space-x-2 px-4 py-2 rounded-lg bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-300 transition-all duration-200">
+<button [cdkMenuTriggerFor]="menu" class="transparent-btn">
     @if (icon()) {
-        <ng-icon [svg]="icon()" class="h-5 w-5 text-indigo-500"></ng-icon>
+        <ng-icon [svg]="icon()" class="h-5 w-5" color="var(--color-{{color()}})"></ng-icon>
     }
     @if (text()) {
-        <span class="text-indigo-700 font-medium">{{text()}}</span>
+        <span class="font-medium text-{{color()}}">{{text()}}</span>
     }
 </button>
 
 <ng-template #menu>
-    <div cdkMenu class="min-w-[200px] py-2 mt-2 bg-white rounded-lg shadow-xl border border-gray-100 z-10 transform transition-all duration-150 ease-in-out">
+    <div cdkMenu class="min-w-[200px] py-2 mt-2 bg-layer-3 rounded-lg shadow-xl z-10 transform transition-all duration-150 ease-in-out">
         @for (action of actions(); track $index) {
-            <button cdkMenuItem (click)="action.callback()" class="w-full flex items-center gap-3 px-4 py-2 text-left text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-colors duration-150">
+            <button cdkMenuItem (click)="action.callback()" class="w-full flex items-center gap-3 px-4 py-2 text-left text-sm">
                 @if (action.icon) {
-                    <ng-icon [svg]="action.icon" class="h-4 w-4 mr-2 text-gray-500"></ng-icon>
+                    <ng-icon [svg]="action.icon" class="h-4 w-4 mr-2 text-gray-500 dark:text-gray-400"></ng-icon>
                 }
                 @if (action.display) {
                     <span>{{action.display}}</span>

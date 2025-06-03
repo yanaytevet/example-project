@@ -1,6 +1,8 @@
 <div class="dialog-container">
     <h2>{{ data.title }}</h2>
     <p>{{ data.text }}</p>
-    <button class="dialog-btn dialog-confirm-btn" (click)="emitClose(true)">{{ data.confirmActionName ?? 'Submit' }}</button>
-    <button class="dialog-btn dialog-cancel-btn" (click)="emitClose(false)">{{ data.cancelActionName ?? 'Cancel' }}</button>
+    <div class="dialog-buttons-container">
+        <button class="btn accept-btn" (click)="emitClose(true)">{{ data.confirmActionName ?? 'Submit' }}</button>
+        <button class="btn cancel-btn" (click)="emitClose(false)">{{ data.cancelActionName ?? 'Cancel' }}</button>
+    </div>
 </div>

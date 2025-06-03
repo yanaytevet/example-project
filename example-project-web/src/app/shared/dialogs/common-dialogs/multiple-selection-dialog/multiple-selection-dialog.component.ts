@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { BaseDialogComponent } from '../../base-dialog.component';
-import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { NgIcon } from '@ng-icons/core';
-import { bootstrapCheck } from '@ng-icons/bootstrap-icons';
-import { ConfirmationButtonComponent } from '../../confirmation-button/confirmation-button.component';
+import {Component, OnInit} from '@angular/core';
+import {BaseDialogComponent} from '../../base-dialog.component';
+import {AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {bootstrapCheck} from '@ng-icons/bootstrap-icons';
+import {ConfirmationButtonComponent} from '../../confirmation-button/confirmation-button.component';
+import {SelectableBoxComponent} from '../../../components/selectable-box/selectable-box.component';
 
 export interface MultipleSelectionOption {
   display: string;
@@ -23,7 +23,7 @@ export interface MultipleSelectionDialogInput {
 
 @Component({
   selector: 'app-multiple-selection-dialog',
-  imports: [ReactiveFormsModule, CommonModule, NgIcon, ConfirmationButtonComponent],
+  imports: [ReactiveFormsModule, CommonModule, ConfirmationButtonComponent, SelectableBoxComponent],
   templateUrl: './multiple-selection-dialog.component.html',
   standalone: true
 })

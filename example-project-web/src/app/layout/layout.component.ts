@@ -2,10 +2,16 @@ import {Component, inject} from '@angular/core';
 import {RouterLink, RouterOutlet} from '@angular/router';
 import {AuthenticationService} from '../shared/authentication/authentication.service';
 import {RoutingService} from '../shared/services/routing.service';
-import {provideIcons} from '@ng-icons/core';
-import {bootstrapBoxArrowRight, bootstrapChevronDown} from '@ng-icons/bootstrap-icons';
+import {
+  bootstrapBoxArrowRight,
+  bootstrapChevronDown,
+  bootstrapMoonFill,
+  bootstrapSunFill
+} from '@ng-icons/bootstrap-icons';
 import {MenuButtonComponent} from '../shared/components/menu-button/menu-button.component';
 import {Action} from '../shared/interfaces/util/action';
+import {DarkModeService} from '../shared/services/dark-mode.service';
+import {NgIcon} from '@ng-icons/core';
 
 @Component({
   selector: 'app-layout',
@@ -13,6 +19,7 @@ import {Action} from '../shared/interfaces/util/action';
     RouterLink,
     RouterOutlet,
     MenuButtonComponent,
+    NgIcon,
   ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css'
@@ -20,6 +27,7 @@ import {Action} from '../shared/interfaces/util/action';
 export class LayoutComponent {
   public authService = inject(AuthenticationService);
   public routingService = inject(RoutingService);
+  public darkModeService = inject(DarkModeService);
 
   userMenuActions: Action[] = [
     {
@@ -34,4 +42,6 @@ export class LayoutComponent {
   }
 
   protected readonly bootstrapChevronDown = bootstrapChevronDown;
+  protected readonly bootstrapMoonFill = bootstrapMoonFill;
+  protected readonly bootstrapSunFill = bootstrapSunFill;
 }

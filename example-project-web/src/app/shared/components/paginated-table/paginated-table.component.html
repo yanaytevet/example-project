@@ -1,5 +1,7 @@
 <ng-template #actionTmpl let-row="row" let-value="value">
-    <app-menu-button [icon]="bootstrapDice6Fill" [actions]="getActions(row)"></app-menu-button>
+    <app-menu-button
+            color="gray-800"
+            [icon]="bootstrapThreeDotsVertical" [actions]="getActions(row)"></app-menu-button>
 </ng-template>
 
 <ngx-datatable
