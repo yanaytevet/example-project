@@ -74,7 +74,7 @@ export class UserWebsocketsService {
   public async websocketGroupSubscribe(eventType: string, additionalInfo: object, callback: (data: WebsocketEvent) => void): Promise<Subscription> {
     let groupInfo: WebsocketEvent = null;
     const actionHash = this.stringUtils.generateRandomString(32);
-    const succeed = await new Promise(resolve => {
+    await new Promise(resolve => {
       setTimeout(() => {
         resolve(false);
       }, this.TIMEOUT_MS);

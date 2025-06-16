@@ -1,12 +1,6 @@
 import {Routes} from '@angular/router';
-import {HomeComponent} from './home/home.component';
-import {ExampleFormComponent} from './example-form/example-form.component';
-import {ExampleTableComponent} from './example-table/example-table.component';
-import {ExampleDialogsComponent} from './example-dialogs/example-dialogs.component';
-import {ExampleWebsocketComponent} from './example-websocket/example-websocket.component';
 import {loggedInGuard} from './shared/authentication/logged-in.guard';
 import {notLoggedInGuard} from './shared/authentication/not-logged-in.guard';
-import {LoginComponent} from './login/login.component';
 import {LayoutComponent} from './layout/layout.component';
 
 export const routes: Routes = [
@@ -15,12 +9,43 @@ export const routes: Routes = [
         canActivate: [loggedInGuard],
         component: LayoutComponent,
         children: [
-            {path: '', redirectTo: 'home', pathMatch: 'full'},
-            {path: 'home', component: HomeComponent},
-            {path: 'example-form', component: ExampleFormComponent, canActivate: [loggedInGuard]},
-            {path: 'example-table', component: ExampleTableComponent, canActivate: [loggedInGuard]},
-            {path: 'example-dialogs', component: ExampleDialogsComponent, canActivate: [loggedInGuard]},
-            {path: 'example-websockets', component: ExampleWebsocketComponent, canActivate: [loggedInGuard]},]
+            { path: '', redirectTo: 'home', pathMatch: 'full' },
+            {
+                path: 'home',
+                loadComponent: () =>
+                    import('./home/home.component').then(m => m.HomeComponent)
+            },
+            {
+                path: 'example-form',
+                loadComponent: () =>
+                    import('./example-form/example-form.component').then(m => m.ExampleFormComponent),
+                canActivate: [loggedInGuard]
+            },
+            {
+                path: 'example-table',
+                loadComponent: () =>
+                    import('./example-table/example-table.component').then(m => m.ExampleTableComponent),
+                canActivate: [loggedInGuard]
+            },
+            {
+                path: 'example-dialogs',
+                loadComponent: () =>
+                    import('./example-dialogs/example-dialogs.component').then(m => m.ExampleDialogsComponent),
+                canActivate: [loggedInGuard]
+            },
+            {
+                path: 'example-websockets',
+                loadComponent: () =>
+                    import('./example-websocket/example-websocket.component').then(m => m.ExampleWebsocketComponent),
+                canActivate: [loggedInGuard]
+            },
+        ]
     },
-    {path: 'login', component: LoginComponent, canActivate: [notLoggedInGuard]},
+    {
+        path: 'login',
+        loadComponent: () =>
+            import('./login/login.component').then(m => m.LoginComponent),
+        canActivate: [notLoggedInGuard]
+    }
 ];
+

@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {BasePageComponent} from '../shared/components/base-page-component';
 import {UserWebsocketsService} from '../shared/services/user-websockets.service';
 import {WebsocketEvent} from '../shared/interfaces/websockets/websocket-event';
@@ -6,7 +6,6 @@ import {postSampleWebsocketView} from '../../generated-files/api/blocks';
 import {CommonModule} from '@angular/common';
 import {BreadcrumbsComponent} from '../shared/components/breadcrumbs/breadcrumbs.component';
 import {BreadcrumbsService} from '../shared/components/breadcrumbs/breadcrumbs.service';
-import {LinkItem} from '../shared/components/breadcrumbs/link-item';
 
 @Component({
   selector: 'app-example-websocket',
@@ -14,7 +13,7 @@ import {LinkItem} from '../shared/components/breadcrumbs/link-item';
   templateUrl: './example-websocket.component.html',
   styleUrl: './example-websocket.component.css'
 })
-export class ExampleWebsocketComponent extends BasePageComponent{
+export class ExampleWebsocketComponent extends BasePageComponent implements OnInit {
   events: string[] = [];
   userWebsocketsService = inject(UserWebsocketsService);
   breadcrumbsService = inject(BreadcrumbsService);

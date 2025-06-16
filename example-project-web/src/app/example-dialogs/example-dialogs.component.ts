@@ -1,20 +1,18 @@
 import {Component, inject, signal} from '@angular/core';
-import { Action } from '../shared/interfaces/util/action';
+import {Action} from '../shared/interfaces/util/action';
 import {
-  bootstrapQuestion,
   bootstrapBell,
+  bootstrapCheckSquare,
   bootstrapInputCursorText,
-  bootstrapType,
   bootstrapListCheck,
-  bootstrapCheckSquare
+  bootstrapQuestion,
+  bootstrapType
 } from '@ng-icons/bootstrap-icons';
 import {DialogService} from '../shared/dialogs/dialogs.service';
-import {CommonModule} from '@angular/common';
-import {NgClass} from '@angular/common';
+import {CommonModule, NgClass} from '@angular/common';
 import {NgIconComponent} from '@ng-icons/core';
 import {BreadcrumbsComponent} from '../shared/components/breadcrumbs/breadcrumbs.component';
 import {BreadcrumbsService} from '../shared/components/breadcrumbs/breadcrumbs.service';
-import {LinkItem} from '../shared/components/breadcrumbs/link-item';
 import {BasePageComponent} from '../shared/components/base-page-component';
 
 @Component({
@@ -182,7 +180,7 @@ export class ExampleDialogsComponent extends BasePageComponent{
     },
   ]
 
-  private setData(val: any) {
+  private setData(val: string | number | boolean): void {
     this.data.set(val.toString());
   }
 }

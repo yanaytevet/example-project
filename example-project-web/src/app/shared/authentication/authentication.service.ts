@@ -1,5 +1,4 @@
 import {computed, inject, Injectable, signal} from '@angular/core';
-import {Router} from '@angular/router';
 import {AuthSchema, authView, loginView, logoutView, UserSchema} from '../../../generated-files/auth';
 import {RoutingService} from '../services/routing.service';
 import {toObservable} from '@angular/core/rxjs-interop';

@@ -1,9 +1,6 @@
 import {Component, inject} from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
-import {loginView} from '../../generated-files/auth';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthenticationService} from '../shared/authentication/authentication.service';
-import {Router} from '@angular/router';
 import {RoutingService} from '../shared/services/routing.service';
 
 @Component({

@@ -1,5 +1,3 @@
-from typing import TypedDict
-
 from ninja import Schema
 
 from common.simple_api.serializers.serializer import Serializer

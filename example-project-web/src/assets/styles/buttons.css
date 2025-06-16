@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+button {
+    @apply cursor-pointer;
+}
+
 .btn {
     @apply font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2 cursor-pointer;
 }

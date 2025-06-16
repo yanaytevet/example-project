@@ -7,7 +7,7 @@
 export class CallbacksDebouncer {
     private timeout: ReturnType<typeof setTimeout> = null;
 
-    constructor(private timeoutMs: number = 200) {
+    constructor(private timeoutMs = 200) {
     }
 
     public run(callback: () => void) {

@@ -5,8 +5,6 @@ import {Injectable} from '@angular/core';
 })
 export class StringUtilsService {
   CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  constructor() {
-  }
 
   public generateRandomString(length: number): string {
     let result = '';

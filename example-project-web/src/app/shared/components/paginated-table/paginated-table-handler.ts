@@ -1,7 +1,7 @@
 import {PaginatedData} from './paginated-data';
 import {BehaviorSubject, Subscription} from 'rxjs';
 import {PaginationInput} from './pagination-input';
-import {OnDestroy, signal} from '@angular/core';
+import {signal} from '@angular/core';
 import {CallbacksDebouncer} from '../../data/callbacks-debouncer';
 
 type SortDirection = 'asc' | 'desc';
@@ -12,9 +12,9 @@ interface SortObject {
 }
 
 export class PaginatedTableHandler<T, S extends PaginationInput> {
-    currentPage: number = 0;
-    pageSize: number = 25;
-    isEmpty: boolean = true;
+    currentPage = 0;
+    pageSize = 25;
+    isEmpty = true;
     filterObject: Record<string, any> = {};
     sortObjectsArray: SortObject[] = [];
     fetchesDebouncer = new CallbacksDebouncer();
@@ -70,7 +70,7 @@ export class PaginatedTableHandler<T, S extends PaginationInput> {
         });
     }
 
-    public fetchPage(page: number, pageSize: number, fetch: boolean = true): void {
+    public fetchPage(page: number, pageSize: number, fetch = true): void {
         this.currentPage = page;
         this.pageSize = pageSize;
         if (fetch) {
@@ -78,21 +78,21 @@ export class PaginatedTableHandler<T, S extends PaginationInput> {
         }
     }
 
-    clearAllFilter(fetch: boolean = true): void {
+    clearAllFilter(fetch = true): void {
         this.filterObject = {};
         if (fetch) {
             this.fetch();
         }
     }
 
-    setFilter(key: string, value: any, fetch: boolean = true): void {
+    setFilter(key: string, value: any, fetch = true): void {
         this.filterObject[key] = value;
         if (fetch) {
             this.fetch();
         }
     }
 
-    clearFilter(key: string, fetch: boolean = true): void {
+    clearFilter(key: string, fetch = true): void {
         delete this.filterObject[key];
         if (fetch) {
             this.fetch();
@@ -103,14 +103,14 @@ export class PaginatedTableHandler<T, S extends PaginationInput> {
         return this.filterObject[key];
     }
 
-    removeFilter(key: string, fetch: boolean = true): void {
+    removeFilter(key: string, fetch = true): void {
         delete this.filterObject[key];
         if (fetch) {
             this.fetch();
         }
     }
 
-    addSort(key: string, direction: SortDirection, fetch: boolean = true): void {
+    addSort(key: string, direction: SortDirection, fetch = true): void {
         this.clearSort(key, fetch);
         this.sortObjectsArray.push({key, direction});
         if (fetch) {
@@ -118,14 +118,14 @@ export class PaginatedTableHandler<T, S extends PaginationInput> {
         }
     }
 
-    clearSort(key: string, fetch: boolean = true): void {
+    clearSort(key: string, fetch = true): void {
         this.sortObjectsArray = this.sortObjectsArray.filter(sort => sort.key !== key);
         if (fetch) {
             this.fetch();
         }
     }
 
-    clearAllSort(fetch: boolean = true): void {
+    clearAllSort(fetch = true): void {
         this.sortObjectsArray = [];
         if (fetch) {
             this.fetch();

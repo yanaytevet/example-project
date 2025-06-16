@@ -1,8 +1,7 @@
-import {Component, input, OnInit} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {LinkItem} from './link-item';
-import {NgClass} from '@angular/common';
 import {RouterLink} from '@angular/router';
-import {NgIcon, NgIconsModule, provideIcons} from '@ng-icons/core';
+import {NgIcon, provideIcons} from '@ng-icons/core';
 import {bootstrapChevronRight} from '@ng-icons/bootstrap-icons';
 
 @Component({
@@ -16,12 +15,7 @@ import {bootstrapChevronRight} from '@ng-icons/bootstrap-icons';
         provideIcons({ bootstrapChevronRight })
     ]
 })
-export class BreadcrumbsComponent implements OnInit {
+export class BreadcrumbsComponent {
   linkItems = input<LinkItem[]>();
   mode = input<'white' | 'black'>('black');
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 }

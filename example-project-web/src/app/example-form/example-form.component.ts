@@ -1,23 +1,24 @@
-import {Component, effect, inject} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {Option} from '../shared/interfaces/util/option';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {BasePageComponent} from '../shared/components/base-page-component';
 import {InputDebounce} from '../shared/data/input-debouncer';
 import {BreadcrumbsComponent} from '../shared/components/breadcrumbs/breadcrumbs.component';
 import {BreadcrumbsService} from '../shared/components/breadcrumbs/breadcrumbs.service';
-import {LinkItem} from '../shared/components/breadcrumbs/link-item';
+import {CheckboxInputComponent} from '../shared/components/inputs/checkbox-input/checkbox-input.component';
 
 @Component({
   selector: 'app-example-form',
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, BreadcrumbsComponent],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, BreadcrumbsComponent,
+    CheckboxInputComponent],
   templateUrl: './example-form.component.html',
   styleUrl: './example-form.component.css'
 })
 export class ExampleFormComponent extends BasePageComponent{
   breadcrumbsService = inject(BreadcrumbsService);
 
-  canEdit = true;
+  canEditCtrl = new FormControl<boolean>(true);
   inputDebouncer = new InputDebounce<string>();
   textAreaDebouncer = new InputDebounce<string>();
   values: string[] = [];
@@ -33,6 +34,10 @@ export class ExampleFormComponent extends BasePageComponent{
     this.updateDisabled(); // Set initial state of form controls
     this.breadcrumbs = this.breadcrumbsService.getExampleFormBreadcrumbs();
 
+    this.subscriptions.push(this.canEditCtrl.valueChanges.subscribe(() => {
+      this.updateDisabled();
+    }));
+
     this.subscriptions.push(this.inputDebouncer.valueChangedFinished$.subscribe(newVal => {
       this.values.push(newVal);
     }));
@@ -43,7 +48,8 @@ export class ExampleFormComponent extends BasePageComponent{
   }
 
   updateDisabled() {
-    if (this.canEdit) {
+    const canEdit = this.canEditCtrl.value;
+    if (canEdit) {
       this.inputDebouncer.ctrl.enable({emitEvent: false});
       this.textAreaDebouncer.ctrl.enable({emitEvent: false});
     } else {

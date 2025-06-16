@@ -5,19 +5,18 @@ html, body {
   min-height: 100%;
 }
 
-button {
-  @apply cursor-pointer;
-}
-
-.cdk-overlay-black-backdrop {
-  background-color: rgba(0, 0, 0, 0.75); /* Dark mode backdrop */
-}
 
 @theme {
   --color-layer-1: var(--color-gray-50);
   --color-layer-2: var(--color-gray-100);
   --color-layer-3: var(--color-gray-200);
+  --shadow-1: 0 2px 8px 0 rgba(0,0,0,0.15), 0 1px 3px 0 rgba(0,0,0,0.08);
+  --shadow-2: 0 6px 24px 0 rgba(0,0,0,0.18), 0 2px 8px 0 rgba(0,0,0,0.13);
+  --shadow-3: 0 12px 32px 0 rgba(0,0,0,0.22), 0 6px 24px 0 rgba(0,0,0,0.15);
+  --color-outline-border-1: var(--color-gray-500);
+  --color-text-primary: var(--color-gray-800);
   --color-writing: var(--color-gray-800);
+  --color-writing-minor: var(--color-gray-700);
   --color-logo-1: var(--color-indigo-600);
   --color-logo-2: var(--color-indigo-800);
   --color-layer-overlay: rgba(255, 255, 255, 0.15);
@@ -28,7 +27,14 @@ button {
     --color-layer-1: var(--color-gray-900);
     --color-layer-2: var(--color-gray-800);
     --color-layer-3: var(--color-gray-700);
+    --shadow-1: 0 2px 8px 0 rgba(0,0,0,0.30), 0 1px 3px 0 rgba(0,0,0,0.18);
+    --shadow-2: 0 6px 24px 0 rgba(0,0,0,0.35), 0 2px 8px 0 rgba(0,0,0,0.25);
+    --shadow-3: 0 12px 32px 0 rgba(0,0,0,0.43), 0 6px 24px 0 rgba(0,0,0,0.33);
+    --color-outline-border-1: var(--color-gray-500);
+    --color-halo: var(--color-gray-700);
     --color-writing: var(--color-white);
+    --color-writing-minor: var(--color-gray-300);
+    --color-text-primary: var(--color-white);
     --color-logo-1: var(--color-indigo-300);
     --color-logo-2: var(--color-indigo-200);
   }

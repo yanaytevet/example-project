@@ -5,7 +5,7 @@
     <form [formGroup]="form">
         <div class="mb-4">
             @if (data.label) {
-                <label class="block text-sm font-bold mb-2">{{ data.label }}</label>
+                <span class="block text-sm text-writing font-bold mb-2">{{ data.label }}</span>
             }
 
             <!-- Dropdown selection method (default) -->
@@ -52,7 +52,7 @@
         <app-confirmation-button
                 [disabled]="form.invalid"
                 [text]="data.confirmActionName ?? 'Submit'"
-                (click)="onConfirm()">
+                (clicked)="onConfirm()">
         </app-confirmation-button>
         <button
                 (click)="emitClose(null)"

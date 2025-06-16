@@ -1,0 +1,11 @@
+<div class="flex items-center">
+  @if (label()) {
+    <span class="inline-flex items-center mr-2">{{ label() }}</span>
+  }
+  <input type="checkbox"
+         class="h-5 w-5 border border-gray-300 rounded focus:outline-none focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+         [checked]="value()"
+         (change)="onInput($event)"
+         (blur)="onTouched()"
+         [disabled]="disabled()">
+</div>

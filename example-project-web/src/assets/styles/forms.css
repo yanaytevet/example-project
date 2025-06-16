@@ -1,0 +1,28 @@
+@import "tailwindcss";
+@import "../../styles.css";
+
+.main-input {
+    @apply w-full p-2 border border-outline-border-1 rounded shadow-sm focus:ring-blue-50 focus:border-blue-500 disabled:opacity-60 disabled:cursor-not-allowed;
+}
+
+.input-label {
+    @apply block text-sm font-medium text-writing-minor;
+}
+
+/* Chrome, Safari, Edge */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* IE, Edge Legacy */
+input[type=number]::-ms-clear,
+input[type=number]::-ms-reveal {
+    display: none;
+}

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, input} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NgIcon } from '@ng-icons/core';
-import {bootstrapBell, bootstrapCheck} from '@ng-icons/bootstrap-icons';
+import {CommonModule} from '@angular/common';
+import {NgIcon} from '@ng-icons/core';
+import {bootstrapCheck} from '@ng-icons/bootstrap-icons';
 
 @Component({
   selector: 'app-selectable-box',

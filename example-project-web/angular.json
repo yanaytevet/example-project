@@ -54,10 +54,14 @@
               "node_modules/@swimlane/ngx-datatable/assets/icons.css",
               "src/styles.css",
               "src/app/shared/dialogs/dialogs-style.css",
-              "src/assets/styles/buttons.css"
+              "src/assets/styles/buttons.css",
+              "src/assets/styles/surfaces.css",
+              "src/assets/styles/forms.css"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["src"]
+              "includePaths": [
+                "src"
+              ]
             },
             "scripts": []
           },
@@ -120,11 +124,23 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
   "cli": {
-    "analytics": "a0f30df6-1cb2-4486-94c4-ed3995b0f966"
+    "analytics": "a0f30df6-1cb2-4486-94c4-ed3995b0f966",
+    "schematicCollections": [
+      "angular-eslint"
+    ]
   }
 }

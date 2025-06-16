@@ -65,7 +65,7 @@ export class DialogService {
     const instance = componentRef.instance;
 
     return new Promise<TOutput | null>((resolve) => {
-      instance.close.subscribe((result: TOutput | null) => {
+      instance.closeDialog.subscribe((result: TOutput | null) => {
         resolve(result);
         overlayRef.dispose();
       });

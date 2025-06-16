@@ -10,7 +10,7 @@
 }
 
 .dialog-container p {
-  @apply text-gray-600 dark:text-gray-300 mb-6;
+  @apply text-gray-600 dark:text-gray-300 mb-4;
 }
 
 /* Dialog buttons container */

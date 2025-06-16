@@ -24,7 +24,7 @@
         <app-confirmation-button
                 [disabled]="optionsFormArray.invalid"
                 [text]="data.confirmActionName ?? 'Submit'"
-                (click)="onConfirm()">
+                (clicked)="onConfirm()">
         </app-confirmation-button>
         <button
                 (click)="emitClose(null)"

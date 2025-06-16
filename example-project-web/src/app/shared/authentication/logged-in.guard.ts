@@ -1,6 +1,5 @@
-import {CanActivateFn, UrlTree} from '@angular/router';
-import { inject } from '@angular/core';
-import { Router } from '@angular/router';
+import {CanActivateFn} from '@angular/router';
+import {inject} from '@angular/core';
 import {AuthenticationService} from './authentication.service';
 import {filter, firstValueFrom} from 'rxjs';
 import {toObservable} from '@angular/core/rxjs-interop';
@@ -8,7 +7,6 @@ import {RoutingService} from '../services/routing.service';
 
 export const loggedInGuard: CanActivateFn = () => {
     const authService = inject(AuthenticationService);
-    const router = inject(Router);
     const routingService = inject(RoutingService);
 
     const obs = toObservable(authService.isLoggedIn).pipe(

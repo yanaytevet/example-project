@@ -1,14 +1,10 @@
 import {ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDetection} from '@angular/core';
 import {provideRouter} from '@angular/router';
-import {provideIcons} from '@ng-icons/core';
-import {
-    featherFile, featherGrid, featherMessageSquare, featherZap,
-    featherChevronRight, featherChevronDown, featherLogOut
-} from '@ng-icons/feather-icons';
 
 import {routes} from './app.routes';
 import {ApiConfigService} from './shared/api/api-config.service';
 import {AuthenticationService} from './shared/authentication/authentication.service';
+import {DarkModeService} from './shared/services/dark-mode.service';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -19,7 +15,10 @@ export const appConfig: ApplicationConfig = {
             return apiConfigService.initialize();
         }),
         provideAppInitializer(() => {
-            const authenticationService = inject(AuthenticationService);
+            inject(AuthenticationService);
+        }),
+        provideAppInitializer(() => {
+            inject(DarkModeService);
         })
     ]
 };

@@ -1,5 +1,5 @@
-import { Component, EventEmitter, input, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Component, input, output} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'app-confirmation-button',
@@ -10,11 +10,11 @@ import { CommonModule } from '@angular/common';
 export class ConfirmationButtonComponent {
   disabled = input<boolean>(false);
   text = input<string>('Submit');
-  click = output<void>();
+  clicked = output<void>();
 
   onClick(): void {
     if (!this.disabled()) {
-      this.click.emit();
+      this.clicked.emit();
     }
   }
 }

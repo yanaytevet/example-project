@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { BaseDialogComponent } from '../../base-dialog.component';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { ConfirmationButtonComponent } from '../../confirmation-button/confirmation-button.component';
+import {Component, OnInit} from '@angular/core';
+import {BaseDialogComponent} from '../../base-dialog.component';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {ConfirmationButtonComponent} from '../../confirmation-button/confirmation-button.component';
 
 export interface TextInputDialogInput {
   title: string;

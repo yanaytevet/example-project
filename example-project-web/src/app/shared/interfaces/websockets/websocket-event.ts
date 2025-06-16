@@ -3,5 +3,5 @@ export interface WebsocketEvent {
   action_hash: string;
   group_name: string;
   event_type: string;
-  payload: any;
+  payload: Record<string, any>;
 }
