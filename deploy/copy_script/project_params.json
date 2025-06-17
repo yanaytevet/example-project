@@ -1,11 +1,11 @@
 {
-  "project_path": "~/dev/B2BQuotaCreator-tmp/",
-  "project_backend_name": "b2b_quota_creator_backend",
-  "project_frontend_name": "b2b-quota-creator-web",
-  "db_name": "b2b_quota_creator_db",
+  "project_path": "~/dev/GVML/",
+  "project_backend_name": "gvml_backend",
+  "project_frontend_name": "gvml-web",
+  "db_name": "gvml_db",
   "db_username": "admin",
-  "db_password": "GBdGd3gfYjLDjDD43D3",
-  "dockers_group_name": "b2b_quota_creator",
-  "domain": "quota-creator.xperiti.com",
-  "title": "B2B Quota Creator"
+  "db_password": "fsGhf(g5g!%#f2d!",
+  "dockers_group_name": "gvl",
+  "domain": "gvml.ipsos.com",
+  "title": "GVML"
 }
