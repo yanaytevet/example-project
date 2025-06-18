@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {RoutingService} from '../../services/routing.service';
 import {LinkItem} from './link-item';
 
@@ -6,9 +6,7 @@ import {LinkItem} from './link-item';
   providedIn: 'root'
 })
 export class BreadcrumbsService {
-
-  constructor(private routingService: RoutingService) {
-  }
+  private routingService = inject(RoutingService);
 
   public getHomeBreadcrumbs(): LinkItem[] {
     return [

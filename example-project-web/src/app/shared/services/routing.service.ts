@@ -13,7 +13,7 @@ export class RoutingService {
   }
 
   navigateToRoot(): Promise<boolean> {
-    return this.router.navigate(['/']);
+    return this.router.navigateByUrl(this.getRootUrl());
   }
 
   // Home route
@@ -22,7 +22,7 @@ export class RoutingService {
   }
 
   navigateToHome(): Promise<boolean> {
-    return this.router.navigate(['/home']);
+    return this.router.navigateByUrl(this.getHomeUrl());
   }
 
   // Login route
@@ -31,7 +31,7 @@ export class RoutingService {
   }
 
   navigateToLogin(): Promise<boolean> {
-    return this.router.navigate(['/login']);
+    return this.router.navigateByUrl(this.getLoginUrl());
   }
 
   // Example Form route
@@ -40,7 +40,7 @@ export class RoutingService {
   }
 
   navigateToExampleForm(): Promise<boolean> {
-    return this.router.navigate(['/example-form']);
+    return this.router.navigateByUrl(this.getExampleFormUrl());
   }
 
   // Example Table route
@@ -49,7 +49,7 @@ export class RoutingService {
   }
 
   navigateToExampleTable(): Promise<boolean> {
-    return this.router.navigate(['/example-table']);
+    return this.router.navigateByUrl(this.getExampleTableUrl());
   }
 
   // Example Dialogs route
