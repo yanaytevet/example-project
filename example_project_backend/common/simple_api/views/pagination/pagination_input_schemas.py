@@ -8,6 +8,6 @@ F = TypeVar("F", bound=FilterSchema)
 
 class PaginationQueryParams(Schema, Generic[F]):
     page: int = Field(0, ge=0)
-    page_size: int = Field(10, ge=1, le=100)
+    page_size: int = Field(10, ge=1, le=1000)
     filters: Optional[F] = None
     order_by: Optional[List[str]] = None

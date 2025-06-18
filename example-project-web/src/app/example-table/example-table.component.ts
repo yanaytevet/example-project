@@ -14,10 +14,12 @@ import {BreadcrumbsComponent} from '../shared/components/breadcrumbs/breadcrumbs
 import {BreadcrumbsService} from '../shared/components/breadcrumbs/breadcrumbs.service';
 import {StringUtilsService} from '../shared/services/string-utils.service';
 import {DialogService} from '../shared/dialogs/dialogs.service';
+import {InputDebounce} from '../shared/data/input-debouncer';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @Component({
     selector: 'app-example-table',
-    imports: [PaginatedTableComponent, BreadcrumbsComponent],
+    imports: [PaginatedTableComponent, BreadcrumbsComponent, ReactiveFormsModule],
     templateUrl: './example-table.component.html',
     styleUrl: './example-table.component.css'
 })
@@ -85,6 +87,7 @@ export class ExampleTableComponent extends BasePageComponent {
     ];
 
     paginatedDataHandler: PaginatedTableHandler<BlockSchema, PaginationBlockViewData> = null;
+    searchDebouncer = new InputDebounce('');
 
     constructor() {
         super();
@@ -93,6 +96,11 @@ export class ExampleTableComponent extends BasePageComponent {
         });
         this.paginatedDataHandler.fetch();
         this.breadcrumbs = this.breadcrumbsService.getExampleTableBreadcrumbs();
+        this.subscriptions.push(this.searchDebouncer.valueChangedFinished$.subscribe(
+            value => {
+                this.paginatedDataHandler.setFilter('search', value)
+            }
+        ))
     }
 
     override ngOnDestroy() {

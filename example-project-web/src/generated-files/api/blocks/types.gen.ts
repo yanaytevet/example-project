@@ -5,13 +5,13 @@ export type BlockTypes = 'round' | 'square' | 'triangle';
 export type PaginationBlockFilterSchema = {
     a?: string | null;
     c?: string | null;
+    search?: string | null;
     block_type?: BlockTypes | null;
 };
 
-export type SpecificPaginationQueryParams = {
+export type PaginationQueryParams = {
     page?: number;
     page_size?: number;
-    filters: PaginationBlockFilterSchema;
     order_by?: Array<string> | null;
 };
 
@@ -66,10 +66,11 @@ export type PaginationBlockViewData = {
     query?: {
         page?: number;
         page_size?: number;
+        order_by?: Array<string> | null;
         a?: string | null;
         c?: string | null;
+        search?: string | null;
         block_type?: BlockTypes | null;
-        order_by?: Array<string> | null;
     };
     url: '/api/blocks/';
 };

@@ -104,4 +104,4 @@ class PaginateItemsAPIView(SerializeItemMixin, ABC):
 
     @classmethod
     def get_tags(cls) -> list[str]:
-        return [cls.__name__]
+        return [cls.get_model_cls().__name__]

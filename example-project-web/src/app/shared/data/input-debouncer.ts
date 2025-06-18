@@ -23,7 +23,7 @@ export class InputDebounce<T> {
         });
 
         if (initValue !== undefined) {
-            this.setValue(initValue);
+            this.setValueWithoutTrigger(initValue);
         }
     }
 

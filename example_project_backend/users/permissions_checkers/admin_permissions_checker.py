@@ -9,6 +9,6 @@ class AdminPermissionsChecker(PermissionsChecker):
         if not user.is_admin():
             raise RestAPIException(
                 status_code=StatusCode.HTTP_403_FORBIDDEN,
-                message='User is not an admon.',
+                message='User is not an admin.',
                 error_code='user_is_not_admin',
             )

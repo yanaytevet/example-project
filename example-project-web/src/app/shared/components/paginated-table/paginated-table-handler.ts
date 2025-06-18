@@ -48,7 +48,7 @@ export class PaginatedTableHandler<T, S extends PaginationInput> {
     constructor(private fetchPaginatedData: (val: S) => Promise<PaginatedData<T>>) {
         this.sub = this.paginationData$.subscribe((val: PaginatedData<T>) => {
             this.paginationDataSignal.set(val);
-        })
+        });
     }
 
     public async fetch(): Promise<void> {

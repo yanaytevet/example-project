@@ -43,6 +43,10 @@ export class PaginatedTableComponent<T, S extends PaginationInput> {
   });
 
   setPage($event: PageEvent) {
+    const paginatedDataHandler = this.paginatedDataHandler()
+    if (paginatedDataHandler && paginatedDataHandler.pageSize === $event.pageSize && paginatedDataHandler.currentPage === $event.offset) {
+      return;
+    }
     this.paginatedDataHandler()?.fetchPage($event.offset, $event.pageSize);
   }
 

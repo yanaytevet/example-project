@@ -14,7 +14,6 @@ export class DarkModeService {
     );
 
     constructor() {
-        console.log(localStorage.getItem('darkMode'));
         effect(() => {
             localStorage.setItem('darkMode', JSON.stringify(this.darkMode()));
             const htmlElement = this.document.documentElement;

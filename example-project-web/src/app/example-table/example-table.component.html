@@ -1,6 +1,7 @@
 <div class="mb-4">
     <app-breadcrumbs [linkItems]="breadcrumbs"></app-breadcrumbs>
 </div>
+<input class="main-input mb-4" placeholder="Search..." [formControl]="searchDebouncer.ctrl" />
 <app-paginated-table
         [columns]="columns"
         [actions]="actions"

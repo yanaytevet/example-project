@@ -53,6 +53,42 @@ paths.forEach(pathUrl => {
   } catch (error) {
     console.error(`Error generating client for ${pathUrl}:`, error);
   }
+
+
+  const typesGenPath = path.join(outputDir, 'types.gen.ts');
+  const enumFilePath = path.join(outputDir, 'enums.gen.ts');
+
+  if (fs.existsSync(typesGenPath)) {
+    const typesGenContent = fs.readFileSync(typesGenPath, 'utf8');
+
+    // Match all exported types like: export type Foo = 'a' | 'b' | 'c';
+    const typeRegex = /export type (\w+) = ((?:'[^']+'(?: \| )?)+);/g;
+    const enumDeclarations: string[] = [];
+    let typeMatch;
+    while ((typeMatch = typeRegex.exec(typesGenContent)) !== null) {
+      const typeName = typeMatch[1]
+      const unionValues = typeMatch[2];
+
+      const values = unionValues.split('|').map(v => v.trim().replace(/'/g, ''));
+
+      const enumBody = values
+          .map(v => {
+            const key = v.replace(/[^a-zA-Z0-9]/g, '_').toUpperCase();
+            return `  ${key} = '${v}',`;
+          })
+          .join('\n');
+
+      enumDeclarations.push(`export enum ${typeName}Enum {\n${enumBody}\n}`);
+    }
+
+    // Write enums.gen.ts
+    if (enumDeclarations.length > 0) {
+      fs.writeFileSync(enumFilePath, enumDeclarations.join('\n\n') + '\n');
+      console.log(`Generated enums for ${pathUrl}`);
+    }
+  } else {
+    console.log(`No client.gen.ts found for ${pathUrl}, skipping enum generation.`);
+  }
 });
 
 // Update the api-config.service.ts file
@@ -69,11 +105,11 @@ const imports = paths.map(pathUrl => {
   // Convert path to a valid variable name
   // For example: 'auth/' -> 'authClient', 'api/users/' -> 'apiUsersClient'
   const clientName = importPath
-    .replace(/\//g, '_') // Replace slashes with underscores
-    .replace(/[^a-zA-Z0-9_]/g, '') // Remove any non-alphanumeric characters
-    .replace(/^_+|_+$/g, '') // Remove leading/trailing underscores
-    .replace(/_+/g, '_') // Replace multiple underscores with a single one
-    + 'Client';
+          .replace(/\//g, '_') // Replace slashes with underscores
+          .replace(/[^a-zA-Z0-9_]/g, '') // Remove any non-alphanumeric characters
+          .replace(/^_+|_+$/g, '') // Remove leading/trailing underscores
+          .replace(/_+/g, '_') // Replace multiple underscores with a single one
+      + 'Client';
 
   return {
     importStatement: `import {client as ${clientName}} from '../../../generated-files/${importPath}/client.gen';`,
@@ -89,15 +125,15 @@ const importSection = imports.map(imp => imp.importStatement).join('\n');
 
 // Replace the import section
 newContent = apiConfigContent.replace(
-  /import { Injectable } from '@angular\/core';[\s\S]*?(?=@Injectable)/,
-  `import { Injectable } from '@angular/core';\n${importSection}\n\n`
+    /import { Injectable } from '@angular\/core';[\s\S]*?(?=@Injectable)/,
+    `import { Injectable } from '@angular/core';\n${importSection}\n\n`
 );
 
 // Replace the clients array
 const clientsArray = `readonly clients = [${imports.map(imp => imp.clientName).join(', ')}];`;
 newContent = newContent.replace(
-  /readonly clients = \[[^\]]*\];/,
-  clientsArray
+    /readonly clients = \[[^\]]*\];/,
+    clientsArray
 );
 
 // Write the updated content back to the file
