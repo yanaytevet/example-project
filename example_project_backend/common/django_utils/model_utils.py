@@ -20,7 +20,7 @@ class ModelUtils:
     async def create_model_from_schema(cls, model_cls: Type[Model], data: Schema) -> Model:
         obj = model_cls()
         await cls.update_from_schema(obj, data)
-        await obj.save()
+        await obj.asave()
         return obj
 
     @classmethod

@@ -24,7 +24,7 @@ class Serializer(ABC):
     async def inner_serialize(self, obj: Model) -> Schema | None:
         raise NotImplementedError()
 
-    async def serialize_query(self, cursor: QuerySet[Model]) -> list[Schema]:
+    async def serialize_query(self, cursor: QuerySet) -> list[Schema]:
         res = [await self.serialize(obj) async for obj in cursor]
         res = [obj for obj in res if obj]
         return res
