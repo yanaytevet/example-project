@@ -2,6 +2,7 @@ from typing import Type, Optional, List
 
 from django.db.models import Model
 from ninja import Query, Path, FilterSchema
+from pydantic import Field
 
 from blocks.enums.block_types import BlockTypes
 from blocks.models import Block
@@ -15,6 +16,8 @@ from common.simple_api.views.pagination.paginate_items_api_view import PaginateI
 class PaginationBlockFilterSchema(FilterSchema):
     a: Optional[str] = None
     c: Optional[str] = None
+    search: Optional[str] = Field(None, q=[
+        'a__icontains', 'b__icontains', 'block_type__icontains'])
     block_type: Optional[BlockTypes] = None
 
 

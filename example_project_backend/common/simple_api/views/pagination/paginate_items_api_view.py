@@ -19,23 +19,20 @@ class PaginateItemsAPIView(SerializeItemMixin, ABC):
         filter_schema = cls.get_filter_schema()
         path_schema = cls.get_path_args_schema()
 
-        class SpecificPaginationQueryParams(PaginationQueryParams[filter_schema]):
-            filters: filter_schema
-        SpecificPaginationQueryParams.__name__ = f'{cls.__name__}PaginationQueryParams'
-
         @router.get(url, response=PaginationOutput[resp_schema], tags=cls.get_tags(), operation_id=cls.__name__)
         async def pagination(request: HttpRequest,
-                             query: Query[SpecificPaginationQueryParams] = None,
+                             query: Query[PaginationQueryParams] = None,
+                             filters: filter_schema = Query(default=None),
                              path: Path[path_schema] = None) -> PaginationOutput[resp_schema]:
             api_request = APIRequest(request)
-            return await cls().run(api_request, query, path)
+            return await cls().run(api_request, query, filters, path)
 
-    async def run(self, request: APIRequest, query: PaginationQueryParams, path: Path) -> PaginationOutput:
+    async def run(self, request: APIRequest, query: PaginationQueryParams, filters: FilterSchema, path: Path) -> PaginationOutput:
         await self.check_permitted_before_pagination(request, query, path)
         query_set = self.get_model_cls().objects.all()
         query_set = self.apply_initial_filter(query_set, query, path)
-        if query.filters:
-            query_set = query.filters.filter(query_set)
+        if filters:
+            query_set = filters.filter(query_set)
         if query.order_by:
             query_set = self.apply_order_by(query_set, query, path)
         query_set = self.apply_final_filter(query_set, query, path)
