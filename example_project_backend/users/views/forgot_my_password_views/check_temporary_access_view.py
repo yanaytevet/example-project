@@ -37,7 +37,7 @@ class CheckTemporaryAccessView(SimplePostAPIView):
                 message='Access id is incorrect, maybe the link is too old?',
             )
 
-        return await UserSerializer().serialize(await temporary_access.async_get_user())
+        return await UserSerializer().serialize(await temporary_access.get_user())
 
     @classmethod
     async def check_permitted(cls, api_request: APIRequest, data: CheckTemporaryAccessSchema, path: Path = None) -> None:

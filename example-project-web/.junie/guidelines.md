@@ -47,10 +47,10 @@ Add your component to the application routes in `app.routes.ts`:
 ```typescript
 // Inside the children array of the main route
 {
-    path: 'your-component-path',
-    loadComponent: () =>
+  path: 'your-component-path',
+          loadComponent: () =>
         import('./your-component/your-component.component').then(m => m.YourComponent),
-    canActivate: [loggedInGuard] // Add guards as needed
+        canActivate: [loggedInGuard] // Add guards as needed
 }
 ```
 
@@ -137,16 +137,16 @@ Use the new control flow syntax instead of structural directives:
 ```html
 <!-- Use @if instead of *ngIf -->
 @if (condition) {
-  <div>Content to show when condition is true</div>
+<div>Content to show when condition is true</div>
 } @else {
-  <div>Content to show when condition is false</div>
+<div>Content to show when condition is false</div>
 }
 
 <!-- Use @for instead of *ngFor -->
 @for (item of items; track item.id) {
-  <div>{{ item.name }}</div>
+<div>{{ item.name }}</div>
 } @empty {
-  <div>No items available</div>
+<div>No items available</div>
 }
 ```
 
@@ -180,6 +180,95 @@ export class YourComponent {
 3. Keep the component's path in `app.routes.ts` consistent with the URL methods in `RoutingService`
 4. Follow the naming conventions used in the existing code
 5. Use modern Angular 19+ syntax (signals, @if/@for, inject) throughout the application
+6. Never use browser dialogs (alert, prompt, confirm); always use dialog service
+7. Always use proper formatting for control flow statements (if, for, etc.)
+
+## Dialog Usage
+
+### Never Use Browser Dialogs
+
+Never use browser's built-in dialog functions (`alert()`, `confirm()`, `prompt()`). These functions:
+- Block the main thread
+- Cannot be styled to match the application's theme
+- Provide poor user experience
+- Are not compatible with server-side rendering
+
+```typescript
+// ❌ Don't use browser dialogs
+alert('Operation failed');
+if (confirm('Are you sure you want to delete this item?')) {
+  // Delete item
+}
+const name = prompt('Enter your name');
+```
+
+### Always Use Dialog Service
+
+Instead, use the application's `DialogService` which provides async methods for different dialog types:
+
+```typescript
+// ✅ Use dialog service methods
+// For notifications
+this.dialogService.showNotificationDialog({
+  title: 'Error',
+  text: 'Operation failed'
+});
+
+// For confirmations
+const shouldDelete = await this.dialogService.getBooleanFromConfirmationDialog({
+  title: 'Confirm Deletion',
+  text: 'Are you sure you want to delete this item?',
+  confirmActionName: 'Delete',
+  cancelActionName: 'Cancel'
+});
+if (shouldDelete) {
+  // Delete item
+}
+
+// For text input
+const name = await this.dialogService.getTextFromInputDialog({
+  title: 'User Information',
+  text: 'Please enter your name:',
+  label: 'Name',
+  defaultValue: '',
+  confirmActionName: 'Submit'
+});
+```
+
+## Control Flow Formatting
+
+### Proper If Statement Formatting
+
+Always use curly braces and proper indentation for if statements, even for single-line bodies:
+
+```typescript
+// ❌ Don't use shorthand if statements
+if (!this.group) return;
+if (isValid) doSomething();
+
+// ✅ Always use proper formatting with curly braces
+if (!this.group) {
+  return;
+}
+
+if (isValid) {
+  doSomething();
+}
+```
+
+### Proper For Loop Formatting
+
+Similarly, always use curly braces and proper indentation for for loops:
+
+```typescript
+// ❌ Don't use shorthand for loops
+for (let i = 0; i < items.length; i++) doSomething(items[i]);
+
+// ✅ Always use proper formatting with curly braces
+for (let i = 0; i < items.length; i++) {
+  doSomething(items[i]);
+}
+```
 
 ## CSS and Styling with Tailwind
 
@@ -243,3 +332,30 @@ This project uses Tailwind CSS for styling. Follow these guidelines for consiste
 <button class="btn-primary">Submit</button>
 <input type="text" class="input-field" placeholder="Enter your name">
 ```
+
+### 4. Avoid Excessive Div Nesting
+
+- Don't use too many nested HTML elements (especially `div` elements) without explicit need
+- Excessive nesting makes the code harder to read and maintain
+- It can also impact performance and make debugging more difficult
+
+```html
+<!-- ❌ Avoid excessive nesting without purpose -->
+<div>
+  <div>
+    <div>
+      <span>Some content</span>
+    </div>
+  </div>
+</div>
+
+<!-- ✅ Use simpler, flatter structure when possible -->
+<div class="container">
+  <span>Some content</span>
+</div>
+```
+
+- Don't use semantic HTML elements like (`section`, `article`, `header`, `footer`, etc.)
+- Consider using CSS Grid or Flexbox for layout instead of nested containers
+- If you need complex layouts, use meaningful class names to indicate the purpose of each container
+

@@ -74,6 +74,13 @@ export class DialogService {
         resolve(null);
         overlayRef.dispose();
       });
+
+      overlayRef.keydownEvents().subscribe(event => {
+        if (event.key === 'Escape') {
+          resolve(null);
+          overlayRef.dispose();
+        }
+      });
     });
   }
 

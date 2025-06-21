@@ -36,3 +36,6 @@ class EmailAddress(models.Model):
         email_obj = [cls.get_or_create_email_obj_by_address(email_address) for email_address in email_addresses]
         email_obj_not_none = [email for email in email_obj if email]
         return email_obj_not_none
+
+    async def get_user(self) -> Optional[User]:
+        return await User.objects.filter(id=self.user_id).afirst()

@@ -125,6 +125,20 @@ This pattern allows for easy importing of models from other parts of the applica
 from app_name.models import Model1, Model2
 ```
 
+### Foreign Key Async Getters
+Models with foreign keys must have an async function to retrieve the related object. This follows the project's asynchronous patterns and ensures consistent access to related objects.
+
+Example:
+```python
+class Variable(models.Model):
+    variables_group = models.ForeignKey(VariablesGroup, on_delete=models.CASCADE, related_name='variables')
+
+    async def get_variables_group(self) -> VariablesGroup:
+        return await VariablesGroup.objects.filter(id=self.variables_group_id).afirst()
+```
+
+The naming convention for these getter methods should be `get_<foreign_key_field_name>` and they should return the related model type.
+
 ## Apps structure
 Apps have the following python modules:
 1. enums
@@ -244,3 +258,6 @@ urlpatterns = [
     path(r'api/blocks/', blocks_api.urls),
 ]
 ```
+
+## Python instructions
+use classes methods instead of static methods when possible, as they are more flexible and allow for easier subclassing and overriding.

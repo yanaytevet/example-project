@@ -48,5 +48,5 @@ class TemporaryAccess(models.Model):
         obj.save()
         return obj
 
-    async def async_get_user(self) -> User:
+    async def get_user(self) -> User:
         return await User.objects.filter(id=self.user_id).afirst()

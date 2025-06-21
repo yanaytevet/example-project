@@ -12,6 +12,7 @@
                         class="w-full main-input mt-2"
                         [class.border-red-500]="getErrorMessage() && (inputControl?.touched || inputControl?.dirty)"
                         [maxlength]="data.maxLength"
+                        (keydown.enter)="onConfirm()"
                 >
             } @else {
                 <textarea
@@ -20,6 +21,7 @@
                         [class.border-red-500]="getErrorMessage() && (inputControl?.touched || inputControl?.dirty)"
                         [rows]="data.textAreaRows || 4"
                         [maxlength]="data.maxLength"
+                        (keydown.enter)="onConfirm()"
                 ></textarea>
             }
 
