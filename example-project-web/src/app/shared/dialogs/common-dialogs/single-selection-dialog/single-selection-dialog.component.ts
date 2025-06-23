@@ -31,8 +31,8 @@ export interface SingleSelectionDialogInput {
   standalone: true
 })
 export class SingleSelectionDialogComponent extends BaseDialogComponent<
-  SingleSelectionDialogInput,
-  any
+    SingleSelectionDialogInput,
+    any
 > implements OnInit {
   form: FormGroup;
   selectedOption: any = null;
@@ -45,7 +45,7 @@ export class SingleSelectionDialogComponent extends BaseDialogComponent<
   ngOnInit(): void {
     this.form = this.fb.group({
       selectedValue: [
-        this.data.defaultValue ?? '',
+        this.data.defaultValue ?? null,
         this.buildValidators()
       ]
     });
@@ -73,7 +73,7 @@ export class SingleSelectionDialogComponent extends BaseDialogComponent<
 
   hasError(errorName: string): boolean {
     return this.selectionControl?.errors?.[errorName] &&
-           (this.selectionControl.touched || this.selectionControl.dirty);
+        (this.selectionControl.touched || this.selectionControl.dirty);
   }
 
   getErrorMessage(): string | null {
@@ -97,7 +97,7 @@ export class SingleSelectionDialogComponent extends BaseDialogComponent<
     // Toggle selection if the same option is clicked again
     if (this.selectedOption === value) {
       this.selectedOption = null;
-      this.selectionControl?.setValue('');
+      this.selectionControl?.setValue(null);
     } else {
       this.selectedOption = value;
       this.selectionControl?.setValue(value);

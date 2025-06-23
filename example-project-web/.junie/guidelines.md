@@ -137,16 +137,16 @@ Use the new control flow syntax instead of structural directives:
 ```html
 <!-- Use @if instead of *ngIf -->
 @if (condition) {
-<div>Content to show when condition is true</div>
+  <div>Content to show when condition is true</div>
 } @else {
-<div>Content to show when condition is false</div>
+  <div>Content to show when condition is false</div>
 }
 
 <!-- Use @for instead of *ngFor -->
 @for (item of items; track item.id) {
-<div>{{ item.name }}</div>
+  <div>{{ item.name }}</div>
 } @empty {
-<div>No items available</div>
+  <div>No items available</div>
 }
 ```
 
@@ -358,4 +358,3 @@ This project uses Tailwind CSS for styling. Follow these guidelines for consiste
 - Don't use semantic HTML elements like (`section`, `article`, `header`, `footer`, etc.)
 - Consider using CSS Grid or Flexbox for layout instead of nested containers
 - If you need complex layouts, use meaningful class names to indicate the purpose of each container
-

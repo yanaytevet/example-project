@@ -1,5 +1,4 @@
-@import "tailwindcss";
-@import "../../styles.css";
+@reference "../../styles.css";
 
 .main-input {
     @apply w-full p-2 border border-outline-border-1 rounded shadow-sm focus:ring-blue-50 focus:border-blue-500 disabled:opacity-60 disabled:cursor-not-allowed;

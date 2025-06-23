@@ -1,4 +1,4 @@
-from typing import Type, Optional, List
+from typing import Type, Optional
 
 from django.db.models import Model
 from ninja import Query, Path, FilterSchema

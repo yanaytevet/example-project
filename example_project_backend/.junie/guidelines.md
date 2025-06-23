@@ -125,6 +125,13 @@ This pattern allows for easy importing of models from other parts of the applica
 from app_name.models import Model1, Model2
 ```
 
+### Enum Fields
+When adding an enum field to a model, always add the type of the enum next to the field name. This improves code readability and helps with type checking:
+
+```python
+variable_type: VariableType = models.CharField(max_length=255, choices=VariableType.choices())
+```
+
 ### Foreign Key Async Getters
 Models with foreign keys must have an async function to retrieve the related object. This follows the project's asynchronous patterns and ensures consistent access to related objects.
 
@@ -261,3 +268,4 @@ urlpatterns = [
 
 ## Python instructions
 use classes methods instead of static methods when possible, as they are more flexible and allow for easier subclassing and overriding.
+

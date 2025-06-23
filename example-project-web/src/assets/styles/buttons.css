@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@reference "../../styles.css";
 
 button {
     @apply cursor-pointer;

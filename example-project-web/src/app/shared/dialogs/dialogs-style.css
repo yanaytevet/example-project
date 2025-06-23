@@ -1,5 +1,4 @@
-@import "tailwindcss";
-@import "../../../styles.css";
+@reference "../../../styles.css";
 
 .dialog-container {
   @apply p-6 bg-layer-2 rounded-lg shadow-lg max-w-md w-full dark:shadow-gray-900;
