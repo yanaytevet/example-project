@@ -33,8 +33,7 @@ class PaginateItemsAPIView(SerializeItemMixin, ABC):
         query_set = self.apply_initial_filter(query_set, query, path)
         if filters:
             query_set = filters.filter(query_set)
-        if query.order_by:
-            query_set = self.apply_order_by(query_set, query, path)
+        query_set = self.apply_order_by(query_set, query, path)
         query_set = self.apply_final_filter(query_set, query, path)
         page = query.page
         page_size = query.page_size
@@ -64,6 +63,8 @@ class PaginateItemsAPIView(SerializeItemMixin, ABC):
 
     @classmethod
     def apply_order_by(cls, query_set: QuerySet, query: PaginationQueryParams, path: Path) -> QuerySet:
+        if not query.order_by:
+            return query_set
         allowed_order_by_set = cls.get_allowed_order_by()
         for order_by_item in query.order_by:
             clear_order_by_item = order_by_item.lstrip('-')

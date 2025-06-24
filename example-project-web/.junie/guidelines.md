@@ -182,6 +182,38 @@ export class YourComponent {
 5. Use modern Angular 19+ syntax (signals, @if/@for, inject) throughout the application
 6. Never use browser dialogs (alert, prompt, confirm); always use dialog service
 7. Always use proper formatting for control flow statements (if, for, etc.)
+8. Never use inline templates with the `template` property; always create separate HTML files and use `templateUrl` instead
+
+## Component Templates
+
+### Always Use Separate HTML Files
+
+Always create separate HTML files for your components instead of using inline templates:
+
+```typescript
+// ❌ Don't use inline templates
+@Component({
+  selector: 'app-your-component',
+  template: `
+    <div>Your template content here</div>
+  `
+})
+
+// ✅ Always use separate HTML files
+@Component({
+  selector: 'app-your-component',
+  templateUrl: './your-component.component.html'
+})
+```
+
+Benefits of using separate HTML files:
+- Better separation of concerns
+- Improved readability and maintainability
+- Better syntax highlighting and tooling support
+- Easier collaboration with designers and other developers
+- Consistent with Angular best practices
+
+Note: Base components with empty templates (like BaseComponent and BasePageComponent) are exceptions to this rule as they don't have actual UI.
 
 ## Dialog Usage
 
