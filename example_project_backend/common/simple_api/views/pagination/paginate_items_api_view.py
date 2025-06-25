@@ -30,7 +30,7 @@ class PaginateItemsAPIView(SerializeItemMixin, ABC):
     async def run(self, request: APIRequest, query: PaginationQueryParams, filters: FilterSchema, path: Path) -> PaginationOutput:
         await self.check_permitted_before_pagination(request, query, path)
         query_set = self.get_model_cls().objects.all()
-        query_set = self.apply_initial_filter(query_set, query, path)
+        query_set = self.apply_initial_filter_and_order(query_set, query, path)
         if filters:
             query_set = filters.filter(query_set)
         query_set = self.apply_order_by(query_set, query, path)
@@ -58,7 +58,7 @@ class PaginateItemsAPIView(SerializeItemMixin, ABC):
         raise NotImplementedError()
 
     @classmethod
-    def apply_initial_filter(cls, query_set: QuerySet, query: PaginationQueryParams, path: Path) -> QuerySet:
+    def apply_initial_filter_and_order(cls, query_set: QuerySet, query: PaginationQueryParams, path: Path) -> QuerySet:
         return query_set.order_by('id')
 
     @classmethod

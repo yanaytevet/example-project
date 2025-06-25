@@ -1,4 +1,4 @@
-import {Component, computed, input, TemplateRef, ViewChild} from '@angular/core';
+import {Component, computed, inject, input, TemplateRef, ViewChild} from '@angular/core';
 import {ColumnMode, NgxDatatableModule, PageEvent, SortEvent, SortType, TableColumn} from '@swimlane/ngx-datatable';
 import {PaginatedTableHandler} from './paginated-table-handler';
 import {PaginationInput} from './pagination-input';
@@ -7,6 +7,7 @@ import {MenuButtonComponent} from '../menu-button/menu-button.component';
 import {TableAction} from './table-action';
 import {Action} from '../../interfaces/util/action';
 import {bootstrapThreeDotsVertical} from '@ng-icons/bootstrap-icons';
+import {DarkModeService} from '../../services/dark-mode.service';
 
 @Component({
   selector: 'app-paginated-table',
@@ -19,6 +20,7 @@ import {bootstrapThreeDotsVertical} from '@ng-icons/bootstrap-icons';
 })
 export class PaginatedTableComponent<T, S extends PaginationInput> {
   @ViewChild('actionTmpl', { static: true }) actionTmpl: TemplateRef<any>;
+  themeService = inject(DarkModeService);
 
   paginatedDataHandler = input<PaginatedTableHandler<T, S>>();
 
