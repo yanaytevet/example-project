@@ -4,12 +4,25 @@
 
     <form [formGroup]="form">
         <div class="mb-4">
+            <!-- Filter input -->
+            @if (data.filterOptions) {
+                <div class="mb-4">
+                    <input
+                        type="text"
+                        [(ngModel)]="filterText"
+                        (ngModelChange)="filterOptions()"
+                        placeholder="Filter options..."
+                        class="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                        [ngModelOptions]="{standalone: true}"
+                    />
+                </div>
+            }
             <div class="flex flex-col space-y-2">
-                @for (option of data.options; track option.value; let i = $index) {
+                @for (option of filteredOptions; track option.value; let i = $index) {
                     <app-selectable-box
-                        [isSelected]="isSelected(i)"
+                        [isSelected]="isSelected(data.options.indexOf(option))"
                         [text]="option.display"
-                        (click)="toggleOption(i)"
+                        (click)="toggleOption(data.options.indexOf(option))"
                     ></app-selectable-box>
                 }
             </div>

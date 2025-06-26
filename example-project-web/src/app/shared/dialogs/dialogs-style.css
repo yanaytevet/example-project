@@ -1,7 +1,8 @@
-@reference "../../../styles.css";
+@import "tailwindcss";
+@import "../../../styles.css";
 
 .dialog-container {
-  @apply p-6 bg-layer-2 rounded-lg shadow-lg max-w-md w-full dark:shadow-gray-900;
+  @apply p-6 bg-layer-2 rounded-lg shadow-lg max-w-md w-full dark:shadow-gray-900 max-h-[90vh] overflow-y-auto;
 }
 
 .dialog-container h2 {

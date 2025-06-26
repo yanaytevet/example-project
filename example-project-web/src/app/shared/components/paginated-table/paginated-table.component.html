@@ -4,11 +4,22 @@
             [icon]="bootstrapThreeDotsVertical" [actions]="getActions(row)"></app-menu-button>
 </ng-template>
 
+<ng-template #colHeader let-column="column">
+    <div class="flex items-center justify-between w-full">
+        <span class="flex-1 whitespace-nowrap overflow-hidden truncate">{{ column.name }}</span>
+        <app-column-filter
+            [filter]="column.filter"
+            [paginatedDataHandler]="paginatedDataHandler()">
+        </app-column-filter>
+    </div>
+</ng-template>
+
 <ngx-datatable
         class="{{themeService.darkMode() ? 'dark' : 'material'}}"
         [rows]="paginationDataSignal()?.data"
         [columns]="realColumns()"
         [columnMode]="ColumnMode.force"
+        [scrollbarH]="true"
         [headerHeight]="50"
         [footerHeight]="50"
         rowHeight="auto"

@@ -16,6 +16,7 @@ import {StringUtilsService} from '../shared/services/string-utils.service';
 import {DialogService} from '../shared/dialogs/dialogs.service';
 import {InputDebounce} from '../shared/data/input-debouncer';
 import {ReactiveFormsModule} from '@angular/forms';
+import {PaginatedTableColumn} from '../shared/components/paginated-table/paginated-table-column';
 
 @Component({
     selector: 'app-example-table',
@@ -28,7 +29,7 @@ export class ExampleTableComponent extends BasePageComponent {
     stringUtilsService = inject(StringUtilsService);
     dialogsService = inject(DialogService);
 
-    columns = [
+    columns: PaginatedTableColumn[] = [
         {prop: 'id'},
         {prop: 'a'},
         {prop: 'b'},

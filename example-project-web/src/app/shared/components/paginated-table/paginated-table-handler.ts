@@ -1,8 +1,9 @@
 import {PaginatedData} from './paginated-data';
 import {BehaviorSubject, Subscription} from 'rxjs';
 import {PaginationInput} from './pagination-input';
-import {signal} from '@angular/core';
+import {computed, signal} from '@angular/core';
 import {CallbacksDebouncer} from '../../data/callbacks-debouncer';
+import {deleteNested, getAllNestedKeys, getNested, setNested} from '../../util-functions/nested-objects-utils';
 
 type SortDirection = 'asc' | 'desc';
 
@@ -16,6 +17,15 @@ export class PaginatedTableHandler<T, S extends PaginationInput> {
     pageSize = 25;
     isEmpty = true;
     filterObject: Record<string, any> = {};
+    filterSignal = signal<Record<string, any>>({});
+    filterKeysSignal = computed<string[]>(() => {
+        return getAllNestedKeys(this.filterSignal());
+    });
+    dictFilterSignal = signal<Record<string, any>>({});
+    dictFilterKeysSignal = computed<string[]>(() => {
+        return getAllNestedKeys(this.dictFilterSignal());
+    });
+
     sortObjectsArray: SortObject[] = [];
     fetchesDebouncer = new CallbacksDebouncer();
 
@@ -25,6 +35,7 @@ export class PaginatedTableHandler<T, S extends PaginationInput> {
     private readonly _paginationDataSub = new BehaviorSubject<PaginatedData<T>>(null);
     readonly paginationData$ = this._paginationDataSub.asObservable();
     readonly paginationDataSignal = signal<PaginatedData<T>>(null);
+    readonly itemsSignal = computed<T[]>(() => this.paginationDataSignal()?.data || []);
 
     sub: Subscription;
 
@@ -51,6 +62,10 @@ export class PaginatedTableHandler<T, S extends PaginationInput> {
         });
     }
 
+    private updateFilterSignal(): void {
+        this.filterSignal.set({...this.filterObject});
+    }
+
     public async fetch(): Promise<void> {
         this.fetchesDebouncer.run(async () => {
             this.isLoading = true;
@@ -62,7 +77,8 @@ export class PaginatedTableHandler<T, S extends PaginationInput> {
                     page: this.currentPage,
                     page_size: this.pageSize,
                     order_by: this.getSortArray(),
-                    ...this.filterObject
+                    ...this.filterObject,
+                    dict_filter: JSON.stringify(this.dictFilterSignal())
                 }
             }
             this.paginationData = await this.fetchPaginatedData(data);
@@ -80,6 +96,7 @@ export class PaginatedTableHandler<T, S extends PaginationInput> {
 
     clearAllFilter(fetch = true): void {
         this.filterObject = {};
+        this.updateFilterSignal();
         if (fetch) {
             this.fetch();
         }
@@ -87,6 +104,7 @@ export class PaginatedTableHandler<T, S extends PaginationInput> {
 
     setFilter(key: string, value: any, fetch = true): void {
         this.filterObject[key] = value;
+        this.updateFilterSignal();
         if (fetch) {
             this.fetch();
         }
@@ -94,6 +112,7 @@ export class PaginatedTableHandler<T, S extends PaginationInput> {
 
     clearFilter(key: string, fetch = true): void {
         delete this.filterObject[key];
+        this.updateFilterSignal();
         if (fetch) {
             this.fetch();
         }
@@ -103,11 +122,37 @@ export class PaginatedTableHandler<T, S extends PaginationInput> {
         return this.filterObject[key];
     }
 
-    removeFilter(key: string, fetch = true): void {
-        delete this.filterObject[key];
+    hasFilterValue(key: string): boolean {
+        return key in this.filterObject;
+    }
+
+    clearAllDictFilter(fetch = true): void {
+        this.dictFilterSignal.set({});
         if (fetch) {
             this.fetch();
         }
+    }
+
+    setDictFilter(key: string, value: any, fetch = true): void {
+        const currentDictFilters = structuredClone(this.dictFilterSignal());
+        setNested(currentDictFilters, key, value);
+        this.dictFilterSignal.set(currentDictFilters);
+        if (fetch) {
+            this.fetch();
+        }
+    }
+
+    clearDictFilter(key: string, fetch = true): void {
+        const currentDictFilters = structuredClone(this.dictFilterSignal());
+        deleteNested(currentDictFilters, key);
+        this.dictFilterSignal.set(currentDictFilters);
+        if (fetch) {
+            this.fetch();
+        }
+    }
+
+    getDictFilterValue(key: string): any {
+        return getNested(this.dictFilterSignal(), key);
     }
 
     addSort(key: string, direction: SortDirection, fetch = true): void {
@@ -138,5 +183,9 @@ export class PaginatedTableHandler<T, S extends PaginationInput> {
 
     destroy() {
         this.sub.unsubscribe();
+    }
+
+    async updateValues(updatedItems: T[]) {
+        this.paginationData = {...this.paginationData, data: updatedItems};
     }
 }

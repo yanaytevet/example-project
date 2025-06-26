@@ -8,18 +8,21 @@ import {TableAction} from './table-action';
 import {Action} from '../../interfaces/util/action';
 import {bootstrapThreeDotsVertical} from '@ng-icons/bootstrap-icons';
 import {DarkModeService} from '../../services/dark-mode.service';
+import {PaginatedTableColumn} from './paginated-table-column';
+import {ColumnFilterComponent} from './filters/column-filter/column-filter.component';
 
 @Component({
   selector: 'app-paginated-table',
   imports: [
     NgxDatatableModule,
-    MenuButtonComponent
+    MenuButtonComponent,
+    ColumnFilterComponent
   ],
-  templateUrl: './paginated-table.component.html',
-  styleUrl: './paginated-table.component.css'
+  templateUrl: './paginated-table.component.html'
 })
 export class PaginatedTableComponent<T, S extends PaginationInput> {
   @ViewChild('actionTmpl', { static: true }) actionTmpl: TemplateRef<any>;
+  @ViewChild('colHeader', { static: true }) colHeaderTpl!: TemplateRef<any>;
   themeService = inject(DarkModeService);
 
   paginatedDataHandler = input<PaginatedTableHandler<T, S>>();
@@ -30,15 +33,24 @@ export class PaginatedTableComponent<T, S extends PaginationInput> {
     }
     return this.paginatedDataHandler().paginationDataSignal();
   });
-  columns = input<TableColumn[]>();
+  columns = input<PaginatedTableColumn[]>();
   actions = input<TableAction[]>();
   realColumns = computed<TableColumn[]>(() => {
-    const columns = this.columns();
+    const columns = this.columns().map((column => {
+      if (column.filter) {
+        return {
+          ...column,
+          headerTemplate: this.colHeaderTpl,
+        };
+      }
+      return column;
+    }));
+
     const actions = this.actions();
     if (actions) {
       columns.push(
           {prop: 'action', name: ' ', sortable: false, width: 10,
-          cellTemplate: this.actionTmpl},
+            cellTemplate: this.actionTmpl},
       )
     }
     return columns;

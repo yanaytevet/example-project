@@ -1,3 +1,4 @@
+import json
 from abc import ABC, abstractmethod
 from typing import Type
 
@@ -34,6 +35,9 @@ class PaginateItemsAPIView(SerializeItemMixin, ABC):
         if filters:
             query_set = filters.filter(query_set)
         query_set = self.apply_order_by(query_set, query, path)
+        if query.dict_filter:
+            dict_filter_obj = json.loads(query.dict_filter)
+            query_set = self.apply_dict_filter(query_set, query, path, dict_filter_obj)
         query_set = self.apply_final_filter(query_set, query, path)
         page = query.page
         page_size = query.page_size
@@ -71,6 +75,10 @@ class PaginateItemsAPIView(SerializeItemMixin, ABC):
             if clear_order_by_item not in allowed_order_by_set:
                 raise ValueError(f'order_by item {order_by_item} is not allowed')
         return query_set.order_by(*query.order_by)
+
+    @classmethod
+    def apply_dict_filter(cls, query_set: QuerySet, query: PaginationQueryParams, path: Path, dict_filter_obj: dict) -> QuerySet:
+        return query_set
 
     @classmethod
     def apply_final_filter(cls, query_set: QuerySet, query: PaginationQueryParams, path: Path) -> QuerySet:

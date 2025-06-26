@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BaseDialogComponent} from '../../base-dialog.component';
 import {AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 import {bootstrapCheck} from '@ng-icons/bootstrap-icons';
 import {ConfirmationButtonComponent} from '../../confirmation-button/confirmation-button.component';
 import {SelectableBoxComponent} from '../../../components/selectable-box/selectable-box.component';
@@ -19,11 +20,12 @@ export interface MultipleSelectionDialogInput {
   cancelActionName?: string;
   confirmActionName?: string;
   allowEmpty?: boolean;
+  filterOptions?: boolean; // whether to show filter input for options
 }
 
 @Component({
   selector: 'app-multiple-selection-dialog',
-  imports: [ReactiveFormsModule, CommonModule, ConfirmationButtonComponent, SelectableBoxComponent],
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, ConfirmationButtonComponent, SelectableBoxComponent],
   templateUrl: './multiple-selection-dialog.component.html',
   standalone: true
 })
@@ -32,6 +34,8 @@ export class MultipleSelectionDialogComponent extends BaseDialogComponent<
   any[]
 > implements OnInit {
   form: FormGroup;
+  filterText = '';
+  filteredOptions: MultipleSelectionOption[] = [];
   protected readonly checkIcon = bootstrapCheck;
 
   constructor(private fb: FormBuilder) {
@@ -51,6 +55,20 @@ export class MultipleSelectionDialogComponent extends BaseDialogComponent<
     if (this.data.allowEmpty !== true) {
       this.optionsFormArray.setValidators(this.atLeastOneSelectedValidator());
       this.optionsFormArray.updateValueAndValidity();
+    }
+
+    // Initialize filteredOptions
+    this.filteredOptions = [...this.data.options];
+  }
+
+  filterOptions(): void {
+    if (!this.filterText.trim()) {
+      this.filteredOptions = [...this.data.options];
+    } else {
+      const searchTerm = this.filterText.toLowerCase().trim();
+      this.filteredOptions = this.data.options.filter(option =>
+        option.display.toLowerCase().includes(searchTerm)
+      );
     }
   }
 

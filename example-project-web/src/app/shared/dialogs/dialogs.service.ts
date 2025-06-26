@@ -1,17 +1,7 @@
-import {
-  Injectable,
-  Injector,
-  InjectionToken,
-  Type,
-  inject,
-} from '@angular/core';
-import {
-  Overlay,
-  OverlayRef,
-  OverlayConfig,
-} from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
-import { BaseDialogComponent } from './base-dialog.component';
+import {inject, Injectable, InjectionToken, Injector, Type,} from '@angular/core';
+import {Overlay, OverlayConfig, OverlayRef,} from '@angular/cdk/overlay';
+import {ComponentPortal} from '@angular/cdk/portal';
+import {BaseDialogComponent} from './base-dialog.component';
 import {
   ConfirmationDialogComponent,
   ConfirmationDialogInput
@@ -36,6 +26,11 @@ import {
   MultipleSelectionDialogComponent,
   MultipleSelectionDialogInput
 } from './common-dialogs/multiple-selection-dialog/multiple-selection-dialog.component';
+import {
+  RangeDialogComponent,
+  RangeDialogInput,
+  RangeDialogOutput
+} from './common-dialogs/range-dialog/range-dialog.component';
 import {DarkModeService} from '../services/dark-mode.service';
 
 export const DIALOG_DATA = new InjectionToken<any>('DIALOG_DATA');
@@ -120,5 +115,9 @@ export class DialogService {
 
   public async getValuesFromMultipleSelectionDialog(data: MultipleSelectionDialogInput): Promise<any[] | null> {
     return await this.open<MultipleSelectionDialogInput, any[] | null>(MultipleSelectionDialogComponent, data);
+  }
+
+  public async getRangeFromRangeDialog(data: RangeDialogInput): Promise<RangeDialogOutput | null> {
+    return await this.open<RangeDialogInput, RangeDialogOutput | null>(RangeDialogComponent, data);
   }
 }
